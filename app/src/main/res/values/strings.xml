@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Kekomo</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="activity_calendar">Calendario</string>
+    <string name="activity_new_dish">Nuevo plato</string>
+    <string name="save_dish">Guardar plato</string>
+    <string name="activity_my_dishes">Mis platos</string>
+    <string name="ask_image">¿De donde quieres la foto?</string>
+    <string name="camera">Cámara</string>
+    <string name="galery">Galería</string>
+    <string name="not_events">No hay nada planificado para esta fecha.</string>
+    <string name="que_como">¿Que como hoy?</string>
+    <string name="que_ceno">¿Que ceno hoy?</string>
+    <string name="activity_galery">Galería</string>
+</resources>
