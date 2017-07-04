@@ -89,7 +89,7 @@ public class DishesController {
     }
 
     public ArrayList<Dish> getAll() throws ParseException {
-        String selectQuery = "SELECT * FROM " + DishesTable.TABLE_NAME + " ORDER BY " + DishesTable.NAME + " DESC";
+        String selectQuery = "SELECT * FROM " + DishesTable.TABLE_NAME + " ORDER BY " + DishesTable.NAME + " ASC";
         return fillList(selectQuery);
     }
 

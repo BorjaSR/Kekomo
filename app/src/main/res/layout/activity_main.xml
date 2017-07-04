@@ -51,6 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
+            android:clickable="true"
             android:visibility="gone">
 
             <TextView
@@ -66,7 +67,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="#pasta"
-                android:textStyle="bold"
                 android:textSize="25sp"
                 android:textColor="@color/alpha2_colorAccent"
                 android:layout_alignParentBottom="true"
@@ -142,52 +142,72 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="horizontal"
-            android:paddingBottom="8dp">
+            android:orientation="horizontal">
 
 
             <LinearLayout
+                android:id="@+id/platos_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
+                android:background="?android:selectableItemBackground"
                 android:layout_weight="1"
-                android:background="@color/colorAccentDark">
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/turkey"/>
 
                 <TextView
-                    android:id="@+id/platos_button"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="Mis platos"
                     android:textColor="@color/primary_text" />
             </LinearLayout>
 
+
             <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/divider"/>
+
+            <LinearLayout
+                android:id="@+id/añadir_plato_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
+                android:background="?android:selectableItemBackground"
                 android:layout_weight="1"
-                android:background="@color/colorAccentDark">
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/add_dish"/>
 
                 <TextView
-                    android:id="@+id/añadir_plato_button"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="Añadir plato"
@@ -195,13 +215,16 @@
             </LinearLayout>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="horizontal"
-            android:paddingTop="8dp">
+            android:orientation="horizontal">
 
 
             <LinearLayout
@@ -209,16 +232,16 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:background="?android:selectableItemBackground"
-                android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
                     android:layout_weight="1"
-                    android:padding="10dp"
-                    android:src="@drawable/calendar_green"/>
+                    android:padding="8dp"
+                    android:src="@drawable/calendar_blue"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -231,20 +254,27 @@
                     android:textColor="@color/primary_text" />
             </LinearLayout>
 
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/divider"/>
+
             <LinearLayout
                 android:id="@+id/planificar_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:background="?android:selectableItemBackground"
-                android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
                     android:layout_weight="1"
-                    android:src="@drawable/semana"/>
+                    android:src="@drawable/calendar"
+                    android:padding="10dp"/>
 
                 <TextView
                     android:layout_width="match_parent"

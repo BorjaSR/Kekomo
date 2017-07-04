@@ -36,8 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private TextView text_comer;
     private RelativeLayout next_event_layout;
-    private LinearLayout calendar_button, button_comer, planificar_button;
-    private TextView añadir_plato_button, platos_button;
+    private LinearLayout calendar_button, button_comer, planificar_button, añadir_plato_button, platos_button;
     private ImageView next_dish_image;
     private TextView next_dish_name;
 
@@ -54,8 +53,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         text_comer = (TextView) findViewById(R.id.text_comer);
         calendar_button = (LinearLayout) findViewById(R.id.calendar_button);
         planificar_button = (LinearLayout) findViewById(R.id.planificar_button);
-        añadir_plato_button = (TextView) findViewById(R.id.añadir_plato_button);
-        platos_button = (TextView) findViewById(R.id.platos_button);
+        añadir_plato_button = (LinearLayout) findViewById(R.id.añadir_plato_button);
+        platos_button = (LinearLayout) findViewById(R.id.platos_button);
         next_dish_image = (ImageView) findViewById(R.id.next_dish_image);
         next_dish_name = (TextView) findViewById(R.id.next_dish_name);
 
@@ -65,32 +64,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         añadir_plato_button.setOnClickListener(this);
         platos_button.setOnClickListener(this);
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Event next_event = null;
         try {
-            if (new Date().getHours() <= Constants.LUNCH_TIME)
-                next_event = new EventsController().getForDateAndType(simpleDateFormat.format(new Date()), Constants.DISH_TYPE_LUNCH);
-            else
-                next_event = new EventsController().getForDateAndType(simpleDateFormat.format(new Date()), Constants.DISH_TYPE_DINNER);
+            new EventsController().deleteAll();
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        if(next_event == null) {
-            if (new Date().getHours() <= Constants.LUNCH_TIME)
-                text_comer.setText(getString(R.string.que_como));
-            else
-                text_comer.setText(getString(R.string.que_ceno));
-        } else {
-            next_event_layout.setVisibility(View.VISIBLE);
-            Dish dish = new DishesController().getByID(next_event.getDishId());
-            next_dish_name.setText(dish.getName());
-
-            Glide.with(this)
-                    .load(FileSystem.getInstance(this).IMAGES_PATH + dish.getImage())
-                    .into(next_dish_image);
-        }
-
+        configUI();
     }
 
     @Override
@@ -123,6 +102,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.platos_button:
                 startActivity(new Intent(getApplicationContext(), MyDishesActivity.class));
                 break;
+        }
+    }
+
+    public void configUI(){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Event next_event = null;
+        try {
+            if (new Date().getHours() <= Constants.LUNCH_TIME)
+                next_event = new EventsController().getForDateAndType(simpleDateFormat.format(new Date()), Constants.DISH_TYPE_LUNCH);
+            else
+                next_event = new EventsController().getForDateAndType(simpleDateFormat.format(new Date()), Constants.DISH_TYPE_DINNER);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if(next_event == null) {
+            if (new Date().getHours() <= Constants.LUNCH_TIME)
+                text_comer.setText(getString(R.string.que_como));
+            else
+                text_comer.setText(getString(R.string.que_ceno));
+        } else {
+            next_event_layout.setVisibility(View.VISIBLE);
+            Dish dish = new DishesController().getByID(next_event.getDishId());
+            next_dish_name.setText(dish.getName());
+
+            Glide.with(this)
+                    .load(FileSystem.getInstance(this).IMAGES_PATH + dish.getImage())
+                    .into(next_dish_image);
         }
     }
 

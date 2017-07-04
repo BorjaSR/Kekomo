@@ -88,6 +88,7 @@ public class ElectionFragment extends Fragment implements View.OnClickListener{
 
                 new EventsController().add(event, Constants.database);
 
+                ((MainActivity) getActivity()).configUI();
                 getActivity().onBackPressed();
                 break;
         }
