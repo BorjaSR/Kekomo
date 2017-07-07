@@ -1,9 +1,12 @@
 package com.bsalazar.kekomo;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Explode;
+import android.transition.Fade;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,6 +48,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            getWindow().setEnterTransition(new Fade());
+//        }
+
         SQLiteHelper sqLiteHelper = new SQLiteHelper(this);
         Constants.database = sqLiteHelper.getWritableDatabase();
 
@@ -64,14 +71,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         añadir_plato_button.setOnClickListener(this);
         platos_button.setOnClickListener(this);
 
-        try {
-            new EventsController().deleteAll();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
         configUI();
     }
 
+    private boolean electionsShoed = false;
+    private ElectionFragment electionFragment;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -80,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(dishList != null){
                     showDishList(dishList);
 
-                    ElectionFragment electionFragment = new ElectionFragment();
+                    electionFragment = new ElectionFragment();
                     Bundle args = new Bundle();
                     args.putIntegerArrayList("dishes", dishList);
                     electionFragment.setArguments(args);
@@ -89,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             .replace(R.id.frame_container, electionFragment)
                             .addToBackStack(null)
                             .commit();
+                    electionsShoed = true;
                 }
                 break;
             case R.id.calendar_button:
@@ -104,6 +109,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+//        getFragmentManager().beginTransaction().isEmpty();
+        if(electionsShoed){
+            electionsShoed = false;
+            getFragmentManager().beginTransaction().remove(electionFragment).commit();
+        } else{
+            setResult(RESULT_OK, null);
+            finish();
+        }
+    }
+
 
     public void configUI(){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
