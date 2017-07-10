@@ -48,10 +48,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            getWindow().setEnterTransition(new Fade());
-//        }
-
         SQLiteHelper sqLiteHelper = new SQLiteHelper(this);
         Constants.database = sqLiteHelper.getWritableDatabase();
 

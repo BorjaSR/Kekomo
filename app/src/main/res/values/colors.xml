@@ -6,7 +6,7 @@
     <color name="colorAccent">#6ac680</color>
     <!--<color name="colorAccent">#96daa6</color>-->
     <color name="colorAccentLight">#96daa6</color>
-    <!--<color name="colorAccentLight">#caecd1</color>-->
+    <color name="colorAccentExtraLight">#caecd1</color>
 
 
     <color name="alpha_colorAccent">#8896daa6</color>
