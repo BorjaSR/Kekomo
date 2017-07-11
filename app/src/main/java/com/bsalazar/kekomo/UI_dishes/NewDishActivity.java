@@ -7,13 +7,23 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +44,8 @@ import com.bsalazar.kekomo.general.GaleryActivity;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by bsalazar on 22/06/2017.
@@ -81,14 +93,26 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
         kekomo_galley_button.setOnClickListener(this);
         delete_image.setOnClickListener(this);
 
-        dish_image.setOnLongClickListener(new View.OnLongClickListener() {
+        dish_description.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onLongClick(View v) {
-                startActivityForResult(new Intent(getApplicationContext(), GaleryActivity.class), OWN_GALERY);
-                return false;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+//                hashtagRecognizer();
+                if(dish_description.getText().length() > 0)
+                    ((TextInputLayout)findViewById(R.id.textInput_description)).setHintTextAppearance(R.style.TextLabel);
             }
         });
     }
+
+    boolean edited = false;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -284,7 +308,7 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
 
         // create the animator for this view (the start radius is zero)
         Animator anim =
-                ViewAnimationUtils.createCircularReveal(myView, myView.getMeasuredWidth() - 90, cy+50, 0, finalRadius);
+                ViewAnimationUtils.createCircularReveal(myView, myView.getMeasuredWidth() - 90, cy + 50, 0, finalRadius);
 
         anim.setDuration(400);
         anim.setInterpolator(new AccelerateInterpolator());
@@ -305,7 +329,7 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
 
         // create the animation (the final radius is zero)
         Animator anim =
-                ViewAnimationUtils.createCircularReveal(myView, myView.getMeasuredWidth() - 90, cy+50, initialRadius, 0);
+                ViewAnimationUtils.createCircularReveal(myView, myView.getMeasuredWidth() - 90, cy + 50, initialRadius, 0);
 
 
         anim.setDuration(400);
@@ -321,5 +345,24 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
 
         // start the animation
         anim.start();
+    }
+
+    private void hashtagRecognizer(){
+        if (!edited) {
+            String text = dish_description.getText().toString();
+            SpannableString hashText = new SpannableString(text);
+            Matcher matcher = Pattern.compile("#([A-Za-z0-9_-]+)").matcher(hashText);
+
+            while (matcher.find()) {
+                hashText.setSpan(new StyleSpan(Typeface.BOLD), matcher.start(), matcher.end(), 0);
+                String tag = matcher.group(0);
+            }
+
+            edited = true;
+            dish_description.setText(hashText);
+        } else {
+            edited = false;
+            dish_description.setSelection(dish_description.getText().length());
+        }
     }
 }

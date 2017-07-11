@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,36 +17,36 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
+                android:background="@color/colorAccentExtraLight"
                 android:padding="30dp"
-                android:src="@drawable/picture_green"
-                android:background="@color/colorAccentExtraLight"/>
+                android:src="@drawable/picture_green" />
 
             <ImageView
                 android:id="@+id/dish_image"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop" />
 
             <ImageView
                 android:id="@+id/edit_image"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/edit"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
                 android:layout_margin="10dp"
                 android:padding="15dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"/>
+                android:src="@drawable/edit" />
 
             <LinearLayout
                 android:id="@+id/edit_image_options"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:orientation="horizontal"
-                android:background="@drawable/background_white_round"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_margin="10dp"
+                android:background="@drawable/background_white_round"
+                android:orientation="horizontal"
+                android:padding="10dp"
                 android:visibility="invisible">
 
                 <LinearLayout
@@ -53,43 +54,43 @@
                     android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:layout_marginBottom="5dp"
-                        android:src="@drawable/camera2"/>
+                        android:src="@drawable/camera2" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="12sp"
+                        android:text="@string/camera"
                         android:textColor="@color/charcoal_gray"
-                        android:text="@string/camera"/>
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/gallery_button"
                     android:layout_width="75dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:background="?android:selectableItemBackground"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:layout_marginBottom="5dp"
-                        android:src="@drawable/gallery2"/>
+                        android:src="@drawable/gallery2" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="12sp"
+                        android:text="@string/gallery"
                         android:textColor="@color/charcoal_gray"
-                        android:text="@string/gallery"/>
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -97,22 +98,22 @@
                     android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:layout_marginBottom="5dp"
-                        android:src="@drawable/kekomo_gallery"/>
+                        android:src="@drawable/kekomo_gallery" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:textSize="12sp"
+                        android:text="@string/own_gallery"
                         android:textColor="@color/charcoal_gray"
-                        android:text="@string/own_gallery"/>
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -120,21 +121,21 @@
                     android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:layout_marginBottom="5dp"
-                        android:src="@drawable/delete"/>
+                        android:src="@drawable/delete" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="12sp"
+                        android:text="@string/delete"
                         android:textColor="@color/charcoal_gray"
-                        android:text="@string/delete"/>
+                        android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -146,22 +147,53 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <EditText
-                android:id="@+id/dish_name"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:hint="Nombre del plato"
-                android:imeOptions="actionNext"
-                android:layout_marginBottom="20dp"/>
+                android:layout_marginBottom="25dp"
+                app:hintTextAppearance="@style/TextLabelTitle"
+                android:textColorHint="@color/colorAccentDark">
 
-            <EditText
-                android:id="@+id/dish_description"
+                <EditText
+                    android:id="@+id/dish_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nombre del plato"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInput_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:imeOptions="actionDone"
-                android:hint="Descripción"/>
+                android:layout_marginBottom="20dp"
+                app:hintTextAppearance="@style/TextLabel"
+                android:textColorHint="@color/colorAccentDark">
+
+                <EditText
+                    android:id="@+id/dish_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Descripción"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintTextAppearance="@style/TextLabel"
+                android:textColorHint="@color/colorAccentDark">
+
+                <EditText
+                    android:id="@+id/preparation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/preparation"/>
+
+            </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
 
