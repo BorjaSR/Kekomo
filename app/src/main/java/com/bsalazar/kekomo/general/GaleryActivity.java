@@ -69,5 +69,12 @@ public class GaleryActivity extends AppCompatActivity {
         images.add(R.drawable.pescado);
         images.add(R.drawable.filete_patatas);
         images.add(R.drawable.verduras);
+        images.add(R.drawable.costillar);
+        images.add(R.drawable.hamburguesa);
+        images.add(R.drawable.pasta_tomate);
+        images.add(R.drawable.pintxos);
+        images.add(R.drawable.pizzas);
+        images.add(R.drawable.salmon);
+        images.add(R.drawable.surtido);
     }
 }

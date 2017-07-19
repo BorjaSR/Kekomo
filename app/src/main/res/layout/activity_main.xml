@@ -120,7 +120,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="@color/primary_text"
-                        android:background="@drawable/background_white_round"
+                        android:background="@drawable/background_white_corners_round"
                         android:paddingLeft="20dp"
                         android:paddingRight="20dp"
                         android:paddingTop="5dp"

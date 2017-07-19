@@ -88,7 +88,7 @@ public class DishesController {
         }
     }
 
-    public ArrayList<Dish> getAll() throws ParseException {
+    public ArrayList<Dish> getAll() {
         String selectQuery = "SELECT * FROM " + DishesTable.TABLE_NAME + " ORDER BY " + DishesTable.NAME + " ASC";
         return fillList(selectQuery);
     }

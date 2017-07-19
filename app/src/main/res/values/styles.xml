@@ -15,9 +15,30 @@
 
     <style name="TextLabel" parent="TextAppearance.Design.Hint">
         <item name="android:textSize">20sp</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:textColor">@color/colorAccentDark</item>
+        <item name="android:textColorHint">@color/colorAccentDark</item>
     </style>
+
     <style name="TextLabelTitle" parent="TextAppearance.Design.Hint">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">22sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorAccentDark</item>
+        <item name="android:textColorHint">@color/colorAccentDark</item>
     </style>
+
+    <style name="TextAppearance.App.TextInputLayout" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/red_text</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <!--<style name="TextLabelNew" parent="TextAppearance.AppCompat">-->
+        <!--&lt;!&ndash; Hint color and label color in FALSE state &ndash;&gt;-->
+        <!--<item name="android:textColorHint">@color/primary_text</item>-->
+        <!--<item name="android:textSize">20sp</item>-->
+        <!--&lt;!&ndash; Label color in TRUE state and bar color FALSE and TRUE State &ndash;&gt;-->
+        <!--<item name="colorAccent">@color/red_text</item>-->
+        <!--<item name="colorControlNormal">#2F9</item>-->
+        <!--<item name="colorControlActivated">#C81</item>-->
+    <!--</style>-->
 </resources>

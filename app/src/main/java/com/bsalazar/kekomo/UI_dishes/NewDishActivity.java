@@ -92,24 +92,6 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
         gallery_button.setOnClickListener(this);
         kekomo_galley_button.setOnClickListener(this);
         delete_image.setOnClickListener(this);
-
-        dish_description.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-//                hashtagRecognizer();
-                if(dish_description.getText().length() > 0)
-                    ((TextInputLayout)findViewById(R.id.textInput_description)).setHintTextAppearance(R.style.TextLabel);
-            }
-        });
     }
 
     boolean edited = false;

@@ -67,12 +67,7 @@ public class CalendarDayDetailFragment extends Fragment {
 
         String dt = getArguments().getString("DATE", "");
 
-        ArrayList<Event> events = new ArrayList<>();
-        try {
-            events = new EventsController().getForDate(dt);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        ArrayList<Event> events = new EventsController().getForDate(dt);
 
         if(events.size() == 0) {
             empty.setVisibility(View.VISIBLE);

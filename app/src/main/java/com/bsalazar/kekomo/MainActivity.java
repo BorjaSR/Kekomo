@@ -23,12 +23,14 @@ import com.bsalazar.kekomo.bbdd.entities.Dish;
 import com.bsalazar.kekomo.UI_calendar.CalendarActivity;
 import com.bsalazar.kekomo.bbdd.entities.Event;
 import com.bsalazar.kekomo.general.Constants;
+import com.bsalazar.kekomo.general.ElectionAlgorithm;
 import com.bsalazar.kekomo.general.FileSystem;
 import com.bumptech.glide.Glide;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -68,6 +70,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         platos_button.setOnClickListener(this);
 
         configUI();
+
+//        //SET RANDOM EVENTS FOR A MONTH
+//        Date today = new Date();
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(today);
+//        for(int i = 1; i <= 30; i++){
+//            calendar.add(Calendar.DATE, -1);
+//
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//            DishesController dishesController = new DishesController();
+//
+//            try {
+//                ArrayList<Dish> dishes = dishesController.getAll();
+//                int random = (int) (Math.random() * dishes.size());
+//
+//                Dish dish = new DishesController().getByID(random);
+//                Event event = new Event();
+//                event.setDishId(dish.getId());
+//                event.setDate(dateFormat.format(calendar.getTime()));
+//                event.setType(Constants.DISH_TYPE_LUNCH);
+//
+//                new EventsController().add(event, Constants.database);
+//
+//
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     private boolean electionsShoed = false;
@@ -76,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_comer:
-                ArrayList<Integer> dishList = calculateDishesList();
+                ArrayList<Integer> dishList = new ElectionAlgorithm().calculateDishesList();
                 if(dishList != null){
                     showDishList(dishList);
 
@@ -90,7 +120,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             .addToBackStack(null)
                             .commit();
                     electionsShoed = true;
-                }
+                } else
+                    Snackbar.make(button_comer, "Todavia no tienes platos guardados", Snackbar.LENGTH_SHORT).show();
                 break;
             case R.id.calendar_button:
                 startActivity(new Intent(getApplicationContext(), CalendarActivity.class));
@@ -148,77 +179,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private ArrayList<Integer> calculateDishesList() {
-        EventsController eventsController = new EventsController();
-        DishesController dishesController = new DishesController();
-
-        try {
-            ArrayList<Event> events = eventsController.getAll();
-            if (events.size() == 0) {
-
-                ArrayList<Dish> dishes = dishesController.getAll();
-                if (dishes.size() == 0)
-                    Snackbar.make(button_comer, "Todavia no tienes platos guardados", Snackbar.LENGTH_SHORT).show();
-                else {
-                    ArrayList<Integer> dishes_list = new ArrayList<>();
-                    while (dishes.size() > 0) {
-                        int random = (int) (Math.random() * dishes.size());
-                        dishes_list.add(dishes.get(random).getId());
-                        dishes.remove(dishes.get(random));
-                    }
-
-                    return dishes_list;
-                }
-
-            } else {
-                ArrayList<Dish> dishes = dishesController.getAll();
-
-                HashMap<Integer, Integer> dish_appearances = new HashMap<>();
-                ValueComparator vc = new ValueComparator(dish_appearances);
-                TreeMap<Integer, Integer> dish_appearances_sorted = new TreeMap<>(vc);
-
-                for (Dish dish : dishes)
-                    dish_appearances.put(dish.getId(), eventsController.getEventsForDishID(dish.getId()).size());
-
-                dish_appearances_sorted.putAll(dish_appearances);
-
-                ArrayList<Integer> dishes_sorted = new ArrayList<>();
-                for (Map.Entry<Integer, Integer> entry : dish_appearances_sorted.entrySet())
-                    dishes_sorted.add(entry.getKey());
-
-                return dishes_sorted;
-            }
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-
-    private class ValueComparator implements Comparator<Integer> {
-        Map<Integer, Integer> base;
-
-        ValueComparator(Map<Integer, Integer> base) {
-            this.base = base;
-        }
-
-        // Note: this comparator imposes orderings that are inconsistent with
-        // equals.
-        public int compare(Integer a, Integer b) {
-            if (base.get(a) < base.get(b)) {
-                return -1;
-            } else {
-                return 1;
-            } // returning 0 would merge keys
-        }
-    }
-
     private void showDishList(ArrayList<Integer> dishes) {
         StringBuilder builder = new StringBuilder();
         for (Integer id : dishes)
-            builder.append(id + ", ");
+            builder.append(id).append(", ");
 
         Toast.makeText(getApplicationContext(), builder.toString(), Toast.LENGTH_SHORT).show();
         showOption(new DishesController().getByID(dishes.get(0)));

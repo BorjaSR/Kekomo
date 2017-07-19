@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.bsalazar.kekomo.R;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -41,7 +42,11 @@ public class GridImagesAdapter extends ArrayAdapter<Integer> {
         }
 
         final ImageView image = (ImageView) convertView.findViewById(R.id.image);
-        image.setImageResource(images.get(position));
+
+        Glide.with(mContext)
+                .load(images.get(position))
+                .into(image);
+
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

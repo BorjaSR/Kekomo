@@ -58,7 +58,7 @@ public class EventsController {
         Constants.database.delete(EventTable.TABLE_NAME, null, null);
     }
 
-    public ArrayList<Event> getForDate(String date) throws ParseException {
+    public ArrayList<Event> getForDate(String date) {
         String selectQuery = "SELECT * FROM " + EventTable.TABLE_NAME + " WHERE " + EventTable.DATE + " = '" + date + "' ORDER BY " + EventTable.DATE + " DESC";
         return fillList(selectQuery);
     }

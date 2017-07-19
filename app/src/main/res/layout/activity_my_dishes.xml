@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,4 +9,43 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/empty_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:gravity="center"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dishes_empty"
+            android:textColor="@color/secondary_text"
+            android:gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/background_green_corners_rounded"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp">
+
+            <TextView
+                android:id="@+id/add_dish"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:selectableItemBackground"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="17dp"
+                android:text="Añadir plato"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

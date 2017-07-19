@@ -17,4 +17,5 @@
     <string name="own_gallery">Kekomo</string>
     <string name="delete">Eliminar</string>
     <string name="preparation">Preparación</string>
+    <string name="dishes_empty">Todavia no tienes ningun plato en tu lista.\n¡Añade uno!</string>
 </resources>

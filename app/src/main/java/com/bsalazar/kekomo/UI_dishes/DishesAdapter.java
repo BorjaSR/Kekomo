@@ -43,8 +43,6 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
 
         Glide.with(mContext)
                 .load(FileSystem.getInstance(mContext).IMAGES_PATH + dish.getImage())
-                .asBitmap()
-                .skipMemoryCache(true)
                 .into(holder.dish_image);
     }
 
