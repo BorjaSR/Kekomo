@@ -1,11 +1,13 @@
-package com.bsalazar.kekomo.UI_dishes;
+package com.bsalazar.kekomo.ui_dishes;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bsalazar.kekomo.R;
@@ -44,6 +46,13 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
         Glide.with(mContext)
                 .load(FileSystem.getInstance(mContext).IMAGES_PATH + dish.getImage())
                 .into(holder.dish_image);
+
+        holder.item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(new Intent(mContext, DishDetailActivity.class));
+            }
+        });
     }
 
     @Override
@@ -53,12 +62,14 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
 
     public class DishViewHolder extends RecyclerView.ViewHolder {
 
+        LinearLayout item;
         ImageView dish_image;
         TextView dish_name, dish_description;
 
         public DishViewHolder(View itemView) {
             super(itemView);
 
+            item = (LinearLayout) itemView.findViewById(R.id.item);
             dish_image = (ImageView) itemView.findViewById(R.id.dish_image);
             dish_name = (TextView) itemView.findViewById(R.id.dish_name);
             dish_description = (TextView) itemView.findViewById(R.id.dish_description);

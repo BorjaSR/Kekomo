@@ -1,4 +1,4 @@
-package com.bsalazar.kekomo.UI_calendar;
+package com.bsalazar.kekomo.ui_calendar;
 
 import  android.app.Fragment;
 import android.os.Build;

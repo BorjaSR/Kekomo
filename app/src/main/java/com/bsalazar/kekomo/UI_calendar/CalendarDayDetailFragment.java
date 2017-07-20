@@ -1,4 +1,4 @@
-package com.bsalazar.kekomo.UI_calendar;
+package com.bsalazar.kekomo.ui_calendar;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -20,9 +20,7 @@ import com.bsalazar.kekomo.general.Constants;
 import com.bsalazar.kekomo.general.FileSystem;
 import com.bumptech.glide.Glide;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by bsalazar on 20/06/2017.

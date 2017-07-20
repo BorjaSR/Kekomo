@@ -1,12 +1,9 @@
 package com.bsalazar.kekomo;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.Explode;
-import android.transition.Fade;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,13 +11,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bsalazar.kekomo.UI_dishes.MyDishesActivity;
-import com.bsalazar.kekomo.UI_dishes.NewDishActivity;
+import com.bsalazar.kekomo.ui_dishes.MyDishesActivity;
+import com.bsalazar.kekomo.ui_dishes.NewDishActivity;
 import com.bsalazar.kekomo.bbdd.SQLiteHelper;
 import com.bsalazar.kekomo.bbdd.controllers.DishesController;
 import com.bsalazar.kekomo.bbdd.controllers.EventsController;
 import com.bsalazar.kekomo.bbdd.entities.Dish;
-import com.bsalazar.kekomo.UI_calendar.CalendarActivity;
+import com.bsalazar.kekomo.ui_calendar.CalendarActivity;
 import com.bsalazar.kekomo.bbdd.entities.Event;
 import com.bsalazar.kekomo.general.Constants;
 import com.bsalazar.kekomo.general.ElectionAlgorithm;
@@ -30,12 +27,7 @@ import com.bumptech.glide.Glide;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -69,9 +61,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         añadir_plato_button.setOnClickListener(this);
         platos_button.setOnClickListener(this);
 
-        configUI();
 
-//        //SET RANDOM EVENTS FOR A MONTH
+        try {
+            new EventsController().deleteAll();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+////        //SET RANDOM EVENTS FOR A MONTH
 //        Date today = new Date();
 //        Calendar calendar = Calendar.getInstance();
 //        calendar.setTime(today);
@@ -81,23 +78,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 //            DishesController dishesController = new DishesController();
 //
-//            try {
-//                ArrayList<Dish> dishes = dishesController.getAll();
-//                int random = (int) (Math.random() * dishes.size());
+//            ArrayList<Dish> dishes = dishesController.getAll();
+//            int random = (int) (Math.random() * dishes.size());
 //
-//                Dish dish = new DishesController().getByID(random);
-//                Event event = new Event();
-//                event.setDishId(dish.getId());
-//                event.setDate(dateFormat.format(calendar.getTime()));
-//                event.setType(Constants.DISH_TYPE_LUNCH);
+//            Dish dish = new DishesController().getByID(random);
+//            Event event = new Event();
+//            event.setDishId(dish.getId());
+//            event.setDate(dateFormat.format(calendar.getTime()));
+//            event.setType(Constants.DISH_TYPE_LUNCH);
 //
-//                new EventsController().add(event, Constants.database);
+//            new EventsController().add(event, Constants.database);
 //
 //
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
+//            random = (int) (Math.random() * dishes.size());
+//
+//            dish = new DishesController().getByID(random);
+//            event = new Event();
+//            event.setDishId(dish.getId());
+//            event.setDate(dateFormat.format(calendar.getTime()));
+//            event.setType(Constants.DISH_TYPE_DINNER);
+//
+//            new EventsController().add(event, Constants.database);
 //        }
+
+
+        configUI();
     }
 
     private boolean electionsShoed = false;
@@ -106,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_comer:
-                ArrayList<Integer> dishList = new ElectionAlgorithm().calculateDishesList();
+                ArrayList<Integer> dishList = new ElectionAlgorithm().calculateDishesListNEW();
                 if(dishList != null){
                     showDishList(dishList);
 

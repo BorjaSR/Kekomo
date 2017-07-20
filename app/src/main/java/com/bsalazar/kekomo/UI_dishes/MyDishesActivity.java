@@ -1,4 +1,4 @@
-package com.bsalazar.kekomo.UI_dishes;
+package com.bsalazar.kekomo.ui_dishes;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import com.bsalazar.kekomo.R;
 import com.bsalazar.kekomo.bbdd.controllers.DishesController;
 import com.bsalazar.kekomo.bbdd.entities.Dish;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 
 /**

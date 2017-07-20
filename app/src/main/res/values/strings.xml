@@ -18,4 +18,5 @@
     <string name="delete">Eliminar</string>
     <string name="preparation">Preparación</string>
     <string name="dishes_empty">Todavia no tienes ningun plato en tu lista.\n¡Añade uno!</string>
+    <string name="activity_dish_detail">Detalles del plato</string>
 </resources>

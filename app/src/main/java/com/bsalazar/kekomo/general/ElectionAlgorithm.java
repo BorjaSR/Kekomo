@@ -28,64 +28,11 @@ import java.util.TreeMap;
 
 public class ElectionAlgorithm {
 
+    //FUNCTION: MAX_PUNCTUATION/(x^RATIO)
     private static final double MAX_PUNCTUATION = 100;
     private static final double RATIO = 0.5;
 
 
-    public ArrayList<Integer> calculateDishesList() {
-
-        calculateDishesListNEW();
-
-        EventsController eventsController = new EventsController();
-        DishesController dishesController = new DishesController();
-
-        try {
-            ArrayList<Event> events = eventsController.getAll();
-            if (events.size() == 0) {
-
-                ArrayList<Dish> dishes = dishesController.getAll();
-                if (dishes.size() == 0)
-//                    Snackbar.make(button_comer, "Todavia no tienes platos guardados", Snackbar.LENGTH_SHORT).show();
-                    return null;
-                else {
-                    ArrayList<Integer> dishes_list = new ArrayList<>();
-                    while (dishes.size() > 0) {
-                        int random = (int) (Math.random() * dishes.size());
-                        dishes_list.add(dishes.get(random).getId());
-                        dishes.remove(dishes.get(random));
-                    }
-
-                    return dishes_list;
-                }
-
-            } else {
-                ArrayList<Dish> dishes = dishesController.getAll();
-
-                HashMap<Integer, Integer> dish_appearances = new HashMap<>();
-                ElectionAlgorithm.ValueComparator vc = new ElectionAlgorithm.ValueComparator(dish_appearances);
-                TreeMap<Integer, Integer> dish_appearances_sorted = new TreeMap<>(vc);
-
-                for (Dish dish : dishes)
-                    dish_appearances.put(dish.getId(), eventsController.getEventsForDishID(dish.getId()).size());
-
-                dish_appearances_sorted.putAll(dish_appearances);
-
-                ArrayList<Integer> dishes_sorted = new ArrayList<>();
-                for (Map.Entry<Integer, Integer> entry : dish_appearances_sorted.entrySet())
-                    dishes_sorted.add(entry.getKey());
-
-                return dishes_sorted;
-            }
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-
-    //FUNCTION: 100/(x^0,5)
     public ArrayList<Integer> calculateDishesListNEW() {
         EventsController eventsController = new EventsController();
         DishesController dishesController = new DishesController();
@@ -96,28 +43,44 @@ public class ElectionAlgorithm {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(today);
 
-        HashMap<Integer, Double> dishes_punctuation = new HashMap<>();
+        HashMap<Double, Double> dishes_punctuation = new HashMap<>();
+
+        //Check today dishes
+        ArrayList<Event> eventsOfToday= eventsController.getForDate(dateFormat.format(calendar.getTime()));
+        if (eventsOfToday.size() > 0) {
+            for (Event event : eventsOfToday) {
+                double punctuation = MAX_PUNCTUATION / (Math.pow(0.25, RATIO));
+
+                if (!dishes_punctuation.containsKey((double) event.getDishId())) {
+                    dishes_punctuation.put((double) event.getDishId(), punctuation);
+                } else {
+                    double old_punct = dishes_punctuation.get((double) event.getDishId());
+                    dishes_punctuation.put((double) event.getDishId(), old_punct + punctuation);
+                }
+            }
+        }
+
 
         //Evaluate the previous events (1 year)
         for (int i = 1; i <= 365; i++) {
             calendar.add(Calendar.DATE, -1);
             ArrayList<Event> eventsOfDate = eventsController.getForDate(dateFormat.format(calendar.getTime()));
 
-            if(eventsOfDate.size() > 0){
-                for(Event event : eventsOfDate){
-                    Log.d("[HAY PLATO]", dateFormat.format(calendar.getTime()) + " " + dishesController.getByID(event.getDishId()).getName());
+            if (eventsOfDate.size() > 0) {
+                for (Event event : eventsOfDate) {
+                    Log.d("[HAY PLATO]", dateFormat.format(calendar.getTime()) + " " + dishesController.getByID(event.getDishId()).getId() + " " + dishesController.getByID(event.getDishId()).getName());
 
                     double variable = i;
-                    if(event.getType() == Constants.DISH_TYPE_DINNER)
+                    if (event.getType() == Constants.DISH_TYPE_DINNER)
                         variable -= 0.5d;
 
-                    double punctuation = MAX_PUNCTUATION/(Math.pow(variable, RATIO));
+                    double punctuation = MAX_PUNCTUATION / (Math.pow(variable, RATIO));
 
-                    if (!dishes_punctuation.containsKey(event.getDishId())){
-                        dishes_punctuation.put(event.getDishId(), punctuation);
+                    if (!dishes_punctuation.containsKey((double) event.getDishId())) {
+                        dishes_punctuation.put((double) event.getDishId(), punctuation);
                     } else {
-                        double old_punct = dishes_punctuation.get(event.getDishId());
-                        dishes_punctuation.put(event.getDishId(), old_punct + punctuation);
+                        double old_punct = dishes_punctuation.get((double) event.getDishId());
+                        dishes_punctuation.put((double) event.getDishId(), old_punct + punctuation);
                     }
                 }
             }
@@ -130,21 +93,21 @@ public class ElectionAlgorithm {
             calendar.add(Calendar.DATE, 1);
             ArrayList<Event> eventsOfDate = eventsController.getForDate(dateFormat.format(calendar.getTime()));
 
-            if(eventsOfDate.size() > 0){
-                for(Event event : eventsOfDate){
-                    Log.d("[HAY PLATO]", dateFormat.format(calendar.getTime()) + " " + dishesController.getByID(event.getDishId()).getName());
+            if (eventsOfDate.size() > 0) {
+                for (Event event : eventsOfDate) {
+//                    Log.d("[HAY PLATO]", dateFormat.format(calendar.getTime()) + " " + dishesController.getByID(event.getDishId()).getName());
 
                     double variable = i;
-                    if(event.getType() == Constants.DISH_TYPE_DINNER)
+                    if (event.getType() == Constants.DISH_TYPE_DINNER)
                         variable += 0.5d;
 
-                    double punctuation = MAX_PUNCTUATION/(Math.pow(variable, RATIO));
+                    double punctuation = MAX_PUNCTUATION / (Math.pow(variable, RATIO));
 
-                    if (!dishes_punctuation.containsKey(event.getDishId())){
-                        dishes_punctuation.put(event.getDishId(), punctuation);
+                    if (!dishes_punctuation.containsKey((double) event.getDishId())) {
+                        dishes_punctuation.put((double) event.getDishId(), punctuation);
                     } else {
-                        double old_punct = dishes_punctuation.get(event.getDishId());
-                        dishes_punctuation.put(event.getDishId(), old_punct + punctuation);
+                        double old_punct = dishes_punctuation.get((double) event.getDishId());
+                        dishes_punctuation.put((double) event.getDishId(), old_punct + punctuation);
                     }
                 }
             }
@@ -152,32 +115,41 @@ public class ElectionAlgorithm {
 
         //Evaluate the non appear dishes
         ArrayList<Dish> dishes = dishesController.getAll();
-        for(Dish dish : dishes){
-            if(!dishes_punctuation.containsKey(dish.getId()))
-                dishes_punctuation.put(dish.getId(), 0d);
+        for (Dish dish : dishes) {
+            if (!dishes_punctuation.containsKey((double) dish.getId()))
+                dishes_punctuation.put((double) dish.getId(), 0d);
         }
 
         // Add Random Factor
-        for(Dish dish : dishes){
-            double random = Math.random() * ((MAX_PUNCTUATION/100)*10);
-            double old_punct = dishes_punctuation.get(dish.getId());
-            dishes_punctuation.put(dish.getId(), old_punct + random);
+        for (Dish dish : dishes) {
+            double random = Math.random() * ((MAX_PUNCTUATION / 100) * 10);
+            double old_punct = dishes_punctuation.get((double) dish.getId());
+            dishes_punctuation.put((double) dish.getId(), old_punct + random);
         }
 
-        return null;
+        ElectionAlgorithm.ValueComparatorD vc = new ElectionAlgorithm.ValueComparatorD(dishes_punctuation);
+        TreeMap<Double, Double> dish_appearances_sorted = new TreeMap<>(vc);
+
+        dish_appearances_sorted.putAll(dishes_punctuation);
+
+
+        ArrayList<Integer> dishes_sorted = new ArrayList<>();
+        for (Map.Entry<Double, Double> entry : dish_appearances_sorted.entrySet())
+            dishes_sorted.add(entry.getKey().intValue());
+
+        return dishes_sorted;
     }
 
+    private class ValueComparatorD implements Comparator<Double> {
+        Map<Double, Double> base;
 
-    private class ValueComparator implements Comparator<Integer> {
-        Map<Integer, Integer> base;
-
-        ValueComparator(Map<Integer, Integer> base) {
+        ValueComparatorD(Map<Double, Double> base) {
             this.base = base;
         }
 
         // Note: this comparator imposes orderings that are inconsistent with
         // equals.
-        public int compare(Integer a, Integer b) {
+        public int compare(Double a, Double b) {
             if (base.get(a) < base.get(b)) {
                 return -1;
             } else {
