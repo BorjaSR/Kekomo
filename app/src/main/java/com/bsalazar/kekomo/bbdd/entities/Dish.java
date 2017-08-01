@@ -12,6 +12,7 @@ public class Dish {
     private int id;
     private String name;
     private String description;
+    private String preparation;
     private String tags;
     private String image;
     private Date created;
@@ -19,6 +20,14 @@ public class Dish {
     private boolean deleted;
 
     public Dish() {
+    }
+
+    public String getPreparation() {
+        return preparation;
+    }
+
+    public void setPreparation(String preparation) {
+        this.preparation = preparation;
     }
 
     public int getId() {

@@ -9,8 +9,8 @@
         android:id="@+id/dish_image"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:scaleType="centerCrop"
-        android:background="@color/colorAccentLight"/>
+        android:scaleType="center"
+        android:transitionName="shared_dish_image_item"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,41 +19,58 @@
         android:orientation="vertical">
 
         <com.bsalazar.kekomo.general.CustomTextViewBellerose
+            android:id="@+id/dish_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Musaka"
-            android:textSize="35sp"
-            android:textColor="@color/colorAccentDark"/>
+            android:textColor="@color/colorAccentDark"
+            android:textSize="35sp"/>
+
+
+
+        <com.bsalazar.kekomo.general.CustomTextViewBellerose
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/description"
+            android:textSize="20sp"
+            android:textColor="@color/colorAccent"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="2dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorAccent"/>
+
+        <TextView
+            android:id="@+id/dish_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:textColor="@color/primary_text"
+            android:layout_marginTop="5dp"/>
+
 
 
         <com.bsalazar.kekomo.general.CustomTextViewBellerose
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Descripción"
+            android:text="@string/preparation"
             android:textSize="20sp"
-            android:textColor="@color/colorAccentMoreDark"
-            android:layout_marginTop="20dp"/>
+            android:textColor="@color/colorAccent"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="2dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorAccent"/>
 
         <TextView
-            android:id="@+id/description"
+            android:id="@+id/dish_preparation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="dskd js sk hello world jheds sdjhs jds sjbs skjs ksjs kksjs ksj sdd dskd js sdgh  sgfsf  fgs bhvhl clcv lclcy g g cg ocvh "
-            android:textSize="16dp"/>
-
-        <com.bsalazar.kekomo.general.CustomTextViewBellerose
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Preparación"
-            android:textSize="20sp"
-            android:textColor="@color/colorAccentMoreDark"
-            android:layout_marginTop="20dp"/>
-
-        <TextView
-            android:id="@+id/preparation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="dskd js sk hello world jheds sdjhs jds sjbs skjs ksjs kksjs ksj sdd dskd js sdgh  sgfsf  fgs bhvhl clcv lclcy g g cg ocvh dskd js sk hello world jheds sdjhs jds sjbs skjs ksjs kksjs ksj sdd dskd js sdgh  sgfsf  fgs bhvhl clcv lclcy g g cg ocvh dskd js sk hello world jheds sdjhs jds sjbs skjs ksjs kksjs ksj sdd dskd js sdgh  sgfsf  fgs bhvhl clcv lclcy g g cg ocvh dskd js sk hello world jheds sdjhs jds sjbs skjs ksjs kksjs ksj sdd dskd js sdgh  sgfsf  fgs bhvhl clcv lclcy g g cg ocvh dskd js sk hello world jheds sdjhs jds sjbs skjs ksjs kksjs ksj sdd dskd js sdgh  sgfsf  fgs bhvhl clcv lclcy g g cg ocvh dskd js sk hello world jheds sdjhs jds sjbs skjs ksjs kksjs ksj sdd dskd js sdgh  sgfsf  fgs bhvhl clcv lclcy g g cg ocvh dskd js sk hello world jheds sdjhs jds sjbs skjs ksjs kksjs ksj sdd dskd js sdgh  sgfsf  fgs bhvhl clcv lclcy g g cg ocvh "
+            android:textColor="@color/primary_text"
+            android:layout_marginTop="5dp"
             android:textSize="16dp"/>
 
     </LinearLayout>

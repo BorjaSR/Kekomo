@@ -12,6 +12,7 @@ public class DishesTable {
     public static final String ID = "ID";
     public static final String NAME = "Name";
     public static final String DESCRIPTION = "Description";
+    public static final String PREPARATION = "Preparation";
     public static final String TAGS = "Tags";
     public static final String IMAGE = "Image";
 
@@ -24,6 +25,7 @@ public class DishesTable {
             ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             NAME + " TEXT, " +
             DESCRIPTION + " TEXT, " +
+            PREPARATION + " TEXT, " +
             TAGS + " TEXT, " +
             IMAGE + " TEXT, " +
             CREATED + " TEXT, " +

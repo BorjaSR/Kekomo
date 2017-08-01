@@ -50,7 +50,7 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
     private LinearLayout edit_image_options;
     private LinearLayout camera_button, gallery_button, kekomo_galley_button, delete_image;
     private ImageView dish_image, edit_image;
-    private EditText dish_name, dish_description;
+    private EditText dish_name, dish_description, dish_preparation;
 
     private final int GALERY_INPUT = 1;
     private final int CAMERA_INPUT = 2;
@@ -77,6 +77,7 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
         delete_image = (LinearLayout) findViewById(R.id.delete_image);
         dish_name = (EditText) findViewById(R.id.dish_name);
         dish_description = (EditText) findViewById(R.id.dish_description);
+        dish_preparation = (EditText) findViewById(R.id.dish_preparation);
 
 
         edit_image.setOnClickListener(this);
@@ -172,6 +173,7 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
             Dish dish = new Dish();
             dish.setName(dish_name.getText().toString());
             dish.setDescription(dish_description.getText().toString());
+            dish.setPreparation(dish_preparation.getText().toString());
             dish.setTags("x");
             dish.setImage("x");
 

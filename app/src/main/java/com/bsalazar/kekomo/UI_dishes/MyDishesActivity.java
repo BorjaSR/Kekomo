@@ -1,10 +1,12 @@
 package com.bsalazar.kekomo.ui_dishes;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Fade;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import com.bsalazar.kekomo.R;
 import com.bsalazar.kekomo.bbdd.controllers.DishesController;
 import com.bsalazar.kekomo.bbdd.entities.Dish;
+import com.bsalazar.kekomo.ui_dishes.adapters.DishesAdapter;
 
 import java.util.ArrayList;
 
@@ -32,11 +35,26 @@ public class MyDishesActivity extends AppCompatActivity {
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        add_dish = (TextView) findViewById(R.id.add_dish);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setExitTransition(new Fade());
+            getWindow().setAllowEnterTransitionOverlap(false);
+            getWindow().setAllowReturnTransitionOverlap(false);
+        }
 
+        add_dish = (TextView) findViewById(R.id.add_dish);
         my_dishes_recycler = (RecyclerView) findViewById(R.id.my_dishes_recycler);
         my_dishes_recycler.setHasFixedSize(false);
         my_dishes_recycler.setLayoutManager(new LinearLayoutManager(this));
+
+        ArrayList<Dish> dishes = new DishesController().getAll();
+
+        adapter = new DishesAdapter(this, dishes);
+        my_dishes_recycler.setAdapter(adapter);
+
+        if(dishes.size() == 0)
+            findViewById(R.id.empty_list).setVisibility(View.VISIBLE);
+        else
+            findViewById(R.id.empty_list).setVisibility(View.GONE);
 
         add_dish.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,16 +67,6 @@ public class MyDishesActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        ArrayList<Dish> dishes = new DishesController().getAll();
-
-        adapter = new DishesAdapter(this, dishes);
-        my_dishes_recycler.setAdapter(adapter);
-
-        if(dishes.size() == 0)
-            findViewById(R.id.empty_list).setVisibility(View.VISIBLE);
-        else
-            findViewById(R.id.empty_list).setVisibility(View.GONE);
     }
 
     @Override

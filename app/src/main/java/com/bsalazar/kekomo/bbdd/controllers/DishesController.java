@@ -129,6 +129,7 @@ public class DishesController {
 
         values.put(DishesTable.NAME, obj.getName());
         values.put(DishesTable.DESCRIPTION, obj.getDescription());
+        values.put(DishesTable.PREPARATION, obj.getPreparation());
         values.put(DishesTable.TAGS, obj.getTags());
         values.put(DishesTable.IMAGE, obj.getImage());
 
@@ -146,6 +147,7 @@ public class DishesController {
 
         dish.setName(cursor.getString(cursor.getColumnIndex(DishesTable.NAME)));
         dish.setDescription(cursor.getString(cursor.getColumnIndex(DishesTable.DESCRIPTION)));
+        dish.setPreparation(cursor.getString(cursor.getColumnIndex(DishesTable.PREPARATION)));
         dish.setTags(cursor.getString(cursor.getColumnIndex(DishesTable.TAGS)));
         dish.setImage(cursor.getString(cursor.getColumnIndex(DishesTable.IMAGE)));
 

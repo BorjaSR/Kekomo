@@ -1,8 +1,11 @@
-package com.bsalazar.kekomo.ui_dishes;
+package com.bsalazar.kekomo.ui_dishes.adapters;
 
-import android.content.Context;
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import android.widget.TextView;
 import com.bsalazar.kekomo.R;
 import com.bsalazar.kekomo.bbdd.entities.Dish;
 import com.bsalazar.kekomo.general.FileSystem;
+import com.bsalazar.kekomo.ui_dishes.DishDetailActivity;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -23,10 +27,10 @@ import java.util.ArrayList;
 
 public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHolder> {
 
-    private Context mContext;
+    private Activity mContext;
     private ArrayList<Dish> dishes;
 
-    public DishesAdapter(Context context, ArrayList<Dish> dishes) {
+    public DishesAdapter(Activity context, ArrayList<Dish> dishes) {
         this.mContext = context;
         this.dishes = dishes;
     }
@@ -37,7 +41,7 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
     }
 
     @Override
-    public void onBindViewHolder(DishViewHolder holder, int position) {
+    public void onBindViewHolder(final DishViewHolder holder, int position) {
         final Dish dish = dishes.get(position);
 
         holder.dish_name.setText(dish.getName());
@@ -50,7 +54,19 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(new Intent(mContext, DishDetailActivity.class));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Intent intent = new Intent(mContext, DishDetailActivity.class);
+                    intent.putExtra("DishID", dish.getId());
+
+                    ActivityOptions optionMultiple = ActivityOptions.makeSceneTransitionAnimation(mContext,
+                            Pair.create((View) holder.dish_image, holder.dish_image.getTransitionName()));
+
+                    mContext.startActivity(intent, optionMultiple.toBundle());
+                } else {
+                    Intent intent = new Intent(mContext, DishDetailActivity.class);
+                    intent.putExtra("DishID", dish.getId());
+                    mContext.startActivity(intent);
+                }
             }
         });
     }
