@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -69,38 +70,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 ////        //SET RANDOM EVENTS FOR A MONTH
-//        Date today = new Date();
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTime(today);
-//        for(int i = 1; i <= 30; i++){
-//            calendar.add(Calendar.DATE, -1);
-//
-//            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-//            DishesController dishesController = new DishesController();
-//
-//            ArrayList<Dish> dishes = dishesController.getAll();
-//            int random = (int) (Math.random() * dishes.size());
-//
-//            Dish dish = new DishesController().getByID(random);
-//            Event event = new Event();
-//            event.setDishId(dish.getId());
-//            event.setDate(dateFormat.format(calendar.getTime()));
-//            event.setType(Constants.DISH_TYPE_LUNCH);
-//
-//            new EventsController().add(event, Constants.database);
-//
-//
-//            random = (int) (Math.random() * dishes.size());
-//
-//            dish = new DishesController().getByID(random);
-//            event = new Event();
-//            event.setDishId(dish.getId());
-//            event.setDate(dateFormat.format(calendar.getTime()));
-//            event.setType(Constants.DISH_TYPE_DINNER);
-//
-//            new EventsController().add(event, Constants.database);
-//        }
+        Date today = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(today);
+        for(int i = 1; i <= 30; i++){
+            calendar.add(Calendar.DATE, -1);
 
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            DishesController dishesController = new DishesController();
+
+            ArrayList<Dish> dishes = dishesController.getAll();
+            int random = (int) (Math.random() * dishes.size());
+
+            Dish dish = new DishesController().getByID(random);
+            Event event = new Event();
+            event.setDishId(dish.getId());
+            event.setDate(dateFormat.format(calendar.getTime()));
+            event.setType(Constants.DISH_TYPE_LUNCH);
+
+            new EventsController().add(event, Constants.database);
+
+
+            random = (int) (Math.random() * dishes.size());
+
+            dish = new DishesController().getByID(random);
+            event = new Event();
+            event.setDishId(dish.getId());
+            event.setDate(dateFormat.format(calendar.getTime()));
+            event.setType(Constants.DISH_TYPE_DINNER);
+
+            new EventsController().add(event, Constants.database);
+        }
 
         configUI();
     }

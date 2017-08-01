@@ -26,7 +26,8 @@ public class FileSystem {
     }
 
     private FileSystem(Context context) {
-        PATH = context.getFilesDir().getAbsolutePath();
+//        PATH = context.getFilesDir().getAbsolutePath();
+        PATH = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath();
         IMAGES_PATH = PATH + "/images/";
 
         crearEstructuraCarpetas();

@@ -3,13 +3,16 @@ package com.bsalazar.kekomo.ui_dishes;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
@@ -23,6 +26,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,6 +37,8 @@ import com.bsalazar.kekomo.bbdd.entities.Dish;
 import com.bsalazar.kekomo.general.Constants;
 import com.bsalazar.kekomo.general.FileSystem;
 import com.bsalazar.kekomo.general.GaleryActivity;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -59,6 +65,8 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
     private Bitmap new_image;
     private boolean isImageOprionShowed = false;
 
+    private Dish dishToEdit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +75,16 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
 
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        int dishID = -1;
+        if (getIntent().getExtras() != null)
+            dishID = (int) getIntent().getExtras().get("DISH_TO_EDIT");
+
+        dishToEdit = null;
+        if (dishID != -1)
+            dishToEdit = new DishesController().getByID(dishID);
+
 
         dish_image = (ImageView) findViewById(R.id.dish_image);
         edit_image = (ImageView) findViewById(R.id.edit_image);
@@ -86,7 +104,25 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
         gallery_button.setOnClickListener(this);
         kekomo_galley_button.setOnClickListener(this);
         delete_image.setOnClickListener(this);
+
+        if (dishToEdit != null) {
+            dish_name.setText(dishToEdit.getName());
+            dish_description.setText(dishToEdit.getDescription());
+            dish_preparation.setText(dishToEdit.getPreparation());
+
+            try {
+                new_image =  BitmapFactory.decodeFile(FileSystem.getInstance(this).IMAGES_PATH + dishToEdit.getImage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            dish_image.setImageBitmap(new_image);
+        }
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(dish_name.getWindowToken(), 0);
     }
+
 
     boolean edited = false;
 
@@ -104,7 +140,10 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
                 finish();
                 return true;
             case R.id.action_save:
-                saveDish();
+                if (dishToEdit == null)
+                    saveDish();
+                else
+                    updateDish();
                 return true;
         }
         return true;
@@ -121,19 +160,24 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.edit_image:
                 showImageOption();
                 break;
+
             case R.id.camera_button:
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(takePictureIntent, CAMERA_INPUT);
+//                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                startActivityForResult(takePictureIntent, CAMERA_INPUT);
+                dispatchTakePictureIntent();
                 hideImageOption();
                 break;
+
             case R.id.gallery_button:
                 openGalery();
                 hideImageOption();
                 break;
+
             case R.id.kekomo_galley_button:
                 startActivityForResult(new Intent(getApplicationContext(), GaleryActivity.class), OWN_GALERY);
                 hideImageOption();
                 break;
+
             case R.id.delete_image:
                 new_image = null;
                 setImage(null);
@@ -188,6 +232,19 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
             Snackbar.make(dish_image, "El nombre es obligatorio", Snackbar.LENGTH_SHORT).show();
     }
 
+    private void updateDish() {
+        if (dish_name.getText().length() > 0) {
+            dishToEdit.setName(dish_name.getText().toString());
+            dishToEdit.setDescription(dish_description.getText().toString());
+            dishToEdit.setPreparation(dish_preparation.getText().toString());
+            dishToEdit.setTags("x");
+            saveImage(dishToEdit.getImage());
+            new DishesController().update(dishToEdit, Constants.database);
+            finish();
+        } else
+            Snackbar.make(dish_image, "El nombre es obligatorio", Snackbar.LENGTH_SHORT).show();
+    }
+
 
     private void showImageDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -230,11 +287,9 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
                 }
 
             } else if (requestCode == CAMERA_INPUT) {
-
-                if (data != null && data.getExtras() != null) {
-                    new_image = Bitmap.createBitmap((Bitmap) data.getExtras().get("data"));
+                    new_image = handleBigCameraPhoto();
                     setImage(new_image);
-                }
+
 
             } else if (requestCode == OWN_GALERY) {
                 if (data != null && data.getExtras() != null) {
@@ -259,7 +314,7 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
         try {
             out = new FileOutputStream(fTempOriginal);
             new_image.compress(Bitmap.CompressFormat.JPEG, 70, out); // bmp is your Bitmap instance
-            // PNG is a lossless format, the compression factor (100) is ignored
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -324,7 +379,7 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
         anim.start();
     }
 
-    private void hashtagRecognizer(){
+    private void hashtagRecognizer() {
         if (!edited) {
             String text = dish_description.getText().toString();
             SpannableString hashText = new SpannableString(text);
@@ -341,5 +396,70 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
             edited = false;
             dish_description.setSelection(dish_description.getText().length());
         }
+    }
+
+
+    private String mCurrentPhotoPath;
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        File f;
+
+        try {
+            f = setUpPhotoFile();
+            mCurrentPhotoPath = f.getAbsolutePath();
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+        } catch (IOException e) {
+            e.printStackTrace();
+            mCurrentPhotoPath = null;
+        }
+
+        startActivityForResult(takePictureIntent, CAMERA_INPUT);
+    }
+
+
+    private File setUpPhotoFile() throws IOException {
+        File f = createImageFile();
+        mCurrentPhotoPath = f.getAbsolutePath();
+        return f;
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String imageFileName = "temp.jpeg";
+        File albumF = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File imageF = new File(albumF.getPath() + "/" + imageFileName);
+
+        if (imageF.exists()) {
+            imageF.delete();
+        }
+        Boolean res = imageF.createNewFile();
+        return imageF;
+    }
+
+
+    private Bitmap handleBigCameraPhoto() {
+        Bitmap bitmap = null;
+        if (mCurrentPhotoPath != null) {
+            bitmap = setPic();
+            mCurrentPhotoPath = null;
+        }
+        return bitmap;
+    }
+
+    private Bitmap setPic() {
+
+		/* Get the size of the image */
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
+
+		/* Set bitmap options to scale the image decode target */
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = 1;
+        bmOptions.inPurgeable = true;
+
+		/* Decode the JPEG file into a Bitmap */
+        return BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
     }
 }

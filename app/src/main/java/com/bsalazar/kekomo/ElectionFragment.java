@@ -18,6 +18,7 @@ import com.bsalazar.kekomo.general.Constants;
 import com.bsalazar.kekomo.general.FileSystem;
 import com.bsalazar.kekomo.R;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -100,6 +101,8 @@ public class ElectionFragment extends Fragment implements View.OnClickListener{
 
         Glide.with(mContext)
                 .load(FileSystem.getInstance(mContext).IMAGES_PATH + dish.getImage())
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .into(dish_image);
 
         dihs_name.setText(dish.getName());

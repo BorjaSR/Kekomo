@@ -134,9 +134,10 @@ public class ElectionAlgorithm {
 
 
         ArrayList<Integer> dishes_sorted = new ArrayList<>();
-        for (Map.Entry<Double, Double> entry : dish_appearances_sorted.entrySet())
+        for (Map.Entry<Double, Double> entry : dish_appearances_sorted.entrySet()) {
             dishes_sorted.add(entry.getKey().intValue());
-
+            Log.d("LIST DISHES SHORTED", entry.getKey().intValue() + " " + entry.getValue());// PRINT RESULT
+        }
         return dishes_sorted;
     }
 

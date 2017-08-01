@@ -17,7 +17,9 @@ import com.bsalazar.kekomo.R;
 import com.bsalazar.kekomo.bbdd.entities.Dish;
 import com.bsalazar.kekomo.general.FileSystem;
 import com.bsalazar.kekomo.ui_dishes.DishDetailActivity;
+import com.bsalazar.kekomo.ui_dishes.MyDishesActivity;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 
@@ -49,6 +51,8 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
 
         Glide.with(mContext)
                 .load(FileSystem.getInstance(mContext).IMAGES_PATH + dish.getImage())
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .into(holder.dish_image);
 
         holder.item.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +65,7 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
                     ActivityOptions optionMultiple = ActivityOptions.makeSceneTransitionAnimation(mContext,
                             Pair.create((View) holder.dish_image, holder.dish_image.getTransitionName()));
 
-                    mContext.startActivity(intent, optionMultiple.toBundle());
+                    mContext.startActivityForResult(intent, MyDishesActivity.RESULT_EDIT,  optionMultiple.toBundle());
                 } else {
                     Intent intent = new Intent(mContext, DishDetailActivity.class);
                     intent.putExtra("DishID", dish.getId());
