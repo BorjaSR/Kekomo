@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/pantry_product_image"
+            android:layout_width="@dimen/image_type_pantry_item"
+            android:layout_height="@dimen/image_type_pantry_item"
+            android:src="@drawable/steak"
+            android:padding="10dp"/>
+
+        <TextView
+            android:id="@+id/pantry_product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primary_text"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            android:text="Pechugas pollo"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/pantry_product_frozen"
+        android:layout_width="@dimen/frozen_pantry_item"
+        android:layout_height="@dimen/frozen_pantry_item"
+        android:src="@drawable/snowflake"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="10dp"
+        android:visibility="gone"/>
+
+</RelativeLayout>

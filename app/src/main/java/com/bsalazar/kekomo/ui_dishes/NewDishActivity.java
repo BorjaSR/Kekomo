@@ -16,10 +16,12 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +33,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bsalazar.kekomo.BuildConfig;
 import com.bsalazar.kekomo.R;
 import com.bsalazar.kekomo.bbdd.controllers.DishesController;
 import com.bsalazar.kekomo.bbdd.entities.Dish;
@@ -106,12 +109,16 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
         delete_image.setOnClickListener(this);
 
         if (dishToEdit != null) {
+
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setTitle("Editar plato");
+
             dish_name.setText(dishToEdit.getName());
             dish_description.setText(dishToEdit.getDescription());
             dish_preparation.setText(dishToEdit.getPreparation());
 
             try {
-                new_image =  BitmapFactory.decodeFile(FileSystem.getInstance(this).IMAGES_PATH + dishToEdit.getImage());
+                new_image = BitmapFactory.decodeFile(FileSystem.getInstance(this).IMAGES_PATH + dishToEdit.getImage());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -287,8 +294,8 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
                 }
 
             } else if (requestCode == CAMERA_INPUT) {
-                    new_image = handleBigCameraPhoto();
-                    setImage(new_image);
+                new_image = handleBigCameraPhoto();
+                setImage(new_image);
 
 
             } else if (requestCode == OWN_GALERY) {
@@ -400,16 +407,14 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
 
 
     private String mCurrentPhotoPath;
+
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        File f;
-
         try {
-            f = setUpPhotoFile();
-            mCurrentPhotoPath = f.getAbsolutePath();
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-        } catch (IOException e) {
+            Uri uri = getOutputMediaFileUri();
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        } catch (Exception e) {
             e.printStackTrace();
             mCurrentPhotoPath = null;
         }
@@ -418,10 +423,36 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
-    private File setUpPhotoFile() throws IOException {
-        File f = createImageFile();
-        mCurrentPhotoPath = f.getAbsolutePath();
-        return f;
+    private Uri getOutputMediaFileUri() {
+        //check for external storage
+        if (isExternalStorageAvaiable()) {
+            File mediaStorageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            File mediaFile;
+
+            try {
+                mediaFile = new File(mediaStorageDir.getPath() + "/temp.jpg");
+                Log.i("st", "File: " + Uri.fromFile(mediaFile));
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.i("St", "Error creating file: " + mediaStorageDir.getAbsolutePath() + "/temp.jpg");
+                return null;
+            }
+
+            Uri uri = FileProvider.getUriForFile(getApplicationContext(),
+                    BuildConfig.APPLICATION_ID + ".provider",
+                    mediaFile);
+
+            mCurrentPhotoPath = mediaFile.getAbsolutePath();
+            return uri;
+        }
+        //something went wrong
+        return null;
+    }
+
+    private boolean isExternalStorageAvaiable() {
+
+        String state = Environment.getExternalStorageState();
+        return Environment.MEDIA_MOUNTED.equals(state);
     }
 
     private File createImageFile() throws IOException {

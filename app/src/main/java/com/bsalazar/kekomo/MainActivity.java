@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,23 +13,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bsalazar.kekomo.ui_dishes.MyDishesActivity;
-import com.bsalazar.kekomo.ui_dishes.NewDishActivity;
 import com.bsalazar.kekomo.bbdd.SQLiteHelper;
 import com.bsalazar.kekomo.bbdd.controllers.DishesController;
 import com.bsalazar.kekomo.bbdd.controllers.EventsController;
 import com.bsalazar.kekomo.bbdd.entities.Dish;
-import com.bsalazar.kekomo.ui_calendar.CalendarActivity;
 import com.bsalazar.kekomo.bbdd.entities.Event;
 import com.bsalazar.kekomo.general.Constants;
 import com.bsalazar.kekomo.general.ElectionAlgorithm;
 import com.bsalazar.kekomo.general.FileSystem;
+import com.bsalazar.kekomo.ui_calendar.CalendarActivity;
+import com.bsalazar.kekomo.ui_dishes.MyDishesActivity;
+import com.bsalazar.kekomo.ui_dishes.NewDishActivity;
+import com.bsalazar.kekomo.ui_pantry.PantryActivity;
 import com.bumptech.glide.Glide;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -70,39 +72,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 ////        //SET RANDOM EVENTS FOR A MONTH
-        Date today = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(today);
-        for(int i = 1; i <= 30; i++){
-            calendar.add(Calendar.DATE, -1);
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            DishesController dishesController = new DishesController();
-
-            ArrayList<Dish> dishes = dishesController.getAll();
-            int random = (int) (Math.random() * dishes.size());
-
-            Dish dish = new DishesController().getByID(random);
-            Event event = new Event();
-            event.setDishId(dish.getId());
-            event.setDate(dateFormat.format(calendar.getTime()));
-            event.setType(Constants.DISH_TYPE_LUNCH);
-
-            new EventsController().add(event, Constants.database);
-
-
-            random = (int) (Math.random() * dishes.size());
-
-            dish = new DishesController().getByID(random);
-            event = new Event();
-            event.setDishId(dish.getId());
-            event.setDate(dateFormat.format(calendar.getTime()));
-            event.setType(Constants.DISH_TYPE_DINNER);
-
-            new EventsController().add(event, Constants.database);
-        }
+//        Date today = new Date();
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(today);
+//        for(int i = 1; i <= 30; i++){
+//            calendar.add(Calendar.DATE, -1);
+//
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//            DishesController dishesController = new DishesController();
+//
+//            ArrayList<Dish> dishes = dishesController.getAll();
+//            int random = (int) (Math.random() * dishes.size());
+//
+//            Dish dish = new DishesController().getByID(random);
+//            Event event = new Event();
+//            event.setDishId(dish.getId());
+//            event.setDate(dateFormat.format(calendar.getTime()));
+//            event.setType(Constants.DISH_TYPE_LUNCH);
+//
+//            new EventsController().add(event, Constants.database);
+//
+//
+//            random = (int) (Math.random() * dishes.size());
+//
+//            dish = new DishesController().getByID(random);
+//            event = new Event();
+//            event.setDishId(dish.getId());
+//            event.setDate(dateFormat.format(calendar.getTime()));
+//            event.setType(Constants.DISH_TYPE_DINNER);
+//
+//            new EventsController().add(event, Constants.database);
+//        }
 
         configUI();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_pantry:
+                startActivity(new Intent(getApplicationContext(), PantryActivity.class));
+                return true;
+        }
+        return true;
     }
 
     private boolean electionsShoed = false;

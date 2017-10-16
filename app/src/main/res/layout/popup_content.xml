@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/image_popup_product"
+            android:layout_width="@dimen/image_type_popup"
+            android:layout_height="@dimen/image_type_popup"
+            android:src="@drawable/steak"/>
+
+        <TextView
+            android:id="@+id/popup_product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Texto de prueba"
+            android:textStyle="bold"
+            android:textColor="@color/primary_text"
+            android:layout_margin="10dp"
+            android:padding="10dp"/>
+
+    </LinearLayout>
+
+    <Switch
+        android:id="@+id/sietch_frozen"
+        android:layout_marginTop="10dp"
+        android:text="Congelado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

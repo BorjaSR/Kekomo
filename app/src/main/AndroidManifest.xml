@@ -33,6 +33,7 @@
             android:screenOrientation="portrait"
             android:label="@string/activity_calendar"/>
 
+
         <activity android:name=".ui_dishes.NewDishActivity"
             android:screenOrientation="portrait"
             android:label="@string/activity_new_dish"/>
@@ -51,9 +52,15 @@
             android:label="@string/activity_galery"/>
 
 
+
+        <activity android:name=".ui_pantry.PantryActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/activity_pantry"/>
+
+
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.bsalazar.calendarioprueba.fileProvider"
+            android:authorities="${applicationId}.provider"
             android:grantUriPermissions="true"
             android:exported="false">
             <meta-data
