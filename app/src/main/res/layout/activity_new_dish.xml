@@ -44,7 +44,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_margin="10dp"
-                android:background="@drawable/background_white_corners_round"
+                android:background="@drawable/background_white_corners_stroke"
                 android:orientation="horizontal"
                 android:padding="10dp"
                 android:visibility="invisible">

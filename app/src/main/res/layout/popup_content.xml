@@ -2,38 +2,96 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/image_popup_product"
-            android:layout_width="@dimen/image_type_popup"
-            android:layout_height="@dimen/image_type_popup"
-            android:src="@drawable/steak"/>
 
-        <TextView
-            android:id="@+id/popup_product_name"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Texto de prueba"
-            android:textStyle="bold"
-            android:textColor="@color/primary_text"
-            android:layout_margin="10dp"
-            android:padding="10dp"/>
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:id="@+id/indicator1"
+                android:layout_width="@dimen/image_type_popup"
+                android:layout_height="@dimen/image_type_popup"
+                android:src="@drawable/triangle"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:id="@+id/indicator2"
+                android:layout_width="@dimen/image_type_popup"
+                android:layout_height="@dimen/image_type_popup"
+                android:src="@drawable/triangle"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:id="@+id/indicator3"
+                android:layout_width="@dimen/image_type_popup"
+                android:layout_height="@dimen/image_type_popup"
+                android:src="@drawable/triangle"
+                android:visibility="gone"/>
+        </LinearLayout>
 
     </LinearLayout>
 
-    <Switch
-        android:id="@+id/sietch_frozen"
-        android:layout_marginTop="10dp"
-        android:text="Congelado"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/background_white_corners"
+        android:padding="16dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/image_popup_product"
+                android:layout_width="@dimen/image_type_popup"
+                android:layout_height="@dimen/image_type_popup"
+                android:src="@drawable/steak" />
+
+            <com.bsalazar.kekomo.general.CustomTextViewBellerose
+                android:id="@+id/popup_product_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="Texto de prueba"
+                android:textColor="@color/primary_text"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <Switch
+            android:id="@+id/switch_frozen"
+            android:layout_marginTop="10dp"
+            android:text="@string/frozen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </LinearLayout>

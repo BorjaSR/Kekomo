@@ -51,7 +51,7 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.ProductVie
         holder.pantry_product_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((PantryActivity)mContext).displayPopupWindow(holder.pantry_product_name, product);
+                ((PantryActivity)mContext).displayPopupWindow(holder.pantry_product_name, holder.getAdapterPosition());
             }
         });
 

@@ -19,6 +19,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.bsalazar.kekomo.R;
@@ -32,8 +33,10 @@ import java.util.ArrayList;
 
 public class PantryActivity  extends AppCompatActivity {
 
+    private final int NUM_GRID_COLUMS = 3;
+
     private Activity activity;
-    private GridView pantry_products_grid;
+    ArrayList<Product> products;
     private LinearLayout shadow;
     private RecyclerView rvProducts;
 
@@ -49,7 +52,7 @@ public class PantryActivity  extends AppCompatActivity {
 
         shadow = (LinearLayout) findViewById(R.id.shadow);
 
-        ArrayList<Product> products = new ArrayList<>();
+        products = new ArrayList<>();
 
         for(int i = 0; i < 10; i++) {
             Product product = new Product();
@@ -90,7 +93,7 @@ public class PantryActivity  extends AppCompatActivity {
         }
 
         rvProducts = (RecyclerView) findViewById(R.id.rvProducts);
-        rvProducts.setLayoutManager(new GridLayoutManager(this, 3));
+        rvProducts.setLayoutManager(new GridLayoutManager(this, NUM_GRID_COLUMS));
         rvProducts.setHasFixedSize(false);
         PantryAdapter adapter = new PantryAdapter(this, products);
         rvProducts.setAdapter(adapter);
@@ -111,19 +114,34 @@ public class PantryActivity  extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_add:
+                AddProductDialogFragment dialog = new AddProductDialogFragment();
+                dialog.show(this.getFragmentManager(), "ADD_PRODUCT");
                 return true;
         }
         return true;
     }
 
 
-    public void displayPopupWindow(View anchorView, Product product) {
+    public void displayPopupWindow(View anchorView, int index) {
+        Product product = products.get(index);
+        int relativePosition = index % NUM_GRID_COLUMS;
+
 
         PopupWindow popup = new PopupWindow(this);
         View layout = getLayoutInflater().inflate(R.layout.popup_content, null);
 
-        ((TextView) layout.findViewById(R.id.popup_product_name)).setText(product.getName());
+        ImageView indicator;
+        if(relativePosition == 0)
+            indicator = (ImageView) layout.findViewById(R.id.indicator1);
+        else if (relativePosition == 1)
+            indicator = (ImageView) layout.findViewById(R.id.indicator2);
+        else
+            indicator = (ImageView) layout.findViewById(R.id.indicator3);
+        indicator.setVisibility(View.VISIBLE);
 
+        ((TextView) layout.findViewById(R.id.popup_product_name)).setText(product.getName());
+        ((ImageView) layout.findViewById(R.id.image_popup_product)).setImageResource(getProductIcon(product.getType()));
+        ((Switch) layout.findViewById(R.id.switch_frozen)).setChecked(product.isFrozen());
 
         popup.setContentView(layout);
         // Set content width and height
@@ -133,12 +151,12 @@ public class PantryActivity  extends AppCompatActivity {
         popup.setOutsideTouchable(true);
         popup.setFocusable(true);
         popup.setBackgroundDrawable(new BitmapDrawable());
-        popup.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+//        popup.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 
         // Show anchored to button
-//        popup.showAtLocation(anchorView, Gravity.BOTTOM, 0, anchorView.getBottom() - 60);
+//        popup.showAtLocation(anchorView, Gravity.TOP, (int) anchorView.getX(), (int) anchorView.getY());
+        popup.showAsDropDown(anchorView, 0, -40, Gravity.TOP);
 
-        popup.showAsDropDown(anchorView, 0, 10, Gravity.CENTER_HORIZONTAL);
         popup.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -148,5 +166,26 @@ public class PantryActivity  extends AppCompatActivity {
 
         shadow.setVisibility(View.VISIBLE);
         shadow.animate().alpha(1).setDuration(200).start();
+    }
+
+
+    private int getProductIcon(int type) {
+        switch (type){
+            case Product.MEAT:
+                return R.drawable.steak;
+            case Product.FISH:
+                return R.drawable.fish;
+            case Product.VEGETABLE:
+                return R.drawable.vegetables;
+            case Product.DAIRY:
+                return R.drawable.dairy;
+            case Product.SAUCE:
+                return R.drawable.sauces;
+            case Product.FRUIT:
+                return R.drawable.fruit;
+            default:
+                return R.drawable.steak;
+        }
+
     }
 }

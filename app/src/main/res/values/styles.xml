@@ -39,6 +39,13 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+
+    <style name="CommentsDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
     <!--<style name="TextLabelNew" parent="TextAppearance.AppCompat">-->
         <!--&lt;!&ndash; Hint color and label color in FALSE state &ndash;&gt;-->
         <!--<item name="android:textColorHint">@color/primary_text</item>-->
