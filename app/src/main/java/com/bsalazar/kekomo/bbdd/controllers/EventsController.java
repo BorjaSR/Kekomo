@@ -38,6 +38,7 @@ public class EventsController {
                     values.put(EventTable.ID, id);
                     values.put(EventTable.CREATED, Tools.parseDateToSQL(new Date(System.currentTimeMillis())));
                     values.put(EventTable.UPDATED, Tools.parseDateToSQL(new Date(System.currentTimeMillis())));
+                    values.put(EventTable.DELETE, 0);
 
                     //INSERT
                     tempDatabase.insert(EventTable.TABLE_NAME, null, values);

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextClock;
 import android.widget.TextView;
@@ -48,7 +49,7 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.ProductVie
         holder.pantry_product_name.setText(product.getName());
         holder.pantry_product_frozen.setVisibility(product.isFrozen() ? View.VISIBLE : View.GONE);
 
-        holder.pantry_product_image.setOnClickListener(new View.OnClickListener() {
+        holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((PantryActivity)mContext).displayPopupWindow(holder.pantry_product_name, holder.getAdapterPosition());
@@ -87,6 +88,7 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.ProductVie
 
     public class ProductViewHolder extends RecyclerView.ViewHolder {
 
+        LinearLayout container;
         ImageView pantry_product_frozen;
         ImageView pantry_product_image;
         TextView pantry_product_name;
@@ -95,6 +97,7 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.ProductVie
         public ProductViewHolder(View itemView) {
             super(itemView);
 
+            container = (LinearLayout) itemView.findViewById(R.id.container);
             pantry_product_frozen = (ImageView) itemView.findViewById(R.id.pantry_product_frozen);
             pantry_product_image = (ImageView) itemView.findViewById(R.id.pantry_product_image);
             pantry_product_name = (TextView) itemView.findViewById(R.id.pantry_product_name);

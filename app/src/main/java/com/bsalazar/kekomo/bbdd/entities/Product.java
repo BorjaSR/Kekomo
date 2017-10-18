@@ -1,5 +1,7 @@
 package com.bsalazar.kekomo.bbdd.entities;
 
+import java.util.Date;
+
 /**
  * Created by bsalazar on 13/10/17.
  */
@@ -13,12 +15,26 @@ public class Product {
     public static final int SAUCE = 4;
     public static final int FRUIT = 5;
 
+    private int id;
     private String name;
     private int type;
     private int stock;
     private boolean frozen;
 
+
+    private Date created;
+    private Date updated;
+    private boolean deleted;
+
     public Product() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -51,5 +67,29 @@ public class Product {
 
     public void setFrozen(boolean frozen) {
         this.frozen = frozen;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

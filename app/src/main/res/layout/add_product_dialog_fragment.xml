@@ -13,15 +13,18 @@
         android:padding="16dp"
         android:layout_margin="16dp"
         android:orientation="vertical"
-        android:background="@drawable/background_white_corners">
+        android:background="@drawable/background_white_corners"
+        android:clickable="true">
 
 
         <EditText
+            android:id="@+id/product_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nombre"/>
 
         <Switch
+            android:id="@+id/switch_product_frozen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/frozen"
@@ -42,6 +45,7 @@
                 android:textColor="@color/red_text"/>
 
             <TextView
+                android:id="@+id/add_product_button"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
@@ -51,6 +55,7 @@
                 android:textStyle="bold"
                 android:textSize="14sp"
                 android:gravity="right"
+                android:background="?android:selectableItemBackground"
                 android:textColor="@color/colorAccentDark"/>
 
         </LinearLayout>

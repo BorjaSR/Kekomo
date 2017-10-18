@@ -38,6 +38,7 @@ public class DishesController {
                     values.put(DishesTable.ID, id);
                     values.put(DishesTable.CREATED, Tools.parseDateToSQL(new Date(System.currentTimeMillis())));
                     values.put(DishesTable.UPDATED, Tools.parseDateToSQL(new Date(System.currentTimeMillis())));
+                    values.put(DishesTable.DELETE, 0);
 
                     //INSERT
                     tempDatabase.insert(DishesTable.TABLE_NAME, null, values);

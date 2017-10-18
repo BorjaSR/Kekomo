@@ -65,11 +65,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         platos_button.setOnClickListener(this);
 
 
-        try {
-            new EventsController().deleteAll();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            new EventsController().deleteAll();
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
 
 ////        //SET RANDOM EVENTS FOR A MONTH
 //        Date today = new Date();

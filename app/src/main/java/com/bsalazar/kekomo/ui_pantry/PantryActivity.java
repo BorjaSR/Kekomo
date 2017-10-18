@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,8 +24,11 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.bsalazar.kekomo.R;
+import com.bsalazar.kekomo.bbdd.controllers.ProductController;
 import com.bsalazar.kekomo.bbdd.entities.Product;
+import com.bsalazar.kekomo.general.Constants;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -36,9 +40,10 @@ public class PantryActivity  extends AppCompatActivity {
     private final int NUM_GRID_COLUMS = 3;
 
     private Activity activity;
-    ArrayList<Product> products;
+    ArrayList<Product> products = new ArrayList<>();
     private LinearLayout shadow;
     private RecyclerView rvProducts;
+    private PantryAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,52 +57,23 @@ public class PantryActivity  extends AppCompatActivity {
 
         shadow = (LinearLayout) findViewById(R.id.shadow);
 
-        products = new ArrayList<>();
-
-        for(int i = 0; i < 10; i++) {
-            Product product = new Product();
-            product.setName("pechugas de pollo");
-            product.setType(Product.MEAT);
-            product.setStock(100);
-            product.setFrozen(true);
-
-            Product product1 = new Product();
-            product1.setName("Salmón");
-            product1.setType(Product.FISH);
-            product1.setStock(50);
-            product1.setFrozen(true);
-
-            Product product2 = new Product();
-            product2.setName("Pimiento verde");
-            product2.setType(Product.VEGETABLE);
-            product2.setStock(10);
-            product2.setFrozen(false);
-
-            Product product3 = new Product();
-            product3.setName("Naranjas");
-            product3.setType(Product.FRUIT);
-            product3.setStock(10);
-            product3.setFrozen(false);
-
-            Product product4 = new Product();
-            product4.setName("Soja");
-            product4.setType(Product.SAUCE);
-            product4.setStock(10);
-            product4.setFrozen(false);
-
-            products.add(product);
-            products.add(product1);
-            products.add(product2);
-            products.add(product3);
-            products.add(product4);
+        try {
+            products = new ProductController().getAll();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+
 
         rvProducts = (RecyclerView) findViewById(R.id.rvProducts);
         rvProducts.setLayoutManager(new GridLayoutManager(this, NUM_GRID_COLUMS));
         rvProducts.setHasFixedSize(false);
-        PantryAdapter adapter = new PantryAdapter(this, products);
+        adapter = new PantryAdapter(this, products);
         rvProducts.setAdapter(adapter);
+    }
 
+    public void insertProduct(Product product){
+        products.add(product);
+        adapter.notifyItemInserted(products.size()-1);
     }
 
     @Override
@@ -122,12 +98,12 @@ public class PantryActivity  extends AppCompatActivity {
     }
 
 
-    public void displayPopupWindow(View anchorView, int index) {
-        Product product = products.get(index);
+    public void displayPopupWindow(View anchorView, final int index) {
+        final Product product = products.get(index);
         int relativePosition = index % NUM_GRID_COLUMS;
 
 
-        PopupWindow popup = new PopupWindow(this);
+        final PopupWindow popup = new PopupWindow(this);
         View layout = getLayoutInflater().inflate(R.layout.popup_content, null);
 
         ImageView indicator;
@@ -141,7 +117,24 @@ public class PantryActivity  extends AppCompatActivity {
 
         ((TextView) layout.findViewById(R.id.popup_product_name)).setText(product.getName());
         ((ImageView) layout.findViewById(R.id.image_popup_product)).setImageResource(getProductIcon(product.getType()));
-        ((Switch) layout.findViewById(R.id.switch_frozen)).setChecked(product.isFrozen());
+        Switch frozen_switch = (Switch) layout.findViewById(R.id.switch_frozen);
+        frozen_switch.setChecked(product.isFrozen());
+        frozen_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                product.setFrozen(b);
+            }
+        });
+
+        layout.findViewById(R.id.delete_product).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new ProductController().deleteByID(product.getId());
+                products.remove(index);
+                adapter.notifyItemRemoved(index);
+                popup.dismiss();
+            }
+        });
 
         popup.setContentView(layout);
         // Set content width and height
@@ -160,6 +153,9 @@ public class PantryActivity  extends AppCompatActivity {
         popup.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
+                new ProductController().update(product, Constants.database);
+                adapter.notifyItemChanged(index);
+
                 shadow.animate().alpha(0).setDuration(200).start();
             }
         });

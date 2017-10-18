@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.bsalazar.kekomo.bbdd.tables.DishesTable;
 import com.bsalazar.kekomo.bbdd.tables.EventTable;
+import com.bsalazar.kekomo.bbdd.tables.ProductTable;
 
 /**
  * Created by mgonzalez on 21/7/16.
@@ -25,6 +26,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase database) {
         database.execSQL(DishesTable.CREATE_QUERY);
         database.execSQL(EventTable.CREATE_QUERY);
+        database.execSQL(ProductTable.CREATE_QUERY);
     }
 
     @Override
@@ -32,6 +34,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         try {
             database.execSQL(DishesTable.DROP_QUERY);
             database.execSQL(EventTable.DROP_QUERY);
+            database.execSQL(ProductTable.DROP_QUERY);
         }catch (Exception ignored){}
 
         onCreate(database);
@@ -41,6 +44,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         try {
             database.execSQL(DishesTable.DROP_QUERY);
             database.execSQL(EventTable.DROP_QUERY);
+            database.execSQL(ProductTable.DROP_QUERY);
         }catch (Exception ignored){}
 
         onCreate(database);
