@@ -102,7 +102,6 @@ public class PantryActivity  extends AppCompatActivity {
         final Product product = products.get(index);
         int relativePosition = index % NUM_GRID_COLUMS;
 
-
         final PopupWindow popup = new PopupWindow(this);
         View layout = getLayoutInflater().inflate(R.layout.popup_content, null);
 

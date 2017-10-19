@@ -35,6 +35,7 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.ProductVie
         this.mContext = context;
         this.products = products;
     }
+
     @Override
     public ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_item, parent, false);
