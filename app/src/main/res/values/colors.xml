@@ -14,6 +14,7 @@
     <color name="colorAccentExtraLight">#caecd1</color>
 
 
+    <color name="alpha">#0000</color>
     <color name="alpha_colorAccent">#8896daa6</color>
     <color name="alpha2_colorAccent">#5596daa6</color>
     <color name="alpha_charcoal">#88434343</color>

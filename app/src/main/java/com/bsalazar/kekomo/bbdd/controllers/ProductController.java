@@ -15,6 +15,7 @@ import com.bsalazar.kekomo.bbdd.tables.ProductTable;
 import com.bsalazar.kekomo.general.Constants;
 import com.bsalazar.kekomo.general.Tools;
 
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,11 +38,10 @@ public class ProductController {
                 ContentValues values = setObject(product);
 
                 if (values != null) {
-                    int id = getAll().size();
+                    int id = getNextId();
                     values.put(ProductTable.ID, id);
                     values.put(ProductTable.CREATED, Tools.parseDateToSQL(new Date(System.currentTimeMillis())));
                     values.put(ProductTable.UPDATED, Tools.parseDateToSQL(new Date(System.currentTimeMillis())));
-                    values.put(ProductTable.DELETE, 0);
 
                     //INSERT
                     tempDatabase.insert(ProductTable.TABLE_NAME, null, values);
@@ -79,7 +79,6 @@ public class ProductController {
     }
 
 
-
     public Product getByID(int id) {
         String selectQuery = "SELECT * FROM " + ProductTable.TABLE_NAME + " WHERE " + ProductTable.ID + " = " + id;
         Cursor cursor = Constants.database.rawQuery(selectQuery, null);
@@ -93,11 +92,20 @@ public class ProductController {
     }
 
     public ArrayList<Product> getAll() throws ParseException {
-        String selectQuery = "SELECT * FROM " + ProductTable.TABLE_NAME + " ORDER BY " + ProductTable.NAME + " DESC";
+        String selectQuery = "SELECT * FROM " + ProductTable.TABLE_NAME + " ORDER BY " + ProductTable.NAME + " ASC";
         return fillList(selectQuery);
     }
 
-    public void deleteByID(int id){
+    private int getNextId() {
+        String selectQuery = "SELECT * FROM " + ProductTable.TABLE_NAME + " ORDER BY " + ProductTable.CREATED + " DESC";
+        ArrayList<Product> products = fillList(selectQuery);
+        if (products.size() > 0)
+            return products.get(0).getId() + 1;
+        else
+            return 0;
+    }
+
+    public void deleteByID(int id) {
         Constants.database.delete(ProductTable.TABLE_NAME, ProductTable.ID + " = " + id, null);
     }
 

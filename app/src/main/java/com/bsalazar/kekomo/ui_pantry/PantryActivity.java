@@ -98,89 +98,34 @@ public class PantryActivity  extends AppCompatActivity {
     }
 
 
+    boolean isDelete = false;
     public void displayPopupWindow(View anchorView, final int index) {
-        final Product product = products.get(index);
-        int relativePosition = index % NUM_GRID_COLUMS;
 
-        final PopupWindow popup = new PopupWindow(this);
-        View layout = getLayoutInflater().inflate(R.layout.popup_content, null);
-
-        ImageView indicator;
-        if(relativePosition == 0)
-            indicator = (ImageView) layout.findViewById(R.id.indicator1);
-        else if (relativePosition == 1)
-            indicator = (ImageView) layout.findViewById(R.id.indicator2);
-        else
-            indicator = (ImageView) layout.findViewById(R.id.indicator3);
-        indicator.setVisibility(View.VISIBLE);
-
-        ((TextView) layout.findViewById(R.id.popup_product_name)).setText(product.getName());
-        ((ImageView) layout.findViewById(R.id.image_popup_product)).setImageResource(getProductIcon(product.getType()));
-        Switch frozen_switch = (Switch) layout.findViewById(R.id.switch_frozen);
-        frozen_switch.setChecked(product.isFrozen());
-        frozen_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        final ProducDetailPopup popupWindow = new ProducDetailPopup(this, anchorView, index, products.get(index));
+        popupWindow.setOnClickDelete(new ProducDetailPopup.OnClickDelete() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                product.setFrozen(b);
-            }
-        });
-
-        layout.findViewById(R.id.delete_product).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            public void onDeleteItem(Product product) {
                 new ProductController().deleteByID(product.getId());
                 products.remove(index);
                 adapter.notifyItemRemoved(index);
-                popup.dismiss();
+                isDelete = true;
+                popupWindow.dismiss();
             }
         });
 
-        popup.setContentView(layout);
-        // Set content width and height
-        popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-        popup.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
-        // Closes the popup window when touch outside of it - when looses focus
-        popup.setOutsideTouchable(true);
-        popup.setFocusable(true);
-        popup.setBackgroundDrawable(new BitmapDrawable());
-//        popup.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-
-        // Show anchored to button
-//        popup.showAtLocation(anchorView, Gravity.TOP, (int) anchorView.getX(), (int) anchorView.getY());
-        popup.showAsDropDown(anchorView, 0, -40, Gravity.TOP);
-
-        popup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                new ProductController().update(product, Constants.database);
-                adapter.notifyItemChanged(index);
-
+                if(!isDelete){
+                    new ProductController().update(products.get(index), Constants.database);
+                    adapter.notifyItemChanged(index);
+                    isDelete = false;
+                }
                 shadow.animate().alpha(0).setDuration(200).start();
             }
         });
 
         shadow.setVisibility(View.VISIBLE);
         shadow.animate().alpha(1).setDuration(200).start();
-    }
-
-
-    private int getProductIcon(int type) {
-        switch (type){
-            case Product.MEAT:
-                return R.drawable.steak;
-            case Product.FISH:
-                return R.drawable.fish;
-            case Product.VEGETABLE:
-                return R.drawable.vegetables;
-            case Product.DAIRY:
-                return R.drawable.dairy;
-            case Product.SAUCE:
-                return R.drawable.sauces;
-            case Product.FRUIT:
-                return R.drawable.fruit;
-            default:
-                return R.drawable.steak;
-        }
-
     }
 }
