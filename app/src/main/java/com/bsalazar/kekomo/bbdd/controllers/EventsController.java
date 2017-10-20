@@ -113,8 +113,8 @@ public class EventsController {
         ContentValues values = new ContentValues();
 
         values.put(EventTable.ID, obj.getId());
-        values.put(EventTable.CREATED, String.valueOf(obj.getCreated()));
-        values.put(EventTable.UPDATED, String.valueOf(obj.getUpdated()));
+        values.put(EventTable.CREATED, Tools.parseDateToSQL(obj.getCreated()));
+        values.put(EventTable.UPDATED, Tools.parseDateToSQL(obj.getUpdated()));
         values.put(EventTable.DELETE, obj.isDeleted());
 
         values.put(EventTable.DISH_ID, obj.getDishId());

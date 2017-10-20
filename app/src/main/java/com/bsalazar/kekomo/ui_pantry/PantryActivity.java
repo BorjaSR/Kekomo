@@ -119,8 +119,9 @@ public class PantryActivity  extends AppCompatActivity {
                 if(!isDelete){
                     new ProductController().update(products.get(index), Constants.database);
                     adapter.notifyItemChanged(index);
+                } else
                     isDelete = false;
-                }
+
                 shadow.animate().alpha(0).setDuration(200).start();
             }
         });

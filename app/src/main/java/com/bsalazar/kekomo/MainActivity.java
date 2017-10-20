@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.bsalazar.kekomo.bbdd.SQLiteHelper;
 import com.bsalazar.kekomo.bbdd.controllers.DishesController;
 import com.bsalazar.kekomo.bbdd.controllers.EventsController;
+import com.bsalazar.kekomo.bbdd.controllers.ProductController;
 import com.bsalazar.kekomo.bbdd.entities.Dish;
 import com.bsalazar.kekomo.bbdd.entities.Event;
 import com.bsalazar.kekomo.general.Constants;

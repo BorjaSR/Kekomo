@@ -124,8 +124,8 @@ public class DishesController {
         ContentValues values = new ContentValues();
 
         values.put(DishesTable.ID, obj.getId());
-        values.put(DishesTable.CREATED, String.valueOf(obj.getCreated()));
-        values.put(DishesTable.UPDATED, String.valueOf(obj.getUpdated()));
+        values.put(DishesTable.CREATED, Tools.parseDateToSQL(obj.getCreated()));
+        values.put(DishesTable.UPDATED, Tools.parseDateToSQL(obj.getUpdated()));
         values.put(DishesTable.DELETE, obj.isDeleted());
 
         values.put(DishesTable.NAME, obj.getName());

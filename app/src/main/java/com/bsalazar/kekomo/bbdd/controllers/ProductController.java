@@ -39,14 +39,15 @@ public class ProductController {
 
                 if (values != null) {
                     int id = getNextId();
+                    String date = Tools.parseDateToSQL(new Date(System.currentTimeMillis()));
                     values.put(ProductTable.ID, id);
-                    values.put(ProductTable.CREATED, Tools.parseDateToSQL(new Date(System.currentTimeMillis())));
-                    values.put(ProductTable.UPDATED, Tools.parseDateToSQL(new Date(System.currentTimeMillis())));
+                    values.put(ProductTable.CREATED, date);
+                    values.put(ProductTable.UPDATED, date);
 
                     //INSERT
-                    tempDatabase.insert(ProductTable.TABLE_NAME, null, values);
-
-                    return getByID(id);
+                    if (tempDatabase.insert(ProductTable.TABLE_NAME, null, values) != -1) {
+                        return getByID(id);
+                    }
                 }
             }
         } catch (Exception e) {
@@ -109,6 +110,10 @@ public class ProductController {
         Constants.database.delete(ProductTable.TABLE_NAME, ProductTable.ID + " = " + id, null);
     }
 
+    public void deleteAll() throws ParseException {
+        Constants.database.delete(ProductTable.TABLE_NAME, null, null);
+    }
+
     private ArrayList<Product> fillList(String selectQuery) {
         ArrayList<Product> list = new ArrayList<>();
 
@@ -140,7 +145,8 @@ public class ProductController {
 
         values.put(ProductTable.ID, obj.getId());
         values.put(ProductTable.CREATED, String.valueOf(obj.getCreated()));
-        values.put(ProductTable.UPDATED, String.valueOf(obj.getUpdated()));
+        values.put(ProductTable.CREATED, Tools.parseDateToSQL(obj.getCreated()));
+        values.put(ProductTable.UPDATED, Tools.parseDateToSQL(obj.getUpdated()));
         values.put(ProductTable.DELETE, obj.isDeleted());
 
         values.put(ProductTable.NAME, obj.getName());

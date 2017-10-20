@@ -6,6 +6,8 @@ import android.app.DialogFragment;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.BaseTransientBottomBar;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
@@ -18,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bsalazar.kekomo.R;
 import com.bsalazar.kekomo.bbdd.controllers.ProductController;
@@ -25,7 +28,6 @@ import com.bsalazar.kekomo.bbdd.entities.Product;
 import com.bsalazar.kekomo.general.Constants;
 
 /**
- *
  * Created by bsalazar on 10/05/2017.
  */
 
@@ -59,7 +61,7 @@ public class AddProductDialogFragment extends DialogFragment {
         final View rootView = inflater.inflate(R.layout.add_product_dialog_fragment, container, false);
 
 
-        RecyclerView type_recycler = (RecyclerView) rootView.findViewById(R.id.type_recycler);
+        final RecyclerView type_recycler = (RecyclerView) rootView.findViewById(R.id.type_recycler);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         type_recycler.setLayoutManager(linearLayoutManager);
         type_recycler.setHasFixedSize(false);
@@ -80,7 +82,12 @@ public class AddProductDialogFragment extends DialogFragment {
                 product.setType((int) snapHelper.findSnapView(linearLayoutManager).getTag());
                 product.setFrozen(((Switch) rootView.findViewById(R.id.switch_product_frozen)).isChecked());
 
-                ((PantryActivity) getActivity()).insertProduct(new ProductController().add(product, Constants.database));
+                product = new ProductController().add(product, Constants.database);
+                if (product != null)
+                    ((PantryActivity) getActivity()).insertProduct(product);
+                else
+                    Toast.makeText(getContext(), "Error añadiendo producto", Toast.LENGTH_SHORT).show();
+
                 dismiss();
             }
         });
