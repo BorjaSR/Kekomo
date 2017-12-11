@@ -97,6 +97,13 @@ public class ProductController {
         return fillList(selectQuery);
     }
 
+    public ArrayList<String> getAllProductNames() throws ParseException {
+        ArrayList<String> names = new ArrayList<>();
+        for (Product product : getAll())
+            names.add(product.getName());
+        return names;
+    }
+
     private int getNextId() {
         String selectQuery = "SELECT * FROM " + ProductTable.TABLE_NAME + " ORDER BY " + ProductTable.CREATED + " DESC";
         ArrayList<Product> products = fillList(selectQuery);

@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -33,12 +34,12 @@ public class ElectionAlgorithm {
     private static final double RATIO = 0.5;
 
 
-    public ArrayList<Integer> calculateDishesListNEW() {
+    public ArrayList<Integer> calculateDishesList() {
         EventsController eventsController = new EventsController();
         DishesController dishesController = new DishesController();
 
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         Date today = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(today);

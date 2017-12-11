@@ -29,6 +29,8 @@ import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,6 +38,7 @@ import android.widget.LinearLayout;
 import com.bsalazar.kekomo.BuildConfig;
 import com.bsalazar.kekomo.R;
 import com.bsalazar.kekomo.bbdd.controllers.DishesController;
+import com.bsalazar.kekomo.bbdd.controllers.ProductController;
 import com.bsalazar.kekomo.bbdd.entities.Dish;
 import com.bsalazar.kekomo.general.Constants;
 import com.bsalazar.kekomo.general.FileSystem;
@@ -46,6 +49,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,6 +62,7 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
     private Activity activity;
     private LinearLayout edit_image_options;
     private LinearLayout camera_button, gallery_button, kekomo_galley_button, delete_image;
+    private AutoCompleteTextView ingredients_auto;
     private ImageView dish_image, edit_image;
     private EditText dish_name, dish_description, dish_preparation;
 
@@ -99,7 +104,14 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
         dish_name = (EditText) findViewById(R.id.dish_name);
         dish_description = (EditText) findViewById(R.id.dish_description);
         dish_preparation = (EditText) findViewById(R.id.dish_preparation);
+        ingredients_auto = (AutoCompleteTextView) findViewById(R.id.ingredients_auto);
 
+        try {
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ProductController().getAllProductNames());
+            ingredients_auto.setAdapter(adapter);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         edit_image.setOnClickListener(this);
         dish_image.setOnClickListener(this);

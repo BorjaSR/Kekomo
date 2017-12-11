@@ -58,19 +58,24 @@ public class DishesAdapter extends RecyclerView.Adapter<DishesAdapter.DishViewHo
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    Intent intent = new Intent(mContext, DishDetailActivity.class);
-                    intent.putExtra("DishID", dish.getId());
 
-                    ActivityOptions optionMultiple = ActivityOptions.makeSceneTransitionAnimation(mContext,
-                            Pair.create((View) holder.dish_image, holder.dish_image.getTransitionName()));
+                Intent intent = new Intent(mContext, DishDetailActivity.class);
+                intent.putExtra("DishID", dish.getId());
+                mContext.startActivity(intent);
 
-                    mContext.startActivityForResult(intent, MyDishesActivity.RESULT_EDIT,  optionMultiple.toBundle());
-                } else {
-                    Intent intent = new Intent(mContext, DishDetailActivity.class);
-                    intent.putExtra("DishID", dish.getId());
-                    mContext.startActivity(intent);
-                }
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                    Intent intent = new Intent(mContext, DishDetailActivity.class);
+//                    intent.putExtra("DishID", dish.getId());
+//
+//                    ActivityOptions optionMultiple = ActivityOptions.makeSceneTransitionAnimation(mContext,
+//                            Pair.create((View) holder.dish_image, holder.dish_image.getTransitionName()));
+//
+//                    mContext.startActivityForResult(intent, MyDishesActivity.RESULT_EDIT,  optionMultiple.toBundle());
+//                } else {
+//                    Intent intent = new Intent(mContext, DishDetailActivity.class);
+//                    intent.putExtra("DishID", dish.getId());
+//                    mContext.startActivity(intent);
+//                }
             }
         });
     }
