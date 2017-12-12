@@ -144,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             .replace(R.id.frame_container, electionFragment)
                             .addToBackStack(null)
                             .commit();
+
                     electionsShoed = true;
                 } else
                     Snackbar.make(button_comer, "Todavia no tienes platos guardados", Snackbar.LENGTH_SHORT).show();

@@ -142,6 +142,7 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/data_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -165,6 +166,47 @@
                     android:textStyle="bold" />
 
             </android.support.design.widget.TextInputLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextLabel"
+                    android:text="Ingredientes"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/ingredients_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginRight="16dp"
+                        android:src="@drawable/green_circle"/>
+
+                    <AutoCompleteTextView
+                        android:id="@+id/ingredients_auto"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:inputType = "text"
+                        android:imeOptions="actionNext"/>
+                </LinearLayout>
+
+            </LinearLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -195,18 +237,6 @@
                     android:hint="@string/preparation"/>
 
             </android.support.design.widget.TextInputLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/TextLabel"
-                android:text="Ingredientes"/>
-
-            <AutoCompleteTextView
-                android:id="@+id/ingredients_auto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
 
 
         </LinearLayout>

@@ -19,9 +19,13 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
+import android.transition.TransitionManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,27 +33,31 @@ import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
+import android.widget.TextView;
 
 import com.bsalazar.kekomo.BuildConfig;
 import com.bsalazar.kekomo.R;
 import com.bsalazar.kekomo.bbdd.controllers.DishesController;
 import com.bsalazar.kekomo.bbdd.controllers.ProductController;
 import com.bsalazar.kekomo.bbdd.entities.Dish;
+import com.bsalazar.kekomo.bbdd.entities.Product;
 import com.bsalazar.kekomo.general.Constants;
 import com.bsalazar.kekomo.general.FileSystem;
 import com.bsalazar.kekomo.general.GaleryActivity;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bsalazar.kekomo.ui_dishes.adapters.IngredientsAdapter;
+import com.bsalazar.kekomo.ui_dishes.adapters.ProductsAutoCompleteAdapter;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,11 +68,14 @@ import java.util.regex.Pattern;
 public class NewDishActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Activity activity;
-    private LinearLayout edit_image_options;
+    private LinearLayout edit_image_options, data_container;
     private LinearLayout camera_button, gallery_button, kekomo_galley_button, delete_image;
-    private AutoCompleteTextView ingredients_auto;
+    private AutoCompleteTextView ingredients_autoTextView;
     private ImageView dish_image, edit_image;
     private EditText dish_name, dish_description, dish_preparation;
+    private RecyclerView ingredients_recycler;
+    private IngredientsAdapter ingredientsAdapter;
+    private ArrayList<Product> ingredients;
 
     private final int GALERY_INPUT = 1;
     private final int CAMERA_INPUT = 2;
@@ -97,6 +108,7 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
         dish_image = (ImageView) findViewById(R.id.dish_image);
         edit_image = (ImageView) findViewById(R.id.edit_image);
         edit_image_options = (LinearLayout) findViewById(R.id.edit_image_options);
+        data_container = (LinearLayout) findViewById(R.id.data_container);
         camera_button = (LinearLayout) findViewById(R.id.camera_button);
         gallery_button = (LinearLayout) findViewById(R.id.gallery_button);
         kekomo_galley_button = (LinearLayout) findViewById(R.id.kekomo_galley_button);
@@ -104,11 +116,19 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
         dish_name = (EditText) findViewById(R.id.dish_name);
         dish_description = (EditText) findViewById(R.id.dish_description);
         dish_preparation = (EditText) findViewById(R.id.dish_preparation);
-        ingredients_auto = (AutoCompleteTextView) findViewById(R.id.ingredients_auto);
+        ingredients_autoTextView = (AutoCompleteTextView) findViewById(R.id.ingredients_auto);
+
+        ingredients_recycler = (RecyclerView) findViewById(R.id.ingredients_recycler);
+//        ingredients_recycler.setHasFixedSize(false);
+        ingredients_recycler.setLayoutManager(new LinearLayoutManager(this));
+
+        ingredients = new ArrayList<>();
+        ingredientsAdapter = new IngredientsAdapter(this, ingredients);
+        ingredients_recycler.setAdapter(ingredientsAdapter);
 
         try {
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ProductController().getAllProductNames());
-            ingredients_auto.setAdapter(adapter);
+            ProductsAutoCompleteAdapter adapter = new ProductsAutoCompleteAdapter(this, android.R.layout.simple_list_item_1, new ProductController().getAll());
+            ingredients_autoTextView.setAdapter(adapter);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -137,6 +157,47 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
 
             dish_image.setImageBitmap(new_image);
         }
+
+        ingredients_autoTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Product productSelected = (Product) ingredients_autoTextView.getAdapter().getItem(position);
+                ingredients.add(productSelected);
+                ingredientsAdapter.notifyItemInserted(ingredients.size() - 1);
+                ingredients_autoTextView.setText("");
+            }
+        });
+
+        ingredients_autoTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                Product product = new Product();
+                product.setName(ingredients_autoTextView.getText().toString());
+                product.setStock(1);
+                product.setType(Product.NOT_DEFINED);
+                product.setFrozen(false);
+
+//                product = new ProductController().add(product, Constants.database);
+
+                ingredients.add(product);
+                ingredientsAdapter.notifyItemInserted(ingredients.size() - 1);
+                ingredients_autoTextView.setText("");
+
+                return true;
+            }
+        });
+
+        ingredientsAdapter.setOnClickDelete(new IngredientsAdapter.OnClickDelete() {
+            @Override
+            public void onDeleteItem(Product product, int position) {
+                TransitionManager.beginDelayedTransition(data_container);
+
+                ingredients.remove(product);
+                ingredientsAdapter.notifyItemRemoved(position);
+            }
+        });
 
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(dish_name.getWindowToken(), 0);

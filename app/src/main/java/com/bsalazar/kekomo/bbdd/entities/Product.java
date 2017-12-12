@@ -8,6 +8,7 @@ import java.util.Date;
 
 public class Product {
 
+    public static final int NOT_DEFINED = -1;
     public static final int MEAT = 0;
     public static final int FISH = 1;
     public static final int VEGETABLE = 2;
