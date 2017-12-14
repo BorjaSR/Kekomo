@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:scaleType="centerCrop"
+        android:src="@drawable/background3"
         android:transitionName="shared_dish_image_item"/>
 
     <LinearLayout
@@ -23,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorAccentDark"
+            android:text="Huevos de Pascua"
             android:textSize="35sp"/>
 
 
@@ -31,10 +33,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/description"
-            android:textSize="20sp"
-            android:textColor="@color/colorAccent"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="2dp"/>
+            android:textSize="22sp"
+            android:textColor="@color/colorPrimaryMoreDark"
+            android:layout_marginTop="20dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,10 +56,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/preparation"
-            android:textSize="20sp"
-            android:textColor="@color/colorAccent"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="2dp"/>
+            android:textSize="22sp"
+            android:textColor="@color/colorPrimaryMoreDark"
+            android:layout_marginTop="20dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"

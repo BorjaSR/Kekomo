@@ -75,7 +75,6 @@ public class AddProductDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
 
-                snapHelper.findSnapView(linearLayoutManager).getTag();
                 Product product = new Product();
                 product.setName(((EditText) rootView.findViewById(R.id.product_name)).getText().toString());
                 product.setStock(1);

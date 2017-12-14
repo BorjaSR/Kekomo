@@ -26,10 +26,12 @@ import android.text.style.StyleSpan;
 import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
@@ -50,7 +52,6 @@ import com.bsalazar.kekomo.bbdd.entities.Product;
 import com.bsalazar.kekomo.general.Constants;
 import com.bsalazar.kekomo.general.FileSystem;
 import com.bsalazar.kekomo.general.GaleryActivity;
-import com.bsalazar.kekomo.ui_dishes.adapters.IngredientsAdapter;
 import com.bsalazar.kekomo.ui_dishes.adapters.ProductsAutoCompleteAdapter;
 
 import java.io.File;
@@ -68,13 +69,11 @@ import java.util.regex.Pattern;
 public class NewDishActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Activity activity;
-    private LinearLayout edit_image_options, data_container;
+    private LinearLayout edit_image_options, data_container, ingredients_container;
     private LinearLayout camera_button, gallery_button, kekomo_galley_button, delete_image;
     private AutoCompleteTextView ingredients_autoTextView;
     private ImageView dish_image, edit_image;
     private EditText dish_name, dish_description, dish_preparation;
-    private RecyclerView ingredients_recycler;
-    private IngredientsAdapter ingredientsAdapter;
     private ArrayList<Product> ingredients;
 
     private final int GALERY_INPUT = 1;
@@ -109,6 +108,7 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
         edit_image = (ImageView) findViewById(R.id.edit_image);
         edit_image_options = (LinearLayout) findViewById(R.id.edit_image_options);
         data_container = (LinearLayout) findViewById(R.id.data_container);
+        ingredients_container = (LinearLayout) findViewById(R.id.ingredients_container);
         camera_button = (LinearLayout) findViewById(R.id.camera_button);
         gallery_button = (LinearLayout) findViewById(R.id.gallery_button);
         kekomo_galley_button = (LinearLayout) findViewById(R.id.kekomo_galley_button);
@@ -117,14 +117,9 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
         dish_description = (EditText) findViewById(R.id.dish_description);
         dish_preparation = (EditText) findViewById(R.id.dish_preparation);
         ingredients_autoTextView = (AutoCompleteTextView) findViewById(R.id.ingredients_auto);
-
-        ingredients_recycler = (RecyclerView) findViewById(R.id.ingredients_recycler);
-//        ingredients_recycler.setHasFixedSize(false);
-        ingredients_recycler.setLayoutManager(new LinearLayoutManager(this));
+;
 
         ingredients = new ArrayList<>();
-        ingredientsAdapter = new IngredientsAdapter(this, ingredients);
-        ingredients_recycler.setAdapter(ingredientsAdapter);
 
         try {
             ProductsAutoCompleteAdapter adapter = new ProductsAutoCompleteAdapter(this, android.R.layout.simple_list_item_1, new ProductController().getAll());
@@ -163,9 +158,7 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Product productSelected = (Product) ingredients_autoTextView.getAdapter().getItem(position);
-                ingredients.add(productSelected);
-                ingredientsAdapter.notifyItemInserted(ingredients.size() - 1);
-                ingredients_autoTextView.setText("");
+                addIngredient(productSelected);
             }
         });
 
@@ -181,30 +174,15 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
 
 //                product = new ProductController().add(product, Constants.database);
 
-                ingredients.add(product);
-                ingredientsAdapter.notifyItemInserted(ingredients.size() - 1);
-                ingredients_autoTextView.setText("");
+                addIngredient(product);
 
                 return true;
-            }
-        });
-
-        ingredientsAdapter.setOnClickDelete(new IngredientsAdapter.OnClickDelete() {
-            @Override
-            public void onDeleteItem(Product product, int position) {
-                TransitionManager.beginDelayedTransition(data_container);
-
-                ingredients.remove(product);
-                ingredientsAdapter.notifyItemRemoved(position);
             }
         });
 
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(dish_name.getWindowToken(), 0);
     }
-
-
-    boolean edited = false;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -242,8 +220,6 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
             case R.id.camera_button:
-//                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                startActivityForResult(takePictureIntent, CAMERA_INPUT);
                 dispatchTakePictureIntent();
                 hideImageOption();
                 break;
@@ -272,6 +248,39 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
             hideImageOption();
         else
             super.onBackPressed();
+    }
+
+    private void addIngredient(final Product product){
+        ingredients.add(product);
+        ingredients_autoTextView.setText("");
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        ViewGroup ingredientView = (ViewGroup) inflater.inflate(R.layout.ingredient_item, null);
+
+        ((TextView) ingredientView.findViewById(R.id.ingredient_name)).setText(product.getName());
+        ingredientView.findViewById(R.id.delete_ingredient).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeIngredient(product);
+            }
+        });
+
+        ingredientView.setTag(product);
+
+        TransitionManager.beginDelayedTransition(data_container);
+        ingredients_container.addView(ingredientView);
+    }
+
+    private void removeIngredient(Product product){
+        ingredients.remove(product);
+
+        for (int i = 0; i < ingredients_container.getChildCount(); i++){
+            View childView = ingredients_container.getChildAt(i);
+            if(product == childView.getTag()){
+                TransitionManager.beginDelayedTransition(data_container);
+                ingredients_container.removeView(childView);
+            }
+        }
     }
 
     private void showImageOption() {
@@ -323,31 +332,6 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
             finish();
         } else
             Snackbar.make(dish_image, "El nombre es obligatorio", Snackbar.LENGTH_SHORT).show();
-    }
-
-
-    private void showImageDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getString(R.string.ask_image))
-                .setPositiveButton(getString(R.string.camera), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(takePictureIntent, CAMERA_INPUT);
-
-                    }
-                })
-                .setNegativeButton(getString(R.string.gallery), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                        openGalery();
-                    }
-                });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 
     public void openGalery() {
@@ -459,26 +443,6 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
         anim.start();
     }
 
-    private void hashtagRecognizer() {
-        if (!edited) {
-            String text = dish_description.getText().toString();
-            SpannableString hashText = new SpannableString(text);
-            Matcher matcher = Pattern.compile("#([A-Za-z0-9_-]+)").matcher(hashText);
-
-            while (matcher.find()) {
-                hashText.setSpan(new StyleSpan(Typeface.BOLD), matcher.start(), matcher.end(), 0);
-                String tag = matcher.group(0);
-            }
-
-            edited = true;
-            dish_description.setText(hashText);
-        } else {
-            edited = false;
-            dish_description.setSelection(dish_description.getText().length());
-        }
-    }
-
-
     private String mCurrentPhotoPath;
 
     private void dispatchTakePictureIntent() {
@@ -494,7 +458,6 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
 
         startActivityForResult(takePictureIntent, CAMERA_INPUT);
     }
-
 
     private Uri getOutputMediaFileUri() {
         //check for external storage
@@ -527,20 +490,6 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
         String state = Environment.getExternalStorageState();
         return Environment.MEDIA_MOUNTED.equals(state);
     }
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String imageFileName = "temp.jpeg";
-        File albumF = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File imageF = new File(albumF.getPath() + "/" + imageFileName);
-
-        if (imageF.exists()) {
-            imageF.delete();
-        }
-        Boolean res = imageF.createNewFile();
-        return imageF;
-    }
-
 
     private Bitmap handleBigCameraPhoto() {
         Bitmap bitmap = null;

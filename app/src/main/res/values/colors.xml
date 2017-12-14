@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#fff</color>
-    <color name="colorPrimaryDark">#f7f7f7</color>
-    <color name="colorAccent">#6ac680</color>
-    <!--<color name="colorPrimary">#4CAF50</color>-->
-    <!--<color name="colorPrimaryDark">#388E3C</color>-->
-    <!--<color name="colorAccent">#03A9F4</color>-->
-
-    <color name="colorAccentMoreDark">#287c3c</color>
-    <color name="colorAccentDark">#49a760</color>
-    <color name="colorAccentLight">#96daa6</color>
-    <color name="colorAccentExtraLight">#caecd1</color>
+    <!--<color name="colorPrimary">#fff</color>-->
+    <!--<color name="colorPrimaryDark">#f7f7f7</color>-->
+    <!--<color name="colorAccent">#6ac680</color>-->
+    <color name="colorPrimary">#4dd0e1</color>
+    <!--<color name="colorPrimary">#00bcd4</color>-->
+    <color name="colorPrimaryDark">#00acc1</color>
+    <color name="colorPrimaryMoreDark">#01808f</color>
+    <color name="colorAccent">#FF5252</color>
+<!---->
+    <color name="colorAccentMoreDark">#d91d2d</color>
+    <color name="colorAccentDark">#e9373e</color>
+    <color name="colorAccentLight">#ff8a80</color>
+    <color name="colorAccentExtraLight">#fdaba4</color>
 
 
     <color name="alpha">#0000</color>
-    <color name="alpha_colorAccent">#8896daa6</color>
-    <color name="alpha2_colorAccent">#5596daa6</color>
+    <color name="alpha_colorAccent">#88FF5252</color>
+    <color name="alpha2_colorAccent">#55FF5252</color>
     <color name="alpha_charcoal">#88434343</color>
 
     <color name="alpha_white">#AFFF</color>
     <color name="white">#FFF</color>
     <color name="red_text">#e15858</color>
-    <color name="accent_text">#59bc71</color>
+    <color name="accent_text">#f27a73</color>
     <color name="primary_text">#212121</color>
     <color name="charcoal_gray">#434343</color>
     <color name="secondary_text">#757575</color>

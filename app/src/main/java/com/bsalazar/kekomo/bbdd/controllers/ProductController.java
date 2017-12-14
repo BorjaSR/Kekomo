@@ -68,6 +68,7 @@ public class ProductController {
                 ContentValues values = setObject(product);
 
                 if (values != null) {
+//                    values.put(ProductTable.CREATED, Tools.parseDateToSQL(product.getCreated()));
                     values.put(ProductTable.UPDATED, Tools.parseDateToSQL(new Date(System.currentTimeMillis())));
 
                     //UPDATE
