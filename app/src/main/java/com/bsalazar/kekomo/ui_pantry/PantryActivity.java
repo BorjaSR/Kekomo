@@ -1,31 +1,19 @@
 package com.bsalazar.kekomo.ui_pantry;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.CompoundButton;
-import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.Switch;
-import android.widget.TextView;
 
 import com.bsalazar.kekomo.R;
 import com.bsalazar.kekomo.bbdd.controllers.ProductController;
-import com.bsalazar.kekomo.bbdd.entities.Product;
+import com.bsalazar.kekomo.bbdd_room.entities.Product;
 import com.bsalazar.kekomo.general.Constants;
 
 import java.text.ParseException;

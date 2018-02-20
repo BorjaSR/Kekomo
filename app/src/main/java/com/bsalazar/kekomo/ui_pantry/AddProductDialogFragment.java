@@ -6,14 +6,10 @@ import android.app.DialogFragment;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.BaseTransientBottomBar;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +20,7 @@ import android.widget.Toast;
 
 import com.bsalazar.kekomo.R;
 import com.bsalazar.kekomo.bbdd.controllers.ProductController;
-import com.bsalazar.kekomo.bbdd.entities.Product;
+import com.bsalazar.kekomo.bbdd_room.entities.Product;
 import com.bsalazar.kekomo.general.Constants;
 
 /**

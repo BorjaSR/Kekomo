@@ -1,11 +1,8 @@
 package com.bsalazar.kekomo.ui_dishes.adapters;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Intent;
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bsalazar.kekomo.R;
-import com.bsalazar.kekomo.bbdd.entities.Dish;
+import com.bsalazar.kekomo.bbdd_room.entities.Dish;
 import com.bsalazar.kekomo.general.FileSystem;
 import com.bsalazar.kekomo.ui_dishes.DishDetailActivity;
-import com.bsalazar.kekomo.ui_dishes.MyDishesActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 

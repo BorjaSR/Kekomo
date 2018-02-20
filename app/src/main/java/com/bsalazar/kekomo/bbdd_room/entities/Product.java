@@ -1,4 +1,11 @@
-package com.bsalazar.kekomo.bbdd.entities;
+package com.bsalazar.kekomo.bbdd_room.entities;
+
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
@@ -6,25 +13,50 @@ import java.util.Date;
  * Created by bsalazar on 13/10/17.
  */
 
+@Entity(tableName = "Products")
 public class Product {
 
+    @Ignore
     public static final int NOT_DEFINED = -1;
+    @Ignore
     public static final int MEAT = 0;
+    @Ignore
     public static final int FISH = 1;
+    @Ignore
     public static final int VEGETABLE = 2;
+    @Ignore
     public static final int DAIRY = 3;
+    @Ignore
     public static final int SAUCE = 4;
+    @Ignore
     public static final int FRUIT = 5;
 
+    @PrimaryKey
+    @SerializedName("productID")
+    @Expose
     private int id;
+    @SerializedName("name")
+    @Expose
     private String name;
+    @SerializedName("type")
+    @Expose
     private int type;
+    @SerializedName("stock")
+    @Expose
     private int stock;
+    @SerializedName("frozen")
+    @Expose
     private boolean frozen;
 
 
+    @SerializedName("created")
+    @Expose
     private Date created;
+    @SerializedName("updated")
+    @Expose
     private Date updated;
+    @SerializedName("deleted")
+    @Expose
     private boolean deleted;
 
     public Product() {

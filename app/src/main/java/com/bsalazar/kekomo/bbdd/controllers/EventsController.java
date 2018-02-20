@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.bsalazar.kekomo.bbdd.entities.Event;
+import com.bsalazar.kekomo.bbdd_room.entities.Event;
 import com.bsalazar.kekomo.bbdd.tables.EventTable;
 import com.bsalazar.kekomo.general.Constants;
 import com.bsalazar.kekomo.general.Tools;

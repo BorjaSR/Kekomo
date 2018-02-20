@@ -1,18 +1,12 @@
 package com.bsalazar.kekomo.general;
 
-import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.util.SparseArray;
-import android.util.SparseIntArray;
-import android.widget.Toast;
 
-import com.bsalazar.kekomo.MainActivity;
 import com.bsalazar.kekomo.bbdd.controllers.DishesController;
 import com.bsalazar.kekomo.bbdd.controllers.EventsController;
-import com.bsalazar.kekomo.bbdd.entities.Dish;
-import com.bsalazar.kekomo.bbdd.entities.Event;
+import com.bsalazar.kekomo.bbdd_room.entities.Dish;
+import com.bsalazar.kekomo.bbdd_room.entities.Event;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;

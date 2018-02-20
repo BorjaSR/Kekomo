@@ -2,16 +2,11 @@ package com.bsalazar.kekomo.ui_dishes;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.transition.Fade;
 import android.transition.Slide;
 import android.view.Gravity;
 import android.view.Menu;
@@ -21,12 +16,10 @@ import android.widget.TextView;
 
 import com.bsalazar.kekomo.R;
 import com.bsalazar.kekomo.bbdd.controllers.DishesController;
-import com.bsalazar.kekomo.bbdd.entities.Dish;
+import com.bsalazar.kekomo.bbdd_room.entities.Dish;
 import com.bsalazar.kekomo.general.FileSystem;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
-import java.io.IOException;
 
 /**
  * Created by bsalazar on 20/07/2017.

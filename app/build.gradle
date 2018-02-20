@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.bsalazar.kekomo"
         minSdkVersion 19
-        targetSdkVersion 24
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -24,16 +24,21 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.4.0'
-    compile 'com.android.support:design:25.4.0'
-    compile 'com.android.support.constraint:constraint-layout:1.1.0-beta3'
+    //noinspection GradleCompatible
+    compile "com.android.support:appcompat-v7:$supportLibraryVersion"
+    //noinspection GradleCompatible
+    compile "com.android.support:design:$supportLibraryVersion"
+    compile 'com.android.support.constraint:constraint-layout:1.1.0-beta5'
     testCompile 'junit:junit:4.12'
-    compile 'com.google.code.gson:gson:2.8.0'
-
+    compile 'com.google.code.gson:gson:2.8.1'
 
     //GLIDE
     compile 'com.github.bumptech.glide:glide:3.7.0'
 
     //CIRCLE IMAGEVIEW
     compile 'de.hdodenhof:circleimageview:2.1.0'
+
+    //Room
+    compile "android.arch.persistence.room:runtime:$roomVersion"
+    annotationProcessor "android.arch.persistence.room:compiler:$roomVersion"
 }

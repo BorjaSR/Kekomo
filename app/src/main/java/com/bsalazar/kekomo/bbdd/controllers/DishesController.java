@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.bsalazar.kekomo.bbdd.entities.Dish;
+import com.bsalazar.kekomo.bbdd_room.entities.Dish;
 import com.bsalazar.kekomo.bbdd.tables.DishesTable;
 import com.bsalazar.kekomo.general.Constants;
 import com.bsalazar.kekomo.general.Tools;

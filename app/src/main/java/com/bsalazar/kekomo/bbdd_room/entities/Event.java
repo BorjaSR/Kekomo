@@ -1,4 +1,11 @@
-package com.bsalazar.kekomo.bbdd.entities;
+package com.bsalazar.kekomo.bbdd_room.entities;
+
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.PrimaryKey;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
@@ -6,15 +13,34 @@ import java.util.Date;
  * Created by bsalazar on 26/06/2017.
  */
 
+@Entity(tableName = "Events")
 public class Event {
 
+    @PrimaryKey
+    @SerializedName("eventID")
+    @Expose
     private int id;
+    @ForeignKey(entity = Dish.class,
+            parentColumns = "dishID",
+            childColumns = "DishId")
+    @SerializedName("DishId")
+    @Expose
     private int DishId;
+    @SerializedName("Date")
+    @Expose
     private String Date;
+    @SerializedName("type")
+    @Expose
     private int type;
 
+    @SerializedName("created")
+    @Expose
     private Date created;
+    @SerializedName("updated")
+    @Expose
     private Date updated;
+    @SerializedName("deleted")
+    @Expose
     private boolean deleted;
 
     public Event() {

@@ -6,16 +6,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.bsalazar.kekomo.bbdd.entities.Dish;
-import com.bsalazar.kekomo.bbdd.entities.Event;
-import com.bsalazar.kekomo.bbdd.entities.Product;
-import com.bsalazar.kekomo.bbdd.tables.DishesTable;
-import com.bsalazar.kekomo.bbdd.tables.EventTable;
+import com.bsalazar.kekomo.bbdd_room.entities.Product;
 import com.bsalazar.kekomo.bbdd.tables.ProductTable;
 import com.bsalazar.kekomo.general.Constants;
 import com.bsalazar.kekomo.general.Tools;
 
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;

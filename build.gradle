@@ -23,9 +23,16 @@ allprojects {
             url 'https://maven.google.com/'
             name 'Google'
         }
+        google()
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    supportLibraryVersion = '27.0.2'
+
+    roomVersion = '1.0.0'
 }

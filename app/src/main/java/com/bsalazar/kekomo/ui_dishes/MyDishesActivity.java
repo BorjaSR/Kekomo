@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.bsalazar.kekomo.R;
 import com.bsalazar.kekomo.bbdd.controllers.DishesController;
-import com.bsalazar.kekomo.bbdd.entities.Dish;
+import com.bsalazar.kekomo.bbdd_room.entities.Dish;
 import com.bsalazar.kekomo.ui_dishes.adapters.DishesAdapter;
 
 import java.util.ArrayList;

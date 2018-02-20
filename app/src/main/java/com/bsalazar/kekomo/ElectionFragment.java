@@ -12,11 +12,10 @@ import android.widget.TextView;
 
 import com.bsalazar.kekomo.bbdd.controllers.DishesController;
 import com.bsalazar.kekomo.bbdd.controllers.EventsController;
-import com.bsalazar.kekomo.bbdd.entities.Dish;
-import com.bsalazar.kekomo.bbdd.entities.Event;
+import com.bsalazar.kekomo.bbdd_room.entities.Dish;
+import com.bsalazar.kekomo.bbdd_room.entities.Event;
 import com.bsalazar.kekomo.general.Constants;
 import com.bsalazar.kekomo.general.FileSystem;
-import com.bsalazar.kekomo.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 

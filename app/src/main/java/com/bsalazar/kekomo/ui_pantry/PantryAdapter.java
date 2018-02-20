@@ -1,24 +1,16 @@
 package com.bsalazar.kekomo.ui_pantry;
 
 import android.app.Activity;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.bsalazar.kekomo.R;
-import com.bsalazar.kekomo.bbdd.entities.Product;
+import com.bsalazar.kekomo.bbdd_room.entities.Product;
 
 import java.util.ArrayList;
 
