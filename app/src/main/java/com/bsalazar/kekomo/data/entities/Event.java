@@ -1,4 +1,4 @@
-package com.bsalazar.kekomo.bbdd_room.entities;
+package com.bsalazar.kekomo.data.entities;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
@@ -7,8 +7,6 @@ import android.arch.persistence.room.PrimaryKey;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
-
 /**
  * Created by bsalazar on 26/06/2017.
  */
@@ -16,16 +14,16 @@ import java.util.Date;
 @Entity(tableName = "Events")
 public class Event {
 
-    @PrimaryKey
-    @SerializedName("eventID")
+    @PrimaryKey(autoGenerate = true)
+    @SerializedName("id")
     @Expose
     private int id;
     @ForeignKey(entity = Dish.class,
-            parentColumns = "dishID",
-            childColumns = "DishId")
-    @SerializedName("DishId")
+            parentColumns = "id",
+            childColumns = "dishID")
+    @SerializedName("dishID")
     @Expose
-    private int DishId;
+    private int dishID;
     @SerializedName("Date")
     @Expose
     private String Date;
@@ -35,10 +33,10 @@ public class Event {
 
     @SerializedName("created")
     @Expose
-    private Date created;
+    private Long created;
     @SerializedName("updated")
     @Expose
-    private Date updated;
+    private Long updated;
     @SerializedName("deleted")
     @Expose
     private boolean deleted;
@@ -54,12 +52,12 @@ public class Event {
         this.id = id;
     }
 
-    public int getDishId() {
-        return DishId;
+    public int getDishID() {
+        return dishID;
     }
 
-    public void setDishId(int dishId) {
-        DishId = dishId;
+    public void setDishID(int dishID) {
+        this.dishID = dishID;
     }
 
     public String getDate() {
@@ -78,19 +76,19 @@ public class Event {
         this.type = type;
     }
 
-    public java.util.Date getCreated() {
+    public Long getCreated() {
         return created;
     }
 
-    public void setCreated(java.util.Date created) {
+    public void setCreated(Long created) {
         this.created = created;
     }
 
-    public java.util.Date getUpdated() {
+    public Long getUpdated() {
         return updated;
     }
 
-    public void setUpdated(java.util.Date updated) {
+    public void setUpdated(Long updated) {
         this.updated = updated;
     }
 

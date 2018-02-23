@@ -1,4 +1,4 @@
-package com.bsalazar.kekomo.bbdd_room.entities;
+package com.bsalazar.kekomo.data.entities;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
@@ -6,8 +6,6 @@ import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.Date;
 
 /**
  * Created by bsalazar on 13/10/17.
@@ -31,8 +29,8 @@ public class Product {
     @Ignore
     public static final int FRUIT = 5;
 
-    @PrimaryKey
-    @SerializedName("productID")
+    @PrimaryKey(autoGenerate = true)
+    @SerializedName("id")
     @Expose
     private int id;
     @SerializedName("name")
@@ -51,10 +49,10 @@ public class Product {
 
     @SerializedName("created")
     @Expose
-    private Date created;
+    private Long created;
     @SerializedName("updated")
     @Expose
-    private Date updated;
+    private Long updated;
     @SerializedName("deleted")
     @Expose
     private boolean deleted;
@@ -102,19 +100,19 @@ public class Product {
         this.frozen = frozen;
     }
 
-    public Date getCreated() {
+    public Long getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(Long created) {
         this.created = created;
     }
 
-    public Date getUpdated() {
+    public Long getUpdated() {
         return updated;
     }
 
-    public void setUpdated(Date updated) {
+    public void setUpdated(Long updated) {
         this.updated = updated;
     }
 

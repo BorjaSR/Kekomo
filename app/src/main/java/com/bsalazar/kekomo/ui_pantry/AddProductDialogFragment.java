@@ -19,9 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bsalazar.kekomo.R;
-import com.bsalazar.kekomo.bbdd.controllers.ProductController;
-import com.bsalazar.kekomo.bbdd_room.entities.Product;
-import com.bsalazar.kekomo.general.Constants;
+import com.bsalazar.kekomo.data.LocalDataSource;
+import com.bsalazar.kekomo.data.entities.Product;
 
 /**
  * Created by bsalazar on 10/05/2017.
@@ -77,7 +76,8 @@ public class AddProductDialogFragment extends DialogFragment {
                 product.setType((int) snapHelper.findSnapView(linearLayoutManager).getTag());
                 product.setFrozen(((Switch) rootView.findViewById(R.id.switch_product_frozen)).isChecked());
 
-                product = new ProductController().add(product, Constants.database);
+                int productID = (int) LocalDataSource.getInstance(getContext()).saveProduct(product);
+                product = LocalDataSource.getInstance(getContext()).getProductByID(productID);
                 if (product != null)
                     ((PantryActivity) getActivity()).insertProduct(product);
                 else

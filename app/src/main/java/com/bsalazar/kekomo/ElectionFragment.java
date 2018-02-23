@@ -10,10 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bsalazar.kekomo.bbdd.controllers.DishesController;
-import com.bsalazar.kekomo.bbdd.controllers.EventsController;
-import com.bsalazar.kekomo.bbdd_room.entities.Dish;
-import com.bsalazar.kekomo.bbdd_room.entities.Event;
+import com.bsalazar.kekomo.data.LocalDataSource;
+import com.bsalazar.kekomo.data.entities.Dish;
+import com.bsalazar.kekomo.data.entities.Event;
 import com.bsalazar.kekomo.general.Constants;
 import com.bsalazar.kekomo.general.FileSystem;
 import com.bumptech.glide.Glide;
@@ -76,9 +75,9 @@ public class ElectionFragment extends Fragment implements View.OnClickListener{
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-                Dish dish = new DishesController().getByID(dishes.get(actual_dish));
+                Dish dish = LocalDataSource.getInstance(mContext).getDishByID(dishes.get(actual_dish));
                 Event event = new Event();
-                event.setDishId(dish.getId());
+                event.setDishID(dish.getId());
                 event.setDate(dateFormat.format(new Date()));
 
                 if (new Date().getHours() <= Constants.LUNCH_TIME)
@@ -86,7 +85,7 @@ public class ElectionFragment extends Fragment implements View.OnClickListener{
                 else
                     event.setType(Constants.DISH_TYPE_DINNER);
 
-                new EventsController().add(event, Constants.database);
+                LocalDataSource.getInstance(mContext).saveEvent(event);
 
                 ((MainActivity) getActivity()).configUI();
                 getActivity().onBackPressed();
@@ -96,7 +95,7 @@ public class ElectionFragment extends Fragment implements View.OnClickListener{
 
     private void configureLayout() {
 
-        Dish dish = new DishesController().getByID(dishes.get(actual_dish));
+        Dish dish = LocalDataSource.getInstance(mContext).getDishByID(dishes.get(actual_dish));
 
         Glide.with(mContext)
                 .load(FileSystem.getInstance(mContext).IMAGES_PATH + dish.getImage())

@@ -2,10 +2,9 @@ package com.bsalazar.kekomo.general;
 
 import android.util.Log;
 
-import com.bsalazar.kekomo.bbdd.controllers.DishesController;
-import com.bsalazar.kekomo.bbdd.controllers.EventsController;
-import com.bsalazar.kekomo.bbdd_room.entities.Dish;
-import com.bsalazar.kekomo.bbdd_room.entities.Event;
+import com.bsalazar.kekomo.data.LocalDataSource;
+import com.bsalazar.kekomo.data.entities.Dish;
+import com.bsalazar.kekomo.data.entities.Event;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,9 +28,7 @@ public class ElectionAlgorithm {
 
 
     public ArrayList<Integer> calculateDishesList() {
-        EventsController eventsController = new EventsController();
-        DishesController dishesController = new DishesController();
-
+        LocalDataSource localDataSource = LocalDataSource.getInstance(null);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         Date today = new Date();
@@ -41,16 +38,16 @@ public class ElectionAlgorithm {
         HashMap<Double, Double> dishes_punctuation = new HashMap<>();
 
         //Check today dishes
-        ArrayList<Event> eventsOfToday= eventsController.getForDate(dateFormat.format(calendar.getTime()));
+        ArrayList<Event> eventsOfToday = (ArrayList<Event>) localDataSource.getEventsByDate(dateFormat.format(calendar.getTime()));
         if (eventsOfToday.size() > 0) {
             for (Event event : eventsOfToday) {
                 double punctuation = MAX_PUNCTUATION / (Math.pow(0.25, RATIO));
 
-                if (!dishes_punctuation.containsKey((double) event.getDishId())) {
-                    dishes_punctuation.put((double) event.getDishId(), punctuation);
+                if (!dishes_punctuation.containsKey((double) event.getDishID())) {
+                    dishes_punctuation.put((double) event.getDishID(), punctuation);
                 } else {
-                    double old_punct = dishes_punctuation.get((double) event.getDishId());
-                    dishes_punctuation.put((double) event.getDishId(), old_punct + punctuation);
+                    double old_punct = dishes_punctuation.get((double) event.getDishID());
+                    dishes_punctuation.put((double) event.getDishID(), old_punct + punctuation);
                 }
             }
         }
@@ -59,11 +56,11 @@ public class ElectionAlgorithm {
         //Evaluate the previous events (1 year)
         for (int i = 1; i <= 365; i++) {
             calendar.add(Calendar.DATE, -1);
-            ArrayList<Event> eventsOfDate = eventsController.getForDate(dateFormat.format(calendar.getTime()));
+            ArrayList<Event> eventsOfDate = (ArrayList<Event>) localDataSource.getEventsByDate(dateFormat.format(calendar.getTime()));
 
             if (eventsOfDate.size() > 0) {
                 for (Event event : eventsOfDate) {
-                    Log.d("[HAY PLATO]", dateFormat.format(calendar.getTime()) + " " + dishesController.getByID(event.getDishId()).getId() + " " + dishesController.getByID(event.getDishId()).getName());
+                    Log.d("[HAY PLATO]", dateFormat.format(calendar.getTime()) + " " + localDataSource.getDishByID(event.getDishID()).getId() + " " + localDataSource.getDishByID(event.getDishID()).getName());
 
                     double variable = i;
                     if (event.getType() == Constants.DISH_TYPE_DINNER)
@@ -71,11 +68,11 @@ public class ElectionAlgorithm {
 
                     double punctuation = MAX_PUNCTUATION / (Math.pow(variable, RATIO));
 
-                    if (!dishes_punctuation.containsKey((double) event.getDishId())) {
-                        dishes_punctuation.put((double) event.getDishId(), punctuation);
+                    if (!dishes_punctuation.containsKey((double) event.getDishID())) {
+                        dishes_punctuation.put((double) event.getDishID(), punctuation);
                     } else {
-                        double old_punct = dishes_punctuation.get((double) event.getDishId());
-                        dishes_punctuation.put((double) event.getDishId(), old_punct + punctuation);
+                        double old_punct = dishes_punctuation.get((double) event.getDishID());
+                        dishes_punctuation.put((double) event.getDishID(), old_punct + punctuation);
                     }
                 }
             }
@@ -86,7 +83,7 @@ public class ElectionAlgorithm {
         calendar.setTime(today);
         for (int i = 1; i <= 365; i++) {
             calendar.add(Calendar.DATE, 1);
-            ArrayList<Event> eventsOfDate = eventsController.getForDate(dateFormat.format(calendar.getTime()));
+            ArrayList<Event> eventsOfDate = (ArrayList<Event>) localDataSource.getEventsByDate(dateFormat.format(calendar.getTime()));
 
             if (eventsOfDate.size() > 0) {
                 for (Event event : eventsOfDate) {
@@ -98,18 +95,18 @@ public class ElectionAlgorithm {
 
                     double punctuation = MAX_PUNCTUATION / (Math.pow(variable, RATIO));
 
-                    if (!dishes_punctuation.containsKey((double) event.getDishId())) {
-                        dishes_punctuation.put((double) event.getDishId(), punctuation);
+                    if (!dishes_punctuation.containsKey((double) event.getDishID())) {
+                        dishes_punctuation.put((double) event.getDishID(), punctuation);
                     } else {
-                        double old_punct = dishes_punctuation.get((double) event.getDishId());
-                        dishes_punctuation.put((double) event.getDishId(), old_punct + punctuation);
+                        double old_punct = dishes_punctuation.get((double) event.getDishID());
+                        dishes_punctuation.put((double) event.getDishID(), old_punct + punctuation);
                     }
                 }
             }
         }
 
         //Evaluate the non appear dishes
-        ArrayList<Dish> dishes = dishesController.getAll();
+        ArrayList<Dish> dishes = (ArrayList<Dish>) localDataSource.getAllDishes();
         for (Dish dish : dishes) {
             if (!dishes_punctuation.containsKey((double) dish.getId()))
                 dishes_punctuation.put((double) dish.getId(), 0d);

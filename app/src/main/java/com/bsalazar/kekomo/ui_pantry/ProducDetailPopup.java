@@ -12,7 +12,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.bsalazar.kekomo.R;
-import com.bsalazar.kekomo.bbdd_room.entities.Product;
+import com.bsalazar.kekomo.data.entities.Product;
 
 /**
  * Created by bsalazar on 20/10/17.

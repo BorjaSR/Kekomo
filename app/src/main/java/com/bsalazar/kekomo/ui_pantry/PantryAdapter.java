@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bsalazar.kekomo.R;
-import com.bsalazar.kekomo.bbdd_room.entities.Product;
+import com.bsalazar.kekomo.data.entities.Product;
 
 import java.util.ArrayList;
 

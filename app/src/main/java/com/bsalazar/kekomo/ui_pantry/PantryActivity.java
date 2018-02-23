@@ -12,18 +12,16 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.bsalazar.kekomo.R;
-import com.bsalazar.kekomo.bbdd.controllers.ProductController;
-import com.bsalazar.kekomo.bbdd_room.entities.Product;
-import com.bsalazar.kekomo.general.Constants;
+import com.bsalazar.kekomo.data.LocalDataSource;
+import com.bsalazar.kekomo.data.entities.Product;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
  * Created by bsalazar on 13/10/17.
  */
 
-public class PantryActivity  extends AppCompatActivity {
+public class PantryActivity extends AppCompatActivity {
 
     private final int NUM_GRID_COLUMS = 3;
 
@@ -45,12 +43,7 @@ public class PantryActivity  extends AppCompatActivity {
 
         shadow = (LinearLayout) findViewById(R.id.shadow);
 
-        try {
-            products = new ProductController().getAll();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
+        products = (ArrayList<Product>) LocalDataSource.getInstance(this).getAllProducts();
 
         rvProducts = (RecyclerView) findViewById(R.id.rvProducts);
         rvProducts.setLayoutManager(new GridLayoutManager(this, NUM_GRID_COLUMS));
@@ -59,9 +52,9 @@ public class PantryActivity  extends AppCompatActivity {
         rvProducts.setAdapter(adapter);
     }
 
-    public void insertProduct(Product product){
+    public void insertProduct(Product product) {
         products.add(product);
-        adapter.notifyItemInserted(products.size()-1);
+        adapter.notifyItemInserted(products.size() - 1);
     }
 
     @Override
@@ -87,13 +80,14 @@ public class PantryActivity  extends AppCompatActivity {
 
 
     boolean isDelete = false;
+
     public void displayPopupWindow(View anchorView, final int index) {
 
         final ProducDetailPopup popupWindow = new ProducDetailPopup(this, anchorView, index, products.get(index));
         popupWindow.setOnClickDelete(new ProducDetailPopup.OnClickDelete() {
             @Override
             public void onDeleteItem(Product product) {
-                new ProductController().deleteByID(product.getId());
+                LocalDataSource.getInstance(getApplicationContext()).deleteProduct(product);
                 products.remove(index);
                 adapter.notifyItemRemoved(index);
                 isDelete = true;
@@ -104,8 +98,8 @@ public class PantryActivity  extends AppCompatActivity {
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                if(!isDelete){
-                    new ProductController().update(products.get(index), Constants.database);
+                if (!isDelete) {
+                    LocalDataSource.getInstance(PantryActivity.this).updateProduct(products.get(index));
                     adapter.notifyItemChanged(index);
                 } else
                     isDelete = false;

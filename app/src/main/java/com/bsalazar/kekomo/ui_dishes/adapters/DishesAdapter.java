@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bsalazar.kekomo.R;
-import com.bsalazar.kekomo.bbdd_room.entities.Dish;
+import com.bsalazar.kekomo.data.entities.Dish;
 import com.bsalazar.kekomo.general.FileSystem;
 import com.bsalazar.kekomo.ui_dishes.DishDetailActivity;
 import com.bumptech.glide.Glide;

@@ -14,7 +14,7 @@ public class Constants {
 
     public static int LUNCH_TIME = 15;
 
-    public static SQLiteDatabase database;
+//    public static SQLiteDatabase database;
 
     public static final int PERMISSION_RESULT_WRITE_EXTERNAL_STORAGE = 1;
 }

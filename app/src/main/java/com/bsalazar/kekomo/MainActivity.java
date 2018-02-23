@@ -13,11 +13,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bsalazar.kekomo.bbdd.SQLiteHelper;
-import com.bsalazar.kekomo.bbdd.controllers.DishesController;
-import com.bsalazar.kekomo.bbdd.controllers.EventsController;
-import com.bsalazar.kekomo.bbdd_room.entities.Dish;
-import com.bsalazar.kekomo.bbdd_room.entities.Event;
+import com.bsalazar.kekomo.data.LocalDataSource;
+import com.bsalazar.kekomo.data.entities.Dish;
+import com.bsalazar.kekomo.data.entities.Event;
 import com.bsalazar.kekomo.general.Constants;
 import com.bsalazar.kekomo.general.ElectionAlgorithm;
 import com.bsalazar.kekomo.general.FileSystem;
@@ -27,10 +25,10 @@ import com.bsalazar.kekomo.ui_dishes.NewDishActivity;
 import com.bsalazar.kekomo.ui_pantry.PantryActivity;
 import com.bumptech.glide.Glide;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -44,9 +42,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        SQLiteHelper sqLiteHelper = new SQLiteHelper(this);
-        Constants.database = sqLiteHelper.getWritableDatabase();
 
         next_event_layout = (RelativeLayout) findViewById(R.id.nect_event_layout);
         button_comer = (LinearLayout) findViewById(R.id.button_comer);
@@ -71,6 +66,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            e.printStackTrace();
 //        }
 
+        //SAVE 25 DEFAULT DISHES
+//        for (int i = 0; i < 25; i++){
+//            Dish dish  =new Dish();
+//            dish.setName("Dish " + i);
+//            dish.setDescription("Descripcion " + i);
+//            dish.setPreparation("Preparacion " + i);
+//
+//            LocalDataSource.getInstance(this).saveDish(dish);
+//        }
+
 ////        //SET RANDOM EVENTS FOR A MONTH
 //        Date today = new Date();
 //        Calendar calendar = Calendar.getInstance();
@@ -78,30 +83,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        for(int i = 1; i <= 30; i++){
 //            calendar.add(Calendar.DATE, -1);
 //
-//            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-//            DishesController dishesController = new DishesController();
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+//            LocalDataSource localDataSource = LocalDataSource.getInstance(this);
 //
-//            ArrayList<Dish> dishes = dishesController.getAll();
-//            int random = (int) (Math.random() * dishes.size());
+//            ArrayList<Dish> dishes = (ArrayList<Dish>) localDataSource.getAllDishes();
+//            int random = (int) (Math.random() * dishes.size()) + 1;
 //
-//            Dish dish = new DishesController().getByID(random);
+//            Dish dish = localDataSource.getDishByID(random);
+//            if (dish == null)
+//                Log.e("DISH NULL WITH ID ", String.valueOf(random));
+//
 //            Event event = new Event();
-//            event.setDishId(dish.getId());
+//            event.setDishID(dish.getId());
 //            event.setDate(dateFormat.format(calendar.getTime()));
 //            event.setType(Constants.DISH_TYPE_LUNCH);
 //
-//            new EventsController().add(event, Constants.database);
+//            localDataSource.saveEvent(event);
+////            new EventsController().add(event, Constants.database);
 //
 //
 //            random = (int) (Math.random() * dishes.size());
 //
-//            dish = new DishesController().getByID(random);
+//            dish = localDataSource.getDishByID(random);
+//            if (dish == null)
+//                Log.e("DISH NULL WITH ID: ", String.valueOf(random));
 //            event = new Event();
-//            event.setDishId(dish.getId());
+//            event.setDishID(dish.getId());
 //            event.setDate(dateFormat.format(calendar.getTime()));
 //            event.setType(Constants.DISH_TYPE_DINNER);
 //
-//            new EventsController().add(event, Constants.database);
+//            localDataSource.saveEvent(event);
 //        }
 
         configUI();
@@ -127,12 +138,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private boolean electionsShoed = false;
     private ElectionFragment electionFragment;
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_comer:
                 ArrayList<Integer> dishList = new ElectionAlgorithm().calculateDishesList();
-                if(dishList != null && dishList.size() > 0){
+                if (dishList != null && dishList.size() > 0) {
 //                    showDishList(dishList);
 
                     electionFragment = new ElectionFragment();
@@ -167,36 +179,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onBackPressed() {
 //        super.onBackPressed();
 //        getFragmentManager().beginTransaction().isEmpty();
-        if(electionsShoed){
+        if (electionsShoed) {
             electionsShoed = false;
             getFragmentManager().beginTransaction().remove(electionFragment).commit();
-        } else{
+        } else {
             setResult(RESULT_OK, null);
             finish();
         }
     }
 
 
-    public void configUI(){
+    public void configUI() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Event next_event = null;
-        try {
-            if (new Date().getHours() <= Constants.LUNCH_TIME)
-                next_event = new EventsController().getForDateAndType(simpleDateFormat.format(new Date()), Constants.DISH_TYPE_LUNCH);
-            else
-                next_event = new EventsController().getForDateAndType(simpleDateFormat.format(new Date()), Constants.DISH_TYPE_DINNER);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        if (new Date().getHours() <= Constants.LUNCH_TIME)
+            next_event = LocalDataSource.getInstance(getApplicationContext()).getEventsByDateAndType(simpleDateFormat.format(new Date()), Constants.DISH_TYPE_LUNCH);
+        else
+            next_event = LocalDataSource.getInstance(getApplicationContext()).getEventsByDateAndType(simpleDateFormat.format(new Date()), Constants.DISH_TYPE_DINNER);
 
-        if(next_event == null) {
+
+        if (next_event == null) {
             if (new Date().getHours() <= Constants.LUNCH_TIME)
                 text_comer.setText(getString(R.string.que_como));
             else
                 text_comer.setText(getString(R.string.que_ceno));
         } else {
             next_event_layout.setVisibility(View.VISIBLE);
-            Dish dish = new DishesController().getByID(next_event.getDishId());
+            Dish dish = LocalDataSource.getInstance(getApplicationContext()).getDishByID(next_event.getDishID());
             next_dish_name.setText(dish.getName());
 
             Glide.with(this)
@@ -211,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             builder.append(id).append(", ");
 
         Toast.makeText(getApplicationContext(), builder.toString(), Toast.LENGTH_SHORT).show();
-        showOption(new DishesController().getByID(dishes.get(0)));
+        showOption(LocalDataSource.getInstance(getApplicationContext()).getDishByID(dishes.get(0)));
     }
 
     public void showOption(final Dish dish) {
@@ -220,10 +229,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onClick(View v) {
 
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
                         Event event = new Event();
-                        event.setDishId(dish.getId());
+                        event.setDishID(dish.getId());
                         event.setDate(dateFormat.format(new Date()));
 
                         if (new Date().getHours() <= Constants.LUNCH_TIME)
@@ -231,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         else
                             event.setType(Constants.DISH_TYPE_DINNER);
 
-                        new EventsController().add(event, Constants.database);
+                        LocalDataSource.getInstance(getApplicationContext()).saveEvent(event);
                     }
                 })
                 .show();

@@ -15,8 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bsalazar.kekomo.R;
-import com.bsalazar.kekomo.bbdd.controllers.DishesController;
-import com.bsalazar.kekomo.bbdd_room.entities.Dish;
+import com.bsalazar.kekomo.data.LocalDataSource;
+import com.bsalazar.kekomo.data.entities.Dish;
 import com.bsalazar.kekomo.general.FileSystem;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -72,7 +72,7 @@ public class DishDetailActivity extends AppCompatActivity {
 
         dish = null;
         if(dishID != -1)
-            dish = new DishesController().getByID(dishID);
+            dish = LocalDataSource.getInstance(this).getDishByID(dishID);
 
         if(dish != null){
             dish_name.setText(dish.getName());

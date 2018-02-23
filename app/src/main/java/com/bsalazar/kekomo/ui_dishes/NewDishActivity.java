@@ -37,11 +37,9 @@ import android.widget.TextView;
 
 import com.bsalazar.kekomo.BuildConfig;
 import com.bsalazar.kekomo.R;
-import com.bsalazar.kekomo.bbdd.controllers.DishesController;
-import com.bsalazar.kekomo.bbdd.controllers.ProductController;
-import com.bsalazar.kekomo.bbdd_room.entities.Dish;
-import com.bsalazar.kekomo.bbdd_room.entities.Product;
-import com.bsalazar.kekomo.general.Constants;
+import com.bsalazar.kekomo.data.LocalDataSource;
+import com.bsalazar.kekomo.data.entities.Dish;
+import com.bsalazar.kekomo.data.entities.Product;
 import com.bsalazar.kekomo.general.FileSystem;
 import com.bsalazar.kekomo.general.GaleryActivity;
 import com.bsalazar.kekomo.ui_dishes.adapters.ProductsAutoCompleteAdapter;
@@ -49,7 +47,6 @@ import com.bsalazar.kekomo.ui_dishes.adapters.ProductsAutoCompleteAdapter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -91,7 +88,7 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
 
         dishToEdit = null;
         if (dishID != -1)
-            dishToEdit = new DishesController().getByID(dishID);
+            dishToEdit = LocalDataSource.getInstance(this).getDishByID(dishID);
 
 
         dish_image = (ImageView) findViewById(R.id.dish_image);
@@ -107,16 +104,12 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
         dish_description = (EditText) findViewById(R.id.dish_description);
         dish_preparation = (EditText) findViewById(R.id.dish_preparation);
         ingredients_autoTextView = (AutoCompleteTextView) findViewById(R.id.ingredients_auto);
-;
+        ;
 
         ingredients = new ArrayList<>();
 
-        try {
-            ProductsAutoCompleteAdapter adapter = new ProductsAutoCompleteAdapter(this, android.R.layout.simple_list_item_1, new ProductController().getAll());
-            ingredients_autoTextView.setAdapter(adapter);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        ProductsAutoCompleteAdapter adapter = new ProductsAutoCompleteAdapter(this, android.R.layout.simple_list_item_1, (ArrayList<Product>) LocalDataSource.getInstance(this).getAllProducts());
+        ingredients_autoTextView.setAdapter(adapter);
 
         edit_image.setOnClickListener(this);
         dish_image.setOnClickListener(this);
@@ -240,7 +233,7 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
             super.onBackPressed();
     }
 
-    private void addIngredient(final Product product){
+    private void addIngredient(final Product product) {
         ingredients.add(product);
         ingredients_autoTextView.setText("");
 
@@ -261,12 +254,12 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
         ingredients_container.addView(ingredientView);
     }
 
-    private void removeIngredient(Product product){
+    private void removeIngredient(Product product) {
         ingredients.remove(product);
 
-        for (int i = 0; i < ingredients_container.getChildCount(); i++){
+        for (int i = 0; i < ingredients_container.getChildCount(); i++) {
             View childView = ingredients_container.getChildAt(i);
-            if(product == childView.getTag()){
+            if (product == childView.getTag()) {
                 TransitionManager.beginDelayedTransition(data_container);
                 ingredients_container.removeView(childView);
             }
@@ -300,12 +293,13 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
             dish.setTags("x");
             dish.setImage("x");
 
-            Dish save_dish = new DishesController().add(dish, Constants.database);
-
-            String image_name = "pic_" + save_dish.getId() + ".jpg";
+            long dishID = LocalDataSource.getInstance(this).saveDish(dish);
+//
+            String image_name = "pic_" + dishID + ".jpg";
             saveImage(image_name);
+            Dish save_dish = LocalDataSource.getInstance(null).getDishByID((int)dishID);
             save_dish.setImage(image_name);
-            new DishesController().update(save_dish, Constants.database);
+            LocalDataSource.getInstance(null).updateDish(save_dish);
             finish();
         } else
             Snackbar.make(dish_image, "El nombre es obligatorio", Snackbar.LENGTH_SHORT).show();
@@ -318,7 +312,7 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
             dishToEdit.setPreparation(dish_preparation.getText().toString());
             dishToEdit.setTags("x");
             saveImage(dishToEdit.getImage());
-            new DishesController().update(dishToEdit, Constants.database);
+            LocalDataSource.getInstance(this).updateDish(dishToEdit);
             finish();
         } else
             Snackbar.make(dish_image, "El nombre es obligatorio", Snackbar.LENGTH_SHORT).show();

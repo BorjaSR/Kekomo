@@ -13,8 +13,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bsalazar.kekomo.R;
-import com.bsalazar.kekomo.bbdd.controllers.DishesController;
-import com.bsalazar.kekomo.bbdd_room.entities.Dish;
+import com.bsalazar.kekomo.data.LocalDataSource;
+import com.bsalazar.kekomo.data.entities.Dish;
 import com.bsalazar.kekomo.ui_dishes.adapters.DishesAdapter;
 
 import java.util.ArrayList;
@@ -46,12 +46,12 @@ public class MyDishesActivity extends AppCompatActivity {
             getWindow().setAllowReturnTransitionOverlap(false);
         }
 
-        add_dish = (TextView) findViewById(R.id.add_dish);
-        my_dishes_recycler = (RecyclerView) findViewById(R.id.my_dishes_recycler);
+        add_dish = findViewById(R.id.add_dish);
+        my_dishes_recycler = findViewById(R.id.my_dishes_recycler);
         my_dishes_recycler.setHasFixedSize(false);
         my_dishes_recycler.setLayoutManager(new LinearLayoutManager(this));
 
-        dishes = new DishesController().getAll();
+        dishes = (ArrayList<Dish>) LocalDataSource.getInstance(this).getAllDishes();
 
         adapter = new DishesAdapter(this, dishes);
         my_dishes_recycler.setAdapter(adapter);

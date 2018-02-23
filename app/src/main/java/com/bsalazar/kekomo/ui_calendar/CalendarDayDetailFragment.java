@@ -12,10 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bsalazar.kekomo.R;
-import com.bsalazar.kekomo.bbdd.controllers.DishesController;
-import com.bsalazar.kekomo.bbdd.controllers.EventsController;
-import com.bsalazar.kekomo.bbdd_room.entities.Dish;
-import com.bsalazar.kekomo.bbdd_room.entities.Event;
+import com.bsalazar.kekomo.data.LocalDataSource;
+import com.bsalazar.kekomo.data.entities.Dish;
+import com.bsalazar.kekomo.data.entities.Event;
 import com.bsalazar.kekomo.general.Constants;
 import com.bsalazar.kekomo.general.FileSystem;
 import com.bumptech.glide.Glide;
@@ -65,7 +64,7 @@ public class CalendarDayDetailFragment extends Fragment {
 
         String dt = getArguments().getString("DATE", "");
 
-        ArrayList<Event> events = new EventsController().getForDate(dt);
+        ArrayList<Event> events = (ArrayList<Event>) LocalDataSource.getInstance(mContext).getEventsByDate(dt);
 
         if(events.size() == 0) {
             empty.setVisibility(View.VISIBLE);
@@ -75,7 +74,7 @@ public class CalendarDayDetailFragment extends Fragment {
             container_layout.setVisibility(View.VISIBLE);
         }
         for(Event event : events){
-            Dish dish = new DishesController().getByID(event.getDishId());
+            Dish dish = LocalDataSource.getInstance(mContext).getDishByID(event.getDishID());
             switch (event.getType()){
                 case Constants.DISH_TYPE_BREAKFAST:
                     breakfast_container.setVisibility(View.VISIBLE);
