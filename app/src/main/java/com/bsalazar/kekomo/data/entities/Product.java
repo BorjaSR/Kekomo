@@ -30,34 +30,26 @@ public class Product {
     public static final int FRUIT = 5;
 
     @PrimaryKey(autoGenerate = true)
-    @SerializedName("id")
-    @Expose
     private int id;
-    @SerializedName("name")
-    @Expose
     private String name;
-    @SerializedName("type")
-    @Expose
     private int type;
-    @SerializedName("stock")
-    @Expose
     private int stock;
-    @SerializedName("frozen")
-    @Expose
     private boolean frozen;
+    private boolean isSaved;
 
-
-    @SerializedName("created")
-    @Expose
     private Long created;
-    @SerializedName("updated")
-    @Expose
     private Long updated;
-    @SerializedName("deleted")
-    @Expose
     private boolean deleted;
 
     public Product() {
+    }
+
+    public boolean isSaved() {
+        return isSaved;
+    }
+
+    public void setSaved(boolean saved) {
+        isSaved = saved;
     }
 
     public int getId() {

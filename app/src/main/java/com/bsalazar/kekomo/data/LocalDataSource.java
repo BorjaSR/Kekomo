@@ -3,11 +3,13 @@ package com.bsalazar.kekomo.data;
 import android.content.Context;
 
 import com.bsalazar.kekomo.data.daos.DishDAO;
+import com.bsalazar.kekomo.data.daos.DishProductDAO;
 import com.bsalazar.kekomo.data.daos.EventDAO;
 import com.bsalazar.kekomo.data.daos.ProductDAO;
 import com.bsalazar.kekomo.data.entities.Dish;
 import com.bsalazar.kekomo.data.entities.Event;
 import com.bsalazar.kekomo.data.entities.Product;
+import com.bsalazar.kekomo.data.entities.RelaionDishProducts;
 
 import java.util.List;
 
@@ -20,6 +22,7 @@ public class LocalDataSource implements ILocalDataSource {
     private static DishDAO dishDAO;
     private EventDAO eventDAO;
     private ProductDAO productDAO;
+    private DishProductDAO dishProductDAO;
 
     private static LocalDataSource instance;
 
@@ -41,6 +44,7 @@ public class LocalDataSource implements ILocalDataSource {
         dishDAO = database.getDishesDAO();
         eventDAO = database.getEventsDAO();
         productDAO = database.getProductsDAO();
+        dishProductDAO = database.getDishProductDAO();
     }
 
     //endregion
@@ -48,31 +52,54 @@ public class LocalDataSource implements ILocalDataSource {
 
     @Override
     public long saveDish(Dish dish) {
-        return dishDAO.insertDish(dish);
+
+        dish.setCreated(System.currentTimeMillis());
+        dish.setUpdated(System.currentTimeMillis());
+
+        long dishID = dishDAO.insertDish(dish);
+        long productID;
+
+        for (Product product : dish.getProducts()) {
+            if (product.getId() <= 0)
+                productID = saveProduct(product);
+            else
+                productID = product.getId();
+
+            dishProductDAO.insertDishProduct(new RelaionDishProducts((int) dishID, (int) productID));
+        }
+
+        return dishID;
     }
 
     @Override
     public long saveEvent(Event event) {
+        event.setCreated(System.currentTimeMillis());
+        event.setUpdated(System.currentTimeMillis());
         return eventDAO.insertEvent(event);
     }
 
     @Override
     public long saveProduct(Product product) {
+        product.setCreated(System.currentTimeMillis());
+        product.setUpdated(System.currentTimeMillis());
         return productDAO.insertProduct(product);
     }
 
     @Override
     public void updateDish(Dish dish) {
+        dish.setUpdated(System.currentTimeMillis());
         dishDAO.updateDish(dish);
     }
 
     @Override
     public void updateEvent(Event event) {
+        event.setUpdated(System.currentTimeMillis());
         eventDAO.updateEvent(event);
     }
 
     @Override
     public void updateProduct(Product product) {
+        product.setUpdated(System.currentTimeMillis());
         productDAO.updateProduct(product);
     }
 

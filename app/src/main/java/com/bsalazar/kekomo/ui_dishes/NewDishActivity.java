@@ -55,18 +55,17 @@ import java.util.ArrayList;
 
 public class NewDishActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Activity activity;
     private LinearLayout edit_image_options, data_container, ingredients_container;
     private LinearLayout camera_button, gallery_button, kekomo_galley_button, delete_image;
     private AutoCompleteTextView ingredients_autoTextView;
     private ImageView dish_image, edit_image;
     private EditText dish_name, dish_description, dish_preparation;
-    private ArrayList<Product> ingredients;
 
     private final int GALERY_INPUT = 1;
     private final int CAMERA_INPUT = 2;
     private final int OWN_GALERY = 3;
 
+    private ArrayList<Product> ingredients;
     private Bitmap new_image;
     private boolean isImageOprionShowed = false;
 
@@ -76,7 +75,6 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_dish);
-        activity = this;
 
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -91,20 +89,19 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
             dishToEdit = LocalDataSource.getInstance(this).getDishByID(dishID);
 
 
-        dish_image = (ImageView) findViewById(R.id.dish_image);
-        edit_image = (ImageView) findViewById(R.id.edit_image);
-        edit_image_options = (LinearLayout) findViewById(R.id.edit_image_options);
-        data_container = (LinearLayout) findViewById(R.id.data_container);
-        ingredients_container = (LinearLayout) findViewById(R.id.ingredients_container);
-        camera_button = (LinearLayout) findViewById(R.id.camera_button);
-        gallery_button = (LinearLayout) findViewById(R.id.gallery_button);
-        kekomo_galley_button = (LinearLayout) findViewById(R.id.kekomo_galley_button);
-        delete_image = (LinearLayout) findViewById(R.id.delete_image);
-        dish_name = (EditText) findViewById(R.id.dish_name);
-        dish_description = (EditText) findViewById(R.id.dish_description);
-        dish_preparation = (EditText) findViewById(R.id.dish_preparation);
-        ingredients_autoTextView = (AutoCompleteTextView) findViewById(R.id.ingredients_auto);
-        ;
+        dish_image = findViewById(R.id.dish_image);
+        edit_image = findViewById(R.id.edit_image);
+        edit_image_options = findViewById(R.id.edit_image_options);
+        data_container = findViewById(R.id.data_container);
+        ingredients_container = findViewById(R.id.ingredients_container);
+        camera_button = findViewById(R.id.camera_button);
+        gallery_button = findViewById(R.id.gallery_button);
+        kekomo_galley_button = findViewById(R.id.kekomo_galley_button);
+        delete_image = findViewById(R.id.delete_image);
+        dish_name = findViewById(R.id.dish_name);
+        dish_description = findViewById(R.id.dish_description);
+        dish_preparation = findViewById(R.id.dish_preparation);
+        ingredients_autoTextView = findViewById(R.id.ingredients_auto);
 
         ingredients = new ArrayList<>();
 
@@ -154,11 +151,9 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
                 product.setStock(1);
                 product.setType(Product.NOT_DEFINED);
                 product.setFrozen(false);
-
-//                product = new ProductController().add(product, Constants.database);
+                product.setSaved(false);
 
                 addIngredient(product);
-
                 return true;
             }
         });
@@ -290,11 +285,12 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
             dish.setName(dish_name.getText().toString());
             dish.setDescription(dish_description.getText().toString());
             dish.setPreparation(dish_preparation.getText().toString());
+            dish.setProducts(ingredients);
             dish.setTags("x");
             dish.setImage("x");
 
             long dishID = LocalDataSource.getInstance(this).saveDish(dish);
-//
+
             String image_name = "pic_" + dishID + ".jpg";
             saveImage(image_name);
             Dish save_dish = LocalDataSource.getInstance(null).getDishByID((int)dishID);
