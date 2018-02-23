@@ -75,6 +75,7 @@ public class AddProductDialogFragment extends DialogFragment {
                 product.setStock(1);
                 product.setType((int) snapHelper.findSnapView(linearLayoutManager).getTag());
                 product.setFrozen(((Switch) rootView.findViewById(R.id.switch_product_frozen)).isChecked());
+                product.setSaved(true);
 
                 int productID = (int) LocalDataSource.getInstance(getContext()).saveProduct(product);
                 product = LocalDataSource.getInstance(getContext()).getProductByID(productID);

@@ -1,9 +1,12 @@
 package com.bsalazar.kekomo.data.entities;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 
 /**
  * Created by bsalazar on 22/06/2017.
@@ -13,35 +16,28 @@ import com.google.gson.annotations.SerializedName;
 public class Dish {
 
     @PrimaryKey(autoGenerate = true)
-    @SerializedName("id")
-    @Expose
     private int id;
-    @SerializedName("name")
-    @Expose
     private String name;
-    @SerializedName("description")
-    @Expose
     private String description;
-    @SerializedName("preparation")
-    @Expose
     private String preparation;
-    @SerializedName("tags")
-    @Expose
     private String tags;
-    @SerializedName("image")
-    @Expose
     private String image;
-    @SerializedName("created")
-    @Expose
     private Long created;
-    @SerializedName("updated")
-    @Expose
     private Long updated;
-    @SerializedName("deleted")
-    @Expose
     private boolean deleted;
 
+    @Ignore
+    private ArrayList<Product> products;
+
     public Dish() {
+    }
+
+    public ArrayList<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(ArrayList<Product> products) {
+        this.products = products;
     }
 
     public String getPreparation() {

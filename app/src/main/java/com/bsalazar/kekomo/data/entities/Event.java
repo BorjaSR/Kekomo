@@ -15,30 +15,15 @@ import com.google.gson.annotations.SerializedName;
 public class Event {
 
     @PrimaryKey(autoGenerate = true)
-    @SerializedName("id")
-    @Expose
     private int id;
     @ForeignKey(entity = Dish.class,
             parentColumns = "id",
             childColumns = "dishID")
-    @SerializedName("dishID")
-    @Expose
     private int dishID;
-    @SerializedName("Date")
-    @Expose
     private String Date;
-    @SerializedName("type")
-    @Expose
     private int type;
-
-    @SerializedName("created")
-    @Expose
     private Long created;
-    @SerializedName("updated")
-    @Expose
     private Long updated;
-    @SerializedName("deleted")
-    @Expose
     private boolean deleted;
 
     public Event() {
