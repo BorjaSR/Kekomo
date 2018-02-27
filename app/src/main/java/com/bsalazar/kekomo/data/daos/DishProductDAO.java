@@ -6,9 +6,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.bsalazar.kekomo.data.entities.Dish;
-import com.bsalazar.kekomo.data.entities.Product;
-import com.bsalazar.kekomo.data.entities.RelaionDishProducts;
+import com.bsalazar.kekomo.data.entities.DishProducts;
 
 import java.util.List;
 
@@ -20,16 +18,22 @@ import java.util.List;
 public interface DishProductDAO {
 
     @Query("SELECT * FROM DishProducts")
-    List<RelaionDishProducts> getAll();
+    List<DishProducts> getAll();
+
+    @Query("SELECT * FROM DishProducts WHERE productId = :productID")
+    List<DishProducts> getByProduct(int productID);
+
+    @Query("SELECT * FROM DishProducts WHERE dishId = :dishID")
+    List<DishProducts> getByDish(int dishID);
 
     @Update
-    void updateDishProduct(RelaionDishProducts product);
+    void updateDishProduct(DishProducts product);
 
     @Insert
-    void insertDishProduct(RelaionDishProducts product);
+    void insertDishProduct(DishProducts product);
 
     @Delete
-    void deleteDishProduct(RelaionDishProducts product);
+    void deleteDishProduct(DishProducts product);
 
     @Query("DELETE FROM DishProducts")
     void clear();

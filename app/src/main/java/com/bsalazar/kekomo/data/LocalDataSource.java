@@ -7,10 +7,11 @@ import com.bsalazar.kekomo.data.daos.DishProductDAO;
 import com.bsalazar.kekomo.data.daos.EventDAO;
 import com.bsalazar.kekomo.data.daos.ProductDAO;
 import com.bsalazar.kekomo.data.entities.Dish;
+import com.bsalazar.kekomo.data.entities.DishProducts;
 import com.bsalazar.kekomo.data.entities.Event;
 import com.bsalazar.kekomo.data.entities.Product;
-import com.bsalazar.kekomo.data.entities.RelaionDishProducts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -65,7 +66,7 @@ public class LocalDataSource implements ILocalDataSource {
             else
                 productID = product.getId();
 
-            dishProductDAO.insertDishProduct(new RelaionDishProducts((int) dishID, (int) productID));
+            dishProductDAO.insertDishProduct(new DishProducts((int) dishID, (int) productID));
         }
 
         return dishID;
@@ -120,6 +121,11 @@ public class LocalDataSource implements ILocalDataSource {
 
     @Override
     public Dish getDishByID(int id) {
+        Dish dish = dishDAO.getByID(id);
+        ArrayList<DishProducts> dishProducts = (ArrayList<DishProducts>) dishProductDAO.getByDish(id);
+        ArrayList<Product> 
+        for ()
+        dish.setProducts();
         return dishDAO.getByID(id);
     }
 
@@ -146,6 +152,11 @@ public class LocalDataSource implements ILocalDataSource {
     @Override
     public List<Product> getAllProducts() {
         return productDAO.getAll();
+    }
+
+    @Override
+    public List<Product> getAllProductsSavedByUser() {
+        return productDAO.getAllSaved();
     }
 
     @Override

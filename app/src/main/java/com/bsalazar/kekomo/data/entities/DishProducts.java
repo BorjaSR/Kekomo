@@ -13,7 +13,7 @@ import com.google.gson.annotations.SerializedName;
 
 
 @Entity(tableName = "DishProducts", primaryKeys = {"dishId", "productId"})
-public class RelaionDishProducts {
+public class DishProducts {
 
     @ForeignKey(entity = Dish.class,
             parentColumns = "id",
@@ -25,10 +25,10 @@ public class RelaionDishProducts {
             childColumns = "productId")
     private int productId;
 
-    public RelaionDishProducts() {
+    public DishProducts() {
     }
 
-    public RelaionDishProducts(int dishId, int productId) {
+    public DishProducts(int dishId, int productId) {
         this.dishId = dishId;
         this.productId = productId;
     }

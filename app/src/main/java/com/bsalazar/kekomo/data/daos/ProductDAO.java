@@ -20,6 +20,9 @@ public interface ProductDAO {
     @Query("SELECT * FROM Products")
     List<Product> getAll();
 
+    @Query("SELECT * FROM Products WHERE isSaved = 1")
+    List<Product> getAllSaved();
+
     @Query("SELECT * FROM Products WHERE id = :productID")
     Product getByID(int productID);
 

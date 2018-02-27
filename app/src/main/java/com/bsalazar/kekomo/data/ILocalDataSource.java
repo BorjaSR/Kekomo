@@ -42,6 +42,8 @@ public interface ILocalDataSource {
 
     List<Product> getAllProducts();
 
+    List<Product> getAllProductsSavedByUser();
+
     void clearDishes();
 
     void clearProducts();

@@ -10,15 +10,15 @@ import com.bsalazar.kekomo.data.daos.DishProductDAO;
 import com.bsalazar.kekomo.data.daos.EventDAO;
 import com.bsalazar.kekomo.data.daos.ProductDAO;
 import com.bsalazar.kekomo.data.entities.Dish;
+import com.bsalazar.kekomo.data.entities.DishProducts;
 import com.bsalazar.kekomo.data.entities.Event;
 import com.bsalazar.kekomo.data.entities.Product;
-import com.bsalazar.kekomo.data.entities.RelaionDishProducts;
 
 @Database (entities = {
         Dish.class,
         Event.class,
         Product.class,
-        RelaionDishProducts.class},
+        DishProducts.class},
         version = 1)
 abstract class AppDatabase extends RoomDatabase {
 

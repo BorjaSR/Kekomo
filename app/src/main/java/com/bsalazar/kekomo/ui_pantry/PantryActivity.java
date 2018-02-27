@@ -41,11 +41,11 @@ public class PantryActivity extends AppCompatActivity {
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        shadow = (LinearLayout) findViewById(R.id.shadow);
+        shadow = findViewById(R.id.shadow);
 
-        products = (ArrayList<Product>) LocalDataSource.getInstance(this).getAllProducts();
+        products = (ArrayList<Product>) LocalDataSource.getInstance(this).getAllProductsSavedByUser();
 
-        rvProducts = (RecyclerView) findViewById(R.id.rvProducts);
+        rvProducts = findViewById(R.id.rvProducts);
         rvProducts.setLayoutManager(new GridLayoutManager(this, NUM_GRID_COLUMS));
         rvProducts.setHasFixedSize(false);
         adapter = new PantryAdapter(this, products);
