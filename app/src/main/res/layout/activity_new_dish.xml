@@ -173,7 +173,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Ingredientes"
+                    android:text="@string/ingredients"
                     android:textColor="@color/colorPrimaryMoreDark"
                     android:textSize="20sp" />
 

@@ -13,19 +13,18 @@ import com.bsalazar.kekomo.data.entities.Product;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by bsalazar on 25/05/2017.
  */
 
 public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.IngredientViewHolder> {
 
-    private Activity mContext;
     private ArrayList<Product> products;
 
-    private IngredientsAdapter.OnClickDelete onClickDelete;
-
-    public IngredientsAdapter(Activity context, ArrayList<Product> products) {
-        this.mContext = context;
+    public IngredientsAdapter(ArrayList<Product> products) {
         this.products = products;
     }
 
@@ -38,14 +37,6 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
     @Override
     public void onBindViewHolder(final IngredientViewHolder holder, final int position) {
         holder.ingredient_name.setText(products.get(holder.getAdapterPosition()).getName());
-
-        holder.delete_ingredient.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onClickDelete != null)
-                    onClickDelete.onDeleteItem(products.get(holder.getAdapterPosition()), holder.getAdapterPosition());
-            }
-        });
     }
 
     @Override
@@ -53,23 +44,17 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
         return products.size();
     }
 
-    public class IngredientViewHolder extends RecyclerView.ViewHolder {
+    class IngredientViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.ingredient_name)
         TextView ingredient_name;
+        @BindView(R.id.delete_ingredient)
         ImageView delete_ingredient;
 
-        public IngredientViewHolder(View itemView) {
+        IngredientViewHolder(View itemView) {
             super(itemView);
-            ingredient_name = (TextView) itemView.findViewById(R.id.ingredient_name);
-            delete_ingredient = (ImageView) itemView.findViewById(R.id.delete_ingredient);
+            ButterKnife.bind(this, itemView);
+            delete_ingredient.setVisibility(View.GONE);
         }
-    }
-
-    public void setOnClickDelete(IngredientsAdapter.OnClickDelete onClickDelete) {
-        this.onClickDelete = onClickDelete;
-    }
-
-    public interface OnClickDelete {
-        void onDeleteItem(Product product, int position);
     }
 }

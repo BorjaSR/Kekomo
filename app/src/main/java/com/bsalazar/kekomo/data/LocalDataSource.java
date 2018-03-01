@@ -121,12 +121,11 @@ public class LocalDataSource implements ILocalDataSource {
 
     @Override
     public Dish getDishByID(int id) {
+
         Dish dish = dishDAO.getByID(id);
-        ArrayList<DishProducts> dishProducts = (ArrayList<DishProducts>) dishProductDAO.getByDish(id);
-        ArrayList<Product> 
-        for ()
-        dish.setProducts();
-        return dishDAO.getByID(id);
+        dish.setProducts((ArrayList<Product>) dishProductDAO.getProductsByDish(id));
+
+        return dish;
     }
 
     @Override

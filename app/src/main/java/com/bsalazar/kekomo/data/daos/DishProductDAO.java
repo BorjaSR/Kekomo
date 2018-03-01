@@ -7,6 +7,7 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
 import com.bsalazar.kekomo.data.entities.DishProducts;
+import com.bsalazar.kekomo.data.entities.Product;
 
 import java.util.List;
 
@@ -17,17 +18,8 @@ import java.util.List;
 @Dao
 public interface DishProductDAO {
 
-    @Query("SELECT * FROM DishProducts")
-    List<DishProducts> getAll();
-
-    @Query("SELECT * FROM DishProducts WHERE productId = :productID")
-    List<DishProducts> getByProduct(int productID);
-
-    @Query("SELECT * FROM DishProducts WHERE dishId = :dishID")
-    List<DishProducts> getByDish(int dishID);
-
-    @Update
-    void updateDishProduct(DishProducts product);
+    @Query("SELECT * FROM Products INNER JOIN DishProducts ON Products.id = DishProducts.productId WHERE DishProducts.dishId = :dishId")
+    List<Product> getProductsByDish(int dishId);
 
     @Insert
     void insertDishProduct(DishProducts product);

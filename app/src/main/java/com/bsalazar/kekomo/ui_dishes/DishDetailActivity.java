@@ -6,6 +6,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.view.Gravity;
@@ -18,8 +20,12 @@ import com.bsalazar.kekomo.R;
 import com.bsalazar.kekomo.data.LocalDataSource;
 import com.bsalazar.kekomo.data.entities.Dish;
 import com.bsalazar.kekomo.general.FileSystem;
+import com.bsalazar.kekomo.ui_dishes.adapters.IngredientsAdapter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by bsalazar on 20/07/2017.
@@ -30,6 +36,8 @@ public class DishDetailActivity extends AppCompatActivity {
     private ActionBar actionBar;
     private ImageView dish_image;
     private TextView dish_name, dish_description, dish_preparation;
+    @BindView(R.id.rv_ingredients)
+    RecyclerView rv_ingredients;
 
     private int dishID;
     private Dish dish;
@@ -38,6 +46,7 @@ public class DishDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dish_detail);
+        ButterKnife.bind(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Slide slide = new Slide();
@@ -47,7 +56,7 @@ public class DishDetailActivity extends AppCompatActivity {
             getWindow().setAllowReturnTransitionOverlap(false);
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -59,11 +68,10 @@ public class DishDetailActivity extends AppCompatActivity {
         if (getIntent().getExtras() != null)
             dishID = (int) getIntent().getExtras().get("DishID");
 
-
-        dish_image = (ImageView) findViewById(R.id.dish_image);
-        dish_name = (TextView) findViewById(R.id.dish_name);
-        dish_description = (TextView) findViewById(R.id.dish_description);
-        dish_preparation = (TextView) findViewById(R.id.dish_preparation);
+        dish_image = findViewById(R.id.dish_image);
+        dish_name = findViewById(R.id.dish_name);
+        dish_description = findViewById(R.id.dish_description);
+        dish_preparation = findViewById(R.id.dish_preparation);
     }
 
     @Override
@@ -78,13 +86,18 @@ public class DishDetailActivity extends AppCompatActivity {
             dish_name.setText(dish.getName());
             dish_description.setText(dish.getDescription());
             dish_preparation.setText(dish.getPreparation());
-        }
 
-        Glide.with(this)
-                .load(FileSystem.getInstance(this).IMAGES_PATH + dish.getImage())
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .into(dish_image);
+            rv_ingredients.setHasFixedSize(true);
+//            rv_ingredients.setLayoutManager(new LinearLayoutManager(this));
+            IngredientsAdapter adapter = new IngredientsAdapter(dish.getProducts());
+            rv_ingredients.setAdapter(adapter);
+
+            Glide.with(this)
+                    .load(FileSystem.getInstance(this).IMAGES_PATH + dish.getImage())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(dish_image);
+        }
     }
 
     @Override
