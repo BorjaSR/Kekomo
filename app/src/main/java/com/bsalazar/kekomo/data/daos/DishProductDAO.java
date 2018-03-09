@@ -27,6 +27,9 @@ public interface DishProductDAO {
     @Delete
     void deleteDishProduct(DishProducts product);
 
+    @Query("DELETE FROM DishProducts WHERE dishId = :dishId")
+    void deleteProductsFromDish(int dishId);
+
     @Query("DELETE FROM DishProducts")
     void clear();
 }

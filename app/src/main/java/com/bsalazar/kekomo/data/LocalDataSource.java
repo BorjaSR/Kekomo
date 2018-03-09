@@ -58,18 +58,22 @@ public class LocalDataSource implements ILocalDataSource {
         dish.setUpdated(System.currentTimeMillis());
 
         long dishID = dishDAO.insertDish(dish);
+        addProductsToDish((int)dishID, dish.getProducts());
+
+        return dishID;
+    }
+
+    private void addProductsToDish(int dishID, ArrayList<Product> porducts){
         long productID;
 
-        for (Product product : dish.getProducts()) {
+        for (Product product : porducts) {
             if (product.getId() <= 0)
                 productID = saveProduct(product);
             else
                 productID = product.getId();
 
-            dishProductDAO.insertDishProduct(new DishProducts((int) dishID, (int) productID));
+            dishProductDAO.insertDishProduct(new DishProducts(dishID, (int) productID));
         }
-
-        return dishID;
     }
 
     @Override
@@ -89,6 +93,10 @@ public class LocalDataSource implements ILocalDataSource {
     @Override
     public void updateDish(Dish dish) {
         dish.setUpdated(System.currentTimeMillis());
+
+        dishProductDAO.deleteProductsFromDish(dish.getId());
+        addProductsToDish(dish.getId(), dish.getProducts());
+
         dishDAO.updateDish(dish);
     }
 

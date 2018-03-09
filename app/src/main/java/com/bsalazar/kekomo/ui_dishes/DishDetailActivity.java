@@ -88,7 +88,6 @@ public class DishDetailActivity extends AppCompatActivity {
             dish_preparation.setText(dish.getPreparation());
 
             rv_ingredients.setHasFixedSize(true);
-//            rv_ingredients.setLayoutManager(new LinearLayoutManager(this));
             IngredientsAdapter adapter = new IngredientsAdapter(dish.getProducts());
             rv_ingredients.setAdapter(adapter);
 

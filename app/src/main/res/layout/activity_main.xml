@@ -24,14 +24,12 @@
             <LinearLayout
                 android:id="@+id/button_comer"
                 android:layout_width="170dp"
-                android:layout_height="170dp"
-                android:background="@drawable/background_accent_round">
+                android:layout_height="170dp">
 
                 <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/cultery_white"
-                    android:layout_margin="40dp"/>
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
+                    android:src="@mipmap/kekomo_icon"/>
 
             </LinearLayout>
 

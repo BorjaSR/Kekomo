@@ -131,6 +131,10 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
             }
 
             dish_image.setImageBitmap(new_image);
+
+            for (Product product : dishToEdit.getProducts()){
+                addIngredient(product);
+            }
         }
 
         ingredients_autoTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -307,6 +311,7 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
             dishToEdit.setDescription(dish_description.getText().toString());
             dishToEdit.setPreparation(dish_preparation.getText().toString());
             dishToEdit.setTags("x");
+            dishToEdit.setProducts(ingredients);
             saveImage(dishToEdit.getImage());
             LocalDataSource.getInstance(this).updateDish(dishToEdit);
             finish();
