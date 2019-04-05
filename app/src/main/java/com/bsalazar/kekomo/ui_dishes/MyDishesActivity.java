@@ -72,7 +72,7 @@ public class MyDishesActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
