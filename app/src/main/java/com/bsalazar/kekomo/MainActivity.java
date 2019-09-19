@@ -1,5 +1,7 @@
 package com.bsalazar.kekomo;
 
+import android.annotation.SuppressLint;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -25,6 +27,7 @@ import com.bsalazar.kekomo.ui_dishes.NewDishActivity;
 import com.bsalazar.kekomo.ui_pantry.PantryActivity;
 import com.bumptech.glide.Glide;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,49 +35,64 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView text_comer;
-    private RelativeLayout next_event_layout;
-    private LinearLayout calendar_button, button_comer, planificar_button, añadir_plato_button, platos_button;
-    private ImageView next_dish_image;
-    private TextView next_dish_name;
+  private TextView text_comer;
+  private RelativeLayout next_event_layout;
+  private LinearLayout calendar_button, button_comer, planificar_button, añadir_plato_button, platos_button;
+  private ImageView next_dish_image;
+  private TextView next_dish_name;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
 
-        next_event_layout = (RelativeLayout) findViewById(R.id.nect_event_layout);
-        button_comer = (LinearLayout) findViewById(R.id.button_comer);
-        text_comer = (TextView) findViewById(R.id.text_comer);
-        calendar_button = (LinearLayout) findViewById(R.id.calendar_button);
-        planificar_button = (LinearLayout) findViewById(R.id.planificar_button);
-        añadir_plato_button = (LinearLayout) findViewById(R.id.añadir_plato_button);
-        platos_button = (LinearLayout) findViewById(R.id.platos_button);
-        next_dish_image = (ImageView) findViewById(R.id.next_dish_image);
-        next_dish_name = (TextView) findViewById(R.id.next_dish_name);
+    next_event_layout = findViewById(R.id.nect_event_layout);
+    button_comer = findViewById(R.id.button_comer);
+    text_comer = findViewById(R.id.text_comer);
+    calendar_button = findViewById(R.id.calendar_button);
+    planificar_button = findViewById(R.id.planificar_button);
+    añadir_plato_button = findViewById(R.id.añadir_plato_button);
+    platos_button = findViewById(R.id.platos_button);
+    next_dish_image = findViewById(R.id.next_dish_image);
+    next_dish_name = findViewById(R.id.next_dish_name);
 
-        button_comer.setOnClickListener(this);
-        calendar_button.setOnClickListener(this);
-        planificar_button.setOnClickListener(this);
-        añadir_plato_button.setOnClickListener(this);
-        platos_button.setOnClickListener(this);
+    button_comer.setOnClickListener(this);
+    calendar_button.setOnClickListener(this);
+    planificar_button.setOnClickListener(this);
+    añadir_plato_button.setOnClickListener(this);
+    platos_button.setOnClickListener(this);
 
+    deleteEvents();
+//    generateDishes();
+    configUI();
+  }
 
-//        try {
-//            new EventsController().deleteAll();
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
+  @Override
+  protected void onResume() {
+    super.onResume();
+  }
 
-        //SAVE 25 DEFAULT DISHES
-//        for (int i = 0; i < 25; i++){
-//            Dish dish  =new Dish();
-//            dish.setName("Dish " + i);
-//            dish.setDescription("Descripcion " + i);
-//            dish.setPreparation("Preparacion " + i);
-//
-//            LocalDataSource.getInstance(this).saveDish(dish);
-//        }
+  private void deleteEvents() {
+    LocalDataSource.getInstance(this).clearEvents();
+  }
+
+  private void generateDishes() {
+
+    //SAVE 25 DEFAULT DISHES
+    for (int i = 0; i < 25; i++) {
+      Dish dish = new Dish();
+      dish.setName("Dish " + i);
+      dish.setDescription("Descripcion " + i);
+      dish.setPreparation("Preparacion " + i);
+
+      LocalDataSource.getInstance(this).saveDish(dish);
+    }
+
+  }
+
+  private void generateDishesAndSaveEvents() {
+
+    generateDishes();
 
 ////        //SET RANDOM EVENTS FOR A MONTH
 //        Date today = new Date();
@@ -114,135 +132,106 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //
 //            localDataSource.saveEvent(event);
 //        }
-
-        configUI();
-    }
+  }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    // Inflate the menu; this adds items to the action bar if it is present.
+    getMenuInflater().inflate(R.menu.menu_main, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.action_pantry:
+        startActivity(new Intent(getApplicationContext(), PantryActivity.class));
         return true;
     }
+    return true;
+  }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_pantry:
-                startActivity(new Intent(getApplicationContext(), PantryActivity.class));
-                return true;
+  private boolean electionsShoed = false;
+  private ElectionFragment electionFragment;
+
+  @SuppressLint("RestrictedApi")
+  @Override
+  public void onClick(View v) {
+    switch (v.getId()) {
+      case R.id.button_comer:
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+
+          Intent i = new Intent(MainActivity.this, ElectionActivity.class);
+
+          View sharedView = button_comer;
+          String transitionName = getString(R.string.transitionName);
+
+          ActivityOptions transitionActivityOptions = null;
+          transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, sharedView, transitionName);
+//          startActivity(i, transitionActivityOptions.toBundle());
+          startActivityForResult(i, 20, transitionActivityOptions.toBundle());
         }
-        return true;
+
+        break;
+      case R.id.calendar_button:
+        startActivity(new Intent(getApplicationContext(), CalendarActivity.class));
+        break;
+      case R.id.planificar_button:
+        break;
+      case R.id.añadir_plato_button:
+        startActivity(new Intent(getApplicationContext(), NewDishActivity.class));
+        break;
+      case R.id.platos_button:
+        startActivity(new Intent(getApplicationContext(), MyDishesActivity.class));
+        break;
     }
+  }
 
-    private boolean electionsShoed = false;
-    private ElectionFragment electionFragment;
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.button_comer:
-                ArrayList<Integer> dishList = new ElectionAlgorithm().calculateDishesList();
-                if (dishList != null && dishList.size() > 0) {
-//                    showDishList(dishList);
-
-                    electionFragment = new ElectionFragment();
-                    Bundle args = new Bundle();
-                    args.putIntegerArrayList("dishes", dishList);
-                    electionFragment.setArguments(args);
-
-                    getFragmentManager().beginTransaction()
-                            .replace(R.id.frame_container, electionFragment)
-                            .addToBackStack(null)
-                            .commit();
-
-                    electionsShoed = true;
-                } else
-                    Snackbar.make(button_comer, "Todavia no tienes platos guardados", Snackbar.LENGTH_SHORT).show();
-                break;
-            case R.id.calendar_button:
-                startActivity(new Intent(getApplicationContext(), CalendarActivity.class));
-                break;
-            case R.id.planificar_button:
-                break;
-            case R.id.añadir_plato_button:
-                startActivity(new Intent(getApplicationContext(), NewDishActivity.class));
-                break;
-            case R.id.platos_button:
-                startActivity(new Intent(getApplicationContext(), MyDishesActivity.class));
-                break;
-        }
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if(requestCode == 20 && resultCode == RESULT_OK){
+      configUI();
     }
+  }
 
-    @Override
-    public void onBackPressed() {
+  @Override
+  public void onBackPressed() {
 //        super.onBackPressed();
 //        getFragmentManager().beginTransaction().isEmpty();
-        if (electionsShoed) {
-            electionsShoed = false;
-            getFragmentManager().beginTransaction().remove(electionFragment).commit();
-        } else {
-            setResult(RESULT_OK, null);
-            finish();
-        }
+    if (electionsShoed) {
+      electionsShoed = false;
+      getFragmentManager().beginTransaction().remove(electionFragment).commit();
+    } else {
+      setResult(RESULT_OK, null);
+      finish();
     }
+  }
 
 
-    public void configUI() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Event next_event = null;
-        if (new Date().getHours() <= Constants.LUNCH_TIME)
-            next_event = LocalDataSource.getInstance(getApplicationContext()).getEventsByDateAndType(simpleDateFormat.format(new Date()), Constants.DISH_TYPE_LUNCH);
-        else
-            next_event = LocalDataSource.getInstance(getApplicationContext()).getEventsByDateAndType(simpleDateFormat.format(new Date()), Constants.DISH_TYPE_DINNER);
+  public void configUI() {
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    Event next_event;
+    if (new Date().getHours() <= Constants.LUNCH_TIME)
+      next_event = LocalDataSource.getInstance(getApplicationContext()).getEventsByDateAndType(simpleDateFormat.format(new Date()), Constants.DISH_TYPE_LUNCH);
+    else
+      next_event = LocalDataSource.getInstance(getApplicationContext()).getEventsByDateAndType(simpleDateFormat.format(new Date()), Constants.DISH_TYPE_DINNER);
 
 
-        if (next_event == null) {
-            if (new Date().getHours() <= Constants.LUNCH_TIME)
-                text_comer.setText(getString(R.string.que_como));
-            else
-                text_comer.setText(getString(R.string.que_ceno));
-        } else {
-            next_event_layout.setVisibility(View.VISIBLE);
-            Dish dish = LocalDataSource.getInstance(getApplicationContext()).getDishByID(next_event.getDishID());
-            next_dish_name.setText(dish.getName());
+    if (next_event == null) {
+      if (new Date().getHours() <= Constants.LUNCH_TIME)
+        text_comer.setText(getString(R.string.que_como));
+      else
+        text_comer.setText(getString(R.string.que_ceno));
+    } else {
+      next_event_layout.setVisibility(View.VISIBLE);
+      Dish dish = LocalDataSource.getInstance(getApplicationContext()).getDishByID(next_event.getDishID());
+      next_dish_name.setText(dish.getName());
 
-            Glide.with(this)
-                    .load(FileSystem.getInstance(this).IMAGES_PATH + dish.getImage())
-                    .into(next_dish_image);
-        }
+      Glide.with(this)
+          .load(FileSystem.getInstance(this).IMAGES_PATH + dish.getImage())
+          .into(next_dish_image);
     }
-
-    private void showDishList(ArrayList<Integer> dishes) {
-        StringBuilder builder = new StringBuilder();
-        for (Integer id : dishes)
-            builder.append(id).append(", ");
-
-        Toast.makeText(getApplicationContext(), builder.toString(), Toast.LENGTH_SHORT).show();
-        showOption(LocalDataSource.getInstance(getApplicationContext()).getDishByID(dishes.get(0)));
-    }
-
-    public void showOption(final Dish dish) {
-        Snackbar.make(button_comer, dish.getName(), Snackbar.LENGTH_SHORT)
-                .setAction("Vale!", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-
-                        Event event = new Event();
-                        event.setDishID(dish.getId());
-                        event.setDate(dateFormat.format(new Date()));
-
-                        if (new Date().getHours() <= Constants.LUNCH_TIME)
-                            event.setType(Constants.DISH_TYPE_LUNCH);
-                        else
-                            event.setType(Constants.DISH_TYPE_DINNER);
-
-                        LocalDataSource.getInstance(getApplicationContext()).saveEvent(event);
-                    }
-                })
-                .show();
-    }
+  }
 }

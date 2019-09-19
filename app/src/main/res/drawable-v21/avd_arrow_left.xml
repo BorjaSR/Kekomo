@@ -1,0 +1,63 @@
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:name="vector"
+            android:width="24dp"
+            android:height="24dp"
+            android:viewportWidth="24"
+            android:viewportHeight="24">
+            <path
+                android:name="path"
+                android:pathData="M 14 7 L 9 12 L 14 17 L 14 7 Z"
+                android:fillColor="#FFF"/>
+            <path
+                android:name="path_1"
+                android:pathData="M 14 7 L 9 12 L 14 17 L 14 7 Z"
+                android:fillColor="#FFF"/>
+        </vector>
+    </aapt:attr>
+    <target android:name="path_1">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:propertyName="pathData"
+                    android:duration="150"
+                    android:valueFrom="M 14 7 L 9 12 L 14 17 L 14 7 Z"
+                    android:valueTo="M 9 7 L 4 12 L 9 17 L 9 7 Z"
+                    android:valueType="pathType"
+                    android:interpolator="@android:anim/decelerate_interpolator"/>
+                <objectAnimator
+                    android:propertyName="pathData"
+                    android:startOffset="150"
+                    android:duration="150"
+                    android:valueFrom="M 9 7 L 4 12 L 9 17 L 9 7 Z"
+                    android:valueTo="M 14 7 L 9 12 L 14 17 L 14 7 Z"
+                    android:valueType="pathType"
+                    android:interpolator="@android:anim/accelerate_interpolator"/>
+            </set>
+        </aapt:attr>
+    </target>
+    <target android:name="path">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:propertyName="pathData"
+                    android:duration="150"
+                    android:valueFrom="M 14 7 L 9 12 L 14 17 L 14 7 Z"
+                    android:valueTo="M 13 7 L 8 12 L 13 17 L 13 7 Z"
+                    android:valueType="pathType"
+                    android:interpolator="@android:anim/decelerate_interpolator"/>
+                <objectAnimator
+                    android:propertyName="pathData"
+                    android:startOffset="150"
+                    android:duration="150"
+                    android:valueFrom="M 13 7 L 8 12 L 13 17 L 13 7 Z"
+                    android:valueTo="M 14 7 L 9 12 L 14 17 L 14 7 Z"
+                    android:valueType="pathType"
+                    android:interpolator="@android:anim/accelerate_interpolator"/>
+            </set>
+        </aapt:attr>
+    </target>
+</animated-vector>

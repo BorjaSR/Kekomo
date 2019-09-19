@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transitionSet xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:transitionOrdering="together"
+  android:duration="400">
+
+  <changeBounds/>
+  <changeImageTransform/>
+
+  <fade
+    android:fadingMode="fade_in"
+    android:startDelay="200">
+  </fade>
+
+  <slide
+    android:slideEdge="start"
+    android:startDelay="350"
+    android:interpolator="@android:interpolator/overshoot"
+    tools:targetApi="lollipop">
+    <targets>
+      <target android:targetId="@id/yes"/>
+    </targets>
+  </slide>
+
+  <slide
+    android:slideEdge="end"
+    android:startDelay="400"
+    android:interpolator="@android:interpolator/overshoot"
+    tools:targetApi="lollipop">
+    <targets>
+      <target android:targetId="@id/no"/>
+    </targets>
+  </slide>
+
+</transitionSet>

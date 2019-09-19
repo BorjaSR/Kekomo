@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:orientation="vertical">
 
 
     <ImageView
@@ -25,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorAccentDark"
-            android:text="Huevos de Pascua"
+            tools:text="Huevos Rotos"
             android:textSize="35sp"/>
 
         <com.bsalazar.kekomo.general.CustomTextViewBellerose
@@ -65,7 +66,7 @@
             android:id="@+id/dish_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:textColor="@color/primary_text"
             android:layout_marginTop="5dp"/>
 
@@ -90,7 +91,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/primary_text"
             android:layout_marginTop="5dp"
-            android:textSize="16dp"/>
+            android:textSize="16sp"/>
 
     </LinearLayout>
 

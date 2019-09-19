@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,23 +48,22 @@ public class CalendarDayDetailFragment extends Fragment {
         rootView = (ViewGroup) inflater.inflate(R.layout.calendar_day_detail, container, false);
         mContext = getActivity().getApplicationContext();
 
-        container_layout = (LinearLayout) rootView.findViewById(R.id.container);
-        empty = (LinearLayout) rootView.findViewById(R.id.empty);
+        container_layout = rootView.findViewById(R.id.container);
+        empty = rootView.findViewById(R.id.empty);
 
-        breakfast_container = (LinearLayout) rootView.findViewById(R.id.breakfast_container);
-        lunch_container = (LinearLayout) rootView.findViewById(R.id.lunch_container);
-        dinner_container = (LinearLayout) rootView.findViewById(R.id.dinner_container);
+        breakfast_container = rootView.findViewById(R.id.breakfast_container);
+        lunch_container = rootView.findViewById(R.id.lunch_container);
+        dinner_container = rootView.findViewById(R.id.dinner_container);
 
-        breakfast_image = (ImageView) rootView.findViewById(R.id.breakfast_image);
-        lunch_image = (ImageView) rootView.findViewById(R.id.lunch_image);
-        dinner_image = (ImageView) rootView.findViewById(R.id.dinner_image);
+        breakfast_image = rootView.findViewById(R.id.breakfast_image);
+        lunch_image = rootView.findViewById(R.id.lunch_image);
+        dinner_image = rootView.findViewById(R.id.dinner_image);
 
-        breakfast = (TextView) rootView.findViewById(R.id.breakfast);
-        lunch = (TextView) rootView.findViewById(R.id.lunch);
-        dinner = (TextView) rootView.findViewById(R.id.dinner);
+        breakfast = rootView.findViewById(R.id.breakfast);
+        lunch = rootView.findViewById(R.id.lunch);
+        dinner = rootView.findViewById(R.id.dinner);
 
         String dt = getArguments().getString("DATE", "");
-
         ArrayList<Event> events = (ArrayList<Event>) LocalDataSource.getInstance(mContext).getEventsByDate(dt);
 
         if(events.size() == 0) {

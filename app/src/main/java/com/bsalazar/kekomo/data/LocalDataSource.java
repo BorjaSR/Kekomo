@@ -173,12 +173,12 @@ public class LocalDataSource implements ILocalDataSource {
 
     @Override
     public void clearProducts() {
-        eventDAO.clear();
+        productDAO.clear();
     }
 
     @Override
     public void clearEvents() {
-        productDAO.clear();
+        eventDAO.clear();
     }
 
     @Override
