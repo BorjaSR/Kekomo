@@ -49,12 +49,9 @@ public class SplashActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity);
-                        startActivityForResult(new Intent(getApplicationContext(), MainActivity.class), REQUEST_EXIT, options.toBundle());
-                    }
+                runOnUiThread(() -> {
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity);
+                    startActivityForResult(new Intent(getApplicationContext(), MainActivity.class), REQUEST_EXIT, options.toBundle());
                 });
             }
         };

@@ -1,31 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+  xmlns:tools="http://schemas.android.com/tools"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
-        <LinearLayout
-            android:id="@+id/empty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:layout_centerInParent="true"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/not_events"
-                android:gravity="center"
-                android:padding="25dp"/>
-
-        </LinearLayout>
-
+        <include android:id="@+id/empty"
+            android:visibility="gone"
+            layout="@layout/calendar_day_detail_empty"/>
 
         <LinearLayout
             android:id="@+id/container"
@@ -33,186 +19,133 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="visible"
-            android:background="@color/white">
+            android:gravity="center"
+            android:background="@color/white"
+            android:padding="16dp">
+
+          <Button
+            android:id="@+id/planing_lunch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/planing_lunch"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:textColor="@color/colorAccentDark"
+            android:background="@drawable/background_white_corners_stroke"
+            android:layout_marginBottom="25dp"
+            android:visibility="visible"/>
+
+          <LinearLayout
+            android:id="@+id/lunch_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <com.bsalazar.kekomo.general.CustomTextViewBellerose
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/lunch"
+              android:textSize="22sp"
+              android:textColor="@color/colorPrimaryMoreDark"/>
 
             <LinearLayout
-                android:id="@+id/breakfast_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone"
-                android:elevation="20dp">
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@color/colorAccent"/>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:elevation="4dp">
+            <TextView
+              android:id="@+id/lunch"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:textColor="@color/primary_text"
+              android:textStyle="bold"
+              android:paddingTop="10dp"
+              tools:text="Filete con patatas"/>
 
-                    <ImageView
-                        android:id="@+id/breakfast_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/pasta"
-                        android:scaleType="centerCrop"/>
+            <TextView
+              android:id="@+id/lunch_description"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:textColor="@color/primary_text"
+              android:paddingTop="10dp"
+              tools:text="La descripción del filete con patatas"/>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/alpha_white"/>
+            <TextView
+              android:id="@+id/delete_lunch_event"
+              android:layout_width="wrap_content"
+              android:layout_height="match_parent"
+              android:background="?android:selectableItemBackgroundBorderless"
+              android:textColor="@color/colorAccentLight"
+              android:padding="10dp"
+              android:text="@string/delete_event"/>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:textSize="16dp"
-                        android:textStyle="bold"
-                        android:text="Desayuno"
-                        android:textColor="@color/primary_text"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"/>
+          </LinearLayout>
 
+          <Button
+            android:id="@+id/planing_dinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/planing_dinner"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:textColor="@color/colorAccentDark"
+            android:background="@drawable/background_white_corners_stroke"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="25dp"
+            android:visibility="visible"/>
 
-                </RelativeLayout>
+          <LinearLayout
+            android:id="@+id/dinner_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="50dp"
+            android:visibility="gone"
+            tools:visibility="visible">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/breakfast"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/alpha_white"
-                        android:gravity="center_vertical"
-                        android:padding="25dp"
-                        android:text="- Leche con cereales"
-                        android:textColor="@color/primary_text" />
-
-                    <!--AQUI IRAN MAS COSAS-->
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/lunch_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:orientation="vertical">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:elevation="2dp">
-
-                    <ImageView
-                        android:id="@+id/lunch_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/filete_patatas"
-                        android:scaleType="centerCrop"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/alpha_white"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:textSize="16dp"
-                        android:textStyle="bold"
-                        android:text="Comida"
-                        android:textColor="@color/primary_text"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentStart="true" />
-
-
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/lunch"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:text="- Filete con patatas"
-                        android:textColor="@color/primary_text"
-                        android:padding="25dp"
-                        android:background="@color/alpha_white"/>
-
-                    <!--AQUI IRAN MAS COSAS-->
-
-                </LinearLayout>
-
-            </LinearLayout>
+            <com.bsalazar.kekomo.general.CustomTextViewBellerose
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/dinner"
+              android:textSize="22sp"
+              android:textColor="@color/colorPrimaryMoreDark"/>
 
             <LinearLayout
-                android:id="@+id/dinner_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@color/colorAccent"/>
 
+            <TextView
+              android:id="@+id/dinner"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_vertical"
+              android:textColor="@color/primary_text"
+              android:textStyle="bold"
+              android:paddingTop="10dp"
+              tools:text="Filete con patatas"/>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:elevation="2dp">
+            <TextView
+              android:id="@+id/dinner_description"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_vertical"
+              android:textColor="@color/primary_text"
+              android:paddingTop="10dp"
+              tools:text="La descripción del filete con patatas"/>
 
-                    <ImageView
-                        android:id="@+id/dinner_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/pescado"
-                        android:scaleType="centerCrop"/>
+            <TextView
+              android:id="@+id/delete_dinner_event"
+              android:layout_width="wrap_content"
+              android:layout_height="match_parent"
+              android:background="?android:selectableItemBackgroundBorderless"
+              android:textColor="@color/colorAccentLight"
+              android:padding="10dp"
+              android:text="@string/delete_event"/>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/alpha_white"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:textSize="16dp"
-                        android:textStyle="bold"
-                        android:text="Cena"
-                        android:textColor="@color/primary_text"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"/>
-
-
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/dinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:text="- Pescado con cebolla"
-                        android:textColor="@color/primary_text"
-                        android:padding="25dp"
-                        android:background="@color/alpha_white"/>
-
-                    <!--AQUI IRAN MAS COSAS-->
-
-                </LinearLayout>
-            </LinearLayout>
+          </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 

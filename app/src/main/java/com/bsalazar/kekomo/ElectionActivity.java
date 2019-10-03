@@ -16,10 +16,15 @@ import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
 
 import com.bsalazar.kekomo.general.CircularTransition;
+import com.bsalazar.kekomo.general.Constants;
 import com.bsalazar.kekomo.general.ElectionAlgorithm;
 import com.bsalazar.kekomo.general.TransitionEndListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class ElectionActivity extends AppCompatActivity {
 
@@ -36,23 +41,40 @@ public class ElectionActivity extends AppCompatActivity {
       Transition transition = new CircularTransition();
       transition.setInterpolator(new LinearInterpolator());
 
-      delay(0, new DelayFinishCallback() {
-        @Override
-        public void onDelayFinished() {
-          ArrayList<Integer> dishList = new ElectionAlgorithm().calculateDishesList();
-          if (dishList != null && dishList.size() > 0) {
-            electionFragment = new ElectionFragment();
-            Bundle args = new Bundle();
-            args.putIntegerArrayList("dishes", dishList);
-            electionFragment.setArguments(args);
+      delay(0, () -> {
 
-            getFragmentManager().beginTransaction()
-                .replace(R.id.frame_container, electionFragment)
-                .addToBackStack(null)
-                .commit();
-          } else
-            Snackbar.make(background, "Todavia no tienes platos guardados", Snackbar.LENGTH_SHORT).show();
+        Date date = null;
+        String dateString = null;
+        int dishType = Constants.DISH_TYPE_LUNCH;
+        if (getIntent().getExtras() != null) {
+          SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+          dateString = getIntent().getExtras().getString("date", null);
+          dishType = getIntent().getExtras().getInt("dishType", Constants.DISH_TYPE_LUNCH);
+          if (dateString != null) {
+            try {
+              date = dateFormat.parse(dateString);
+            } catch (ParseException e) {
+              e.printStackTrace();
+            }
+          }
         }
+
+        ArrayList<Integer> dishList = new ElectionAlgorithm().calculateDishesList(date);
+
+        if (dishList != null && dishList.size() > 0) {
+          electionFragment = new ElectionFragment();
+          Bundle args = new Bundle();
+          args.putIntegerArrayList("dishes", dishList);
+          args.putString("date", dateString);
+          args.putInt("dishType", dishType);
+          electionFragment.setArguments(args);
+
+          getFragmentManager().beginTransaction()
+              .replace(R.id.frame_container, electionFragment)
+              .addToBackStack(null)
+              .commit();
+        } else
+          Snackbar.make(background, "Todavia no tienes platos guardados", Snackbar.LENGTH_SHORT).show();
       });
 
       getWindow().setSharedElementEnterTransition(transition);
@@ -69,23 +91,16 @@ public class ElectionActivity extends AppCompatActivity {
   }
 
   boolean dishSelected = false;
+
   @Override
   public void onBackPressed() {
     super.onBackPressed();
     if (getSupportFragmentManager().getFragments().size() == 0)
-      delay(200, new DelayFinishCallback() {
-        @Override
-        public void onDelayFinished() {
-          runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-              reverseBackground();
-              setResult(dishSelected ? RESULT_OK : RESULT_CANCELED);
-              ElectionActivity.super.onBackPressed();
-            }
-          });
-        }
-      });
+      delay(100, () -> runOnUiThread(() -> {
+        reverseBackground();
+        setResult(dishSelected ? RESULT_OK : RESULT_CANCELED);
+        ElectionActivity.super.onBackPressed();
+      }));
   }
 
   interface DelayFinishCallback {
@@ -101,7 +116,6 @@ public class ElectionActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
-
       }
     };
     timer.start();
@@ -113,14 +127,7 @@ public class ElectionActivity extends AppCompatActivity {
     ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
     colorAnimation.setDuration(250);
     colorAnimation.setStartDelay(250);
-    colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-      @Override
-      public void onAnimationUpdate(ValueAnimator animator) {
-        background.setBackgroundColor((int) animator.getAnimatedValue());
-      }
-
-    });
+    colorAnimation.addUpdateListener(animator -> background.setBackgroundColor((int) animator.getAnimatedValue()));
     colorAnimation.start();
   }
 
@@ -129,14 +136,7 @@ public class ElectionActivity extends AppCompatActivity {
     int colorTo = getResources().getColor(R.color.colorAccent);
     ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
     colorAnimation.setDuration(250);
-    colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-      @Override
-      public void onAnimationUpdate(ValueAnimator animator) {
-        background.setBackgroundColor((int) animator.getAnimatedValue());
-      }
-
-    });
+    colorAnimation.addUpdateListener(animator -> background.setBackgroundColor((int) animator.getAnimatedValue()));
     colorAnimation.start();
   }
 }

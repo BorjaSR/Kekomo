@@ -1,6 +1,7 @@
 package com.bsalazar.kekomo.ui_calendar;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -30,7 +31,6 @@ import java.util.Locale;
 
 public class CalendarActivity extends AppCompatActivity {
 
-
   private LinearLayout tolbar_controller;
   private Date selectedDate;
   private String selectedDateString;
@@ -43,10 +43,14 @@ public class CalendarActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_calendar);
 
-    setToolbarBehaviour();
-
     dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
     textDate = new SimpleDateFormat("EEEE, d MMM", Locale.getDefault());
+    selectedDate = new Date(new Date().getYear(), new Date().getMonth(), new Date().getDate());
+    selectedDateString = dateFormat.format(selectedDate);
+    dayText = findViewById(R.id.dayText);
+    calendarView = findViewById(R.id.calendar);
+
+    setToolbarBehaviour();
 
     Fragment fragment = new CalendarDayDetailFragment();
 
@@ -62,10 +66,6 @@ public class CalendarActivity extends AppCompatActivity {
         .addToBackStack(null)
         .commit();
 
-    selectedDate = new Date(new Date().getYear(), new Date().getMonth(), new Date().getDate());
-    selectedDateString = dateFormat.format(selectedDate);
-    dayText = findViewById(R.id.dayText);
-    calendarView = findViewById(R.id.calendar);
     calendarView.setOnDateChangeListener((calendarView1, year, month, day) -> {
       dayChanged(new Date(year - 1900, month, day));
     });
@@ -78,6 +78,7 @@ public class CalendarActivity extends AppCompatActivity {
     if (getSupportActionBar() != null)
       getSupportActionBar().setTitle(null);
 
+    dayText.setText(textDate.format(selectedDate));
     tolbar_controller = findViewById(R.id.tolbar_controller);
     AppBarLayout appBarLayout = findViewById(R.id.appBarLayout);
     appBarLayout.addOnOffsetChangedListener((appBarLayout1, verticalOffset) -> {
@@ -125,17 +126,23 @@ public class CalendarActivity extends AppCompatActivity {
     finish();
   }
 
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (requestCode == 20 && resultCode == RESULT_OK) {
+
+    }
+  }
+
   private void dayChanged(Date newDate){
     boolean after = newDate.after(selectedDate);
     selectedDate = newDate;
     selectedDateString = dateFormat.format(selectedDate);
     changeFragment(after);
     calendarView.setDate(newDate.getTime(), true, true);
+
+    TransitionManager.beginDelayedTransition(tolbar_controller);
     dayText.setText(textDate.format(newDate));
-  }
-
-  private void setNameOfDay(){
-
   }
 
   private Fragment last_fragment;

@@ -26,14 +26,19 @@ public class ElectionAlgorithm {
     private static final double MAX_PUNCTUATION = 100;
     private static final double RATIO = 0.5;
 
+    public ArrayList<Integer> calculateDishesList(){
+        return calculateDishesList(new Date());
+    }
 
-    public ArrayList<Integer> calculateDishesList() {
+    public ArrayList<Integer> calculateDishesList(Date date) {
+
+        if(date == null) date = new Date();
+
         LocalDataSource localDataSource = LocalDataSource.getInstance(null);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        Date today = new Date();
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(today);
+        calendar.setTime(date);
 
         HashMap<Double, Double> dishes_punctuation = new HashMap<>();
 
@@ -80,14 +85,13 @@ public class ElectionAlgorithm {
 
 
         //Evaluate the next events (1 year)
-        calendar.setTime(today);
+        calendar.setTime(date);
         for (int i = 1; i <= 365; i++) {
             calendar.add(Calendar.DATE, 1);
             ArrayList<Event> eventsOfDate = (ArrayList<Event>) localDataSource.getEventsByDate(dateFormat.format(calendar.getTime()));
 
             if (eventsOfDate.size() > 0) {
                 for (Event event : eventsOfDate) {
-//                    Log.d("[HAY PLATO]", dateFormat.format(calendar.getTime()) + " " + dishesController.getByID(event.getDishId()).getName());
 
                     double variable = i;
                     if (event.getType() == Constants.DISH_TYPE_DINNER)
@@ -114,7 +118,7 @@ public class ElectionAlgorithm {
 
         // Add Random Factor
         for (Dish dish : dishes) {
-            double random = Math.random() * ((MAX_PUNCTUATION / 100) * 10);
+            double random = Math.random() * (MAX_PUNCTUATION / 20);
             double old_punct = dishes_punctuation.get((double) dish.getId());
             dishes_punctuation.put((double) dish.getId(), old_punct + random);
         }

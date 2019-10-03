@@ -44,6 +44,8 @@ public class ElectionFragment extends Fragment implements View.OnClickListener {
   private Context mContext;
   private ArrayList<Integer> dishes;
   private Integer actual_dish = 0;
+  private String date;
+  private int dishType = Constants.DISH_TYPE_LUNCH;
 
   private ImageView dish_image, no, yes;
   private TextView dihs_name, dish_description;
@@ -58,7 +60,6 @@ public class ElectionFragment extends Fragment implements View.OnClickListener {
       setEnterTransition(trans);
       setReturnTransition(new Fade());
 
-
       setAllowEnterTransitionOverlap(false);
       setAllowReturnTransitionOverlap(false);
     }
@@ -71,6 +72,8 @@ public class ElectionFragment extends Fragment implements View.OnClickListener {
     mContext = getActivity().getApplicationContext();
 
     dishes = getArguments().getIntegerArrayList("dishes");
+    date = getArguments().getString("date", null);
+    dishType = getArguments().getInt("dishType", Constants.DISH_TYPE_LUNCH);
 
     dish_image = rootView.findViewById(R.id.dish_image);
     dihs_name = rootView.findViewById(R.id.dihs_name);
@@ -90,7 +93,6 @@ public class ElectionFragment extends Fragment implements View.OnClickListener {
   public void onClick(View v) {
     switch (v.getId()) {
       case R.id.no:
-
         Animation connectingAnimation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.shake);
         no.startAnimation(connectingAnimation);
 
@@ -105,12 +107,8 @@ public class ElectionFragment extends Fragment implements View.OnClickListener {
         Dish dish = LocalDataSource.getInstance(mContext).getDishByID(dishes.get(actual_dish));
         Event event = new Event();
         event.setDishID(dish.getId());
-        event.setDate(dateFormat.format(new Date()));
-
-        if (new Date().getHours() <= Constants.LUNCH_TIME)
-          event.setType(Constants.DISH_TYPE_LUNCH);
-        else
-          event.setType(Constants.DISH_TYPE_DINNER);
+        event.setDate(date != null ? date : dateFormat.format(new Date()));
+        event.setType(dishType);
 
         LocalDataSource.getInstance(mContext).saveEvent(event);
         ((ElectionActivity) getActivity()).dishSelected = true;

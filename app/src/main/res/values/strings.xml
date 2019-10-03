@@ -28,4 +28,10 @@
     <string name="add_ingredient">Añadir ingrediente</string>
     <string name="ingredients">Ingredientes</string>
   <string name="transitionName">transitionName</string>
+  <string name="lunch">Comida</string>
+  <string name="dinner">Cena</string>
+  <string name="not_event_help">¿Quieres que te ayudemos a pensar algo para comer?</string>
+    <string name="planing_lunch">Planificar Comida</string>
+    <string name="planing_dinner">Planificar Cena</string>
+  <string name="delete_event">Eliminar</string>
 </resources>

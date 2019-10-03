@@ -20,179 +20,181 @@ import java.util.List;
 
 public class LocalDataSource implements ILocalDataSource {
 
-    private static DishDAO dishDAO;
-    private EventDAO eventDAO;
-    private ProductDAO productDAO;
-    private DishProductDAO dishProductDAO;
+  private static DishDAO dishDAO;
+  private EventDAO eventDAO;
+  private ProductDAO productDAO;
+  private DishProductDAO dishProductDAO;
 
-    private static LocalDataSource instance;
+  private static LocalDataSource instance;
 
-    public static LocalDataSource newInstance(Context context) {
-        instance = new LocalDataSource(context);
-        return instance;
-    }
+  public static LocalDataSource newInstance(Context context) {
+    instance = new LocalDataSource(context);
+    return instance;
+  }
 
-    public static LocalDataSource getInstance(Context context) {
-        if (instance == null)
-            instance = new LocalDataSource(context);
-        return instance;
-    }
+  public static LocalDataSource getInstance(Context context) {
+    if (instance == null)
+      instance = new LocalDataSource(context);
+    return instance;
+  }
 
-    //region Constructor
+  //region Constructor
 
-    private LocalDataSource(Context context) {
-        AppDatabase database = AppDatabase.getInstance(context.getApplicationContext());
-        dishDAO = database.getDishesDAO();
-        eventDAO = database.getEventsDAO();
-        productDAO = database.getProductsDAO();
-        dishProductDAO = database.getDishProductDAO();
-    }
+  private LocalDataSource(Context context) {
+    AppDatabase database = AppDatabase.getInstance(context.getApplicationContext());
+    dishDAO = database.getDishesDAO();
+    eventDAO = database.getEventsDAO();
+    productDAO = database.getProductsDAO();
+    dishProductDAO = database.getDishProductDAO();
+  }
 
-    //endregion
+  //endregion
 
 
-    @Override
-    public long saveDish(Dish dish) {
+  @Override
+  public long saveDish(Dish dish) {
 
-        dish.setCreated(System.currentTimeMillis());
-        dish.setUpdated(System.currentTimeMillis());
+    dish.setCreated(System.currentTimeMillis());
+    dish.setUpdated(System.currentTimeMillis());
 
-        long dishID = dishDAO.insertDish(dish);
-        addProductsToDish((int)dishID, dish.getProducts());
+    long dishID = dishDAO.insertDish(dish);
+    addProductsToDish((int) dishID, dish.getProducts());
 
-        return dishID;
-    }
+    return dishID;
+  }
 
-    private void addProductsToDish(int dishID, ArrayList<Product> porducts){
-        long productID;
+  private void addProductsToDish(int dishID, ArrayList<Product> products) {
+    long productID;
 
-        for (Product product : porducts) {
-            if (product.getId() <= 0)
-                productID = saveProduct(product);
-            else
-                productID = product.getId();
+    if (products != null)
+      for (Product product : products) {
+        if (product.getId() <= 0)
+          productID = saveProduct(product);
+        else
+          productID = product.getId();
 
-            dishProductDAO.insertDishProduct(new DishProducts(dishID, (int) productID));
-        }
-    }
+        dishProductDAO.insertDishProduct(new DishProducts(dishID, (int) productID));
+      }
+  }
 
-    @Override
-    public long saveEvent(Event event) {
-        event.setCreated(System.currentTimeMillis());
-        event.setUpdated(System.currentTimeMillis());
-        return eventDAO.insertEvent(event);
-    }
+  @Override
+  public long saveEvent(Event event) {
+    event.setCreated(System.currentTimeMillis());
+    event.setUpdated(System.currentTimeMillis());
+    return eventDAO.insertEvent(event);
+  }
 
-    @Override
-    public long saveProduct(Product product) {
-        product.setCreated(System.currentTimeMillis());
-        product.setUpdated(System.currentTimeMillis());
-        return productDAO.insertProduct(product);
-    }
+  @Override
+  public long saveProduct(Product product) {
+    product.setCreated(System.currentTimeMillis());
+    product.setUpdated(System.currentTimeMillis());
+    return productDAO.insertProduct(product);
+  }
 
-    @Override
-    public void updateDish(Dish dish) {
-        dish.setUpdated(System.currentTimeMillis());
+  @Override
+  public void updateDish(Dish dish) {
+    dish.setUpdated(System.currentTimeMillis());
 
-        dishProductDAO.deleteProductsFromDish(dish.getId());
-        addProductsToDish(dish.getId(), dish.getProducts());
+    dishProductDAO.deleteProductsFromDish(dish.getId());
+    addProductsToDish(dish.getId(), dish.getProducts());
 
-        dishDAO.updateDish(dish);
-    }
+    dishDAO.updateDish(dish);
+  }
 
-    @Override
-    public void updateEvent(Event event) {
-        event.setUpdated(System.currentTimeMillis());
-        eventDAO.updateEvent(event);
-    }
+  @Override
+  public void updateEvent(Event event) {
+    event.setUpdated(System.currentTimeMillis());
+    eventDAO.updateEvent(event);
+  }
 
-    @Override
-    public void updateProduct(Product product) {
-        product.setUpdated(System.currentTimeMillis());
-        productDAO.updateProduct(product);
-    }
+  @Override
+  public void updateProduct(Product product) {
+    product.setUpdated(System.currentTimeMillis());
+    productDAO.updateProduct(product);
+  }
 
-    @Override
-    public void deleteDish(Dish dish) {
-        dishDAO.deleteDish(dish);
-    }
+  @Override
+  public void deleteDish(Dish dish) {
+    dishDAO.deleteDish(dish);
+  }
 
-    @Override
-    public void deleteEvent(Event event) {
-        eventDAO.deleteEvent(event);
-    }
+  @Override
+  public void deleteEvent(Event event) {
+    eventDAO.deleteEvent(event);
+  }
 
-    @Override
-    public void deleteProduct(Product product) {
-        productDAO.deleteProduct(product);
-    }
+  @Override
+  public void deleteProduct(Product product) {
+    productDAO.deleteProduct(product);
+  }
 
-    @Override
-    public Dish getDishByID(int id) {
+  @Override
+  public Dish getDishByID(int id) {
 
-        Dish dish = dishDAO.getByID(id);
-        dish.setProducts((ArrayList<Product>) dishProductDAO.getProductsByDish(id));
+    Dish dish = dishDAO.getByID(id);
+    if (dish != null)
+      dish.setProducts((ArrayList<Product>) dishProductDAO.getProductsByDish(id));
 
-        return dish;
-    }
+    return dish;
+  }
 
-    @Override
-    public Event getEventByID(int id) {
-        return eventDAO.getByID(id);
-    }
+  @Override
+  public Event getEventByID(int id) {
+    return eventDAO.getByID(id);
+  }
 
-    @Override
-    public Product getProductByID(int id) {
-        return productDAO.getByID(id);
-    }
+  @Override
+  public Product getProductByID(int id) {
+    return productDAO.getByID(id);
+  }
 
-    @Override
-    public List<Dish> getAllDishes() {
-        return dishDAO.getAll();
-    }
+  @Override
+  public List<Dish> getAllDishes() {
+    return dishDAO.getAll();
+  }
 
-    @Override
-    public List<Event> getAllEvents() {
-        return eventDAO.getAll();
-    }
+  @Override
+  public List<Event> getAllEvents() {
+    return eventDAO.getAll();
+  }
 
-    @Override
-    public List<Product> getAllProducts() {
-        return productDAO.getAll();
-    }
+  @Override
+  public List<Product> getAllProducts() {
+    return productDAO.getAll();
+  }
 
-    @Override
-    public List<Product> getAllProductsSavedByUser() {
-        return productDAO.getAllSaved();
-    }
+  @Override
+  public List<Product> getAllProductsSavedByUser() {
+    return productDAO.getAllSaved();
+  }
 
-    @Override
-    public void clearDishes() {
-        dishDAO.clear();
-    }
+  @Override
+  public void clearDishes() {
+    dishDAO.clear();
+  }
 
-    @Override
-    public void clearProducts() {
-        productDAO.clear();
-    }
+  @Override
+  public void clearProducts() {
+    productDAO.clear();
+  }
 
-    @Override
-    public void clearEvents() {
-        eventDAO.clear();
-    }
+  @Override
+  public void clearEvents() {
+    eventDAO.clear();
+  }
 
-    @Override
-    public List<Event> getEventsByDate(String date) {
-        return eventDAO.getByDate(date);
-    }
+  @Override
+  public List<Event> getEventsByDate(String date) {
+    return eventDAO.getByDate(date);
+  }
 
-    @Override
-    public Event getEventsByDateAndType(String date, int type) {
-        return eventDAO.getByDateAndType(date, type);
-    }
+  @Override
+  public Event getEventsByDateAndType(String date, int type) {
+    return eventDAO.getByDateAndType(date, type);
+  }
 
-    @Override
-    public List<Event> getEventsByDish(int dishID) {
-        return eventDAO.getByDishID(dishID);
-    }
+  @Override
+  public List<Event> getEventsByDish(int dishID) {
+    return eventDAO.getByDishID(dishID);
+  }
 }
