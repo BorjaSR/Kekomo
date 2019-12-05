@@ -34,4 +34,5 @@
     <string name="planing_lunch">Planificar Comida</string>
     <string name="planing_dinner">Planificar Cena</string>
   <string name="delete_event">Eliminar</string>
+    <string name="product_name">Nombre del producto</string>
 </resources>

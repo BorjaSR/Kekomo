@@ -1,0 +1,4 @@
+
+rsquid:S00116H"URename this field "image_type" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëã±áÿÿÿÿÿ
+qsquid:S00116I"TRename this field "name_type" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÍÓã¦ùÿÿÿÿ
+Hsquid:S1068",Remove this unused "mContext" private field.(»úÅ¾øÿÿÿÿ

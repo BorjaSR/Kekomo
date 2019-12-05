@@ -13,14 +13,19 @@ import android.support.v7.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bsalazar.kekomo.R;
 import com.bsalazar.kekomo.data.LocalDataSource;
 import com.bsalazar.kekomo.data.entities.Product;
+import com.bsalazar.kekomo.ui_dishes.adapters.ProductsAutoCompleteAdapter;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by bsalazar on 10/05/2017.
@@ -28,9 +33,10 @@ import com.bsalazar.kekomo.data.entities.Product;
 
 public class AddProductDialogFragment extends DialogFragment {
 
-    private TextView add_product_button;
     SnapHelper snapHelper;
     LinearLayoutManager linearLayoutManager;
+    private ArrayList<Product> notSavedProducts = new ArrayList<>();
+    private Product productToSave = new Product();
 
     @Override
     public void onActivityCreated(Bundle arg0) {
@@ -56,7 +62,7 @@ public class AddProductDialogFragment extends DialogFragment {
         final View rootView = inflater.inflate(R.layout.add_product_dialog_fragment, container, false);
 
 
-        final RecyclerView type_recycler = (RecyclerView) rootView.findViewById(R.id.type_recycler);
+        final RecyclerView type_recycler = rootView.findViewById(R.id.type_recycler);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         type_recycler.setLayoutManager(linearLayoutManager);
         type_recycler.setHasFixedSize(false);
@@ -66,34 +72,34 @@ public class AddProductDialogFragment extends DialogFragment {
         snapHelper.attachToRecyclerView(type_recycler);
         snapHelper.findSnapView(linearLayoutManager);
 
-        rootView.findViewById(R.id.add_product_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        notSavedProducts = (ArrayList<Product>) LocalDataSource.getInstance(getContext()).getProductsNotSaved();
+        ProductsAutoCompleteAdapter adapter = new ProductsAutoCompleteAdapter(getContext(), android.R.layout.simple_list_item_1, notSavedProducts);
+        AutoCompleteTextView productsAuto = rootView.findViewById(R.id.product_name_auto);
+        productsAuto.setAdapter(adapter);
 
-                Product product = new Product();
-                product.setName(((EditText) rootView.findViewById(R.id.product_name)).getText().toString());
-                product.setStock(1);
-                product.setType((int) snapHelper.findSnapView(linearLayoutManager).getTag());
-                product.setFrozen(((Switch) rootView.findViewById(R.id.switch_product_frozen)).isChecked());
-                product.setSaved(true);
+        productsAuto.setOnItemClickListener((parent, view, position, id) -> productToSave = notSavedProducts.get(position));
 
-                int productID = (int) LocalDataSource.getInstance(getContext()).saveProduct(product);
-                product = LocalDataSource.getInstance(getContext()).getProductByID(productID);
-                if (product != null)
-                    ((PantryActivity) getActivity()).insertProduct(product);
-                else
-                    Toast.makeText(getContext(), "Error añadiendo producto", Toast.LENGTH_SHORT).show();
+        rootView.findViewById(R.id.add_product_button).setOnClickListener(v -> {
+            productToSave.setName(productsAuto.getText().toString());
+            productToSave.setStock(1);
+            productToSave.setType((int) snapHelper.findSnapView(linearLayoutManager).getTag());
+            productToSave.setFrozen(((Switch) rootView.findViewById(R.id.switch_product_frozen)).isChecked());
+            productToSave.setSaved(true);
 
-                dismiss();
-            }
+            int productID = productToSave.getId() != 0 ?
+                    (int) LocalDataSource.getInstance(getContext()).updateProduct(productToSave) :
+                    (int) LocalDataSource.getInstance(getContext()).saveProduct(productToSave);
+
+            productToSave = LocalDataSource.getInstance(getContext()).getProductByID(productID);
+            if (productToSave != null)
+                ((PantryActivity) getActivity()).insertProduct(productToSave);
+            else
+                Toast.makeText(getContext(), "Error añadiendo producto", Toast.LENGTH_SHORT).show();
+
+            dismiss();
         });
 
-        rootView.findViewById(R.id.background_add_product).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        rootView.findViewById(R.id.background_add_product).setOnClickListener(v -> dismiss());
 
         return rootView;
     }

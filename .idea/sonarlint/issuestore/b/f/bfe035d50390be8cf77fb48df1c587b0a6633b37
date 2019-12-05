@@ -1,0 +1,42 @@
+
+Qsquid:S3516—"9Refactor this method to not always return the same value.(ñ”Ò
+hsquid:S1301˜"KReplace this "switch" statement by "if" statements to increase readability.(øå´¡ÿÿÿÿÿ
+Zsquid:S2259†"BA "NullPointerException" could be thrown; "dish" is nullable here.(ò©¡
+Ysquid:S2259x"BA "NullPointerException" could be thrown; "dish" is nullable here.(ò©¡
+isquid:S00117Ö"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÖÄêa
+Zsquid:UselessImportCheck"1Remove this unused import 'android.widget.Toast'.(©›ïÍúÿÿÿÿ
+Ysquid:UselessImportCheck "5Remove this unused import 'java.text.ParseException'.(ñ®ï•
+ssquid:UselessImportCheck"JRemove this unused import 'com.bsalazar.kekomo.general.ElectionAlgorithm'.(‡ÂˆŸûÿÿÿÿ
+jsquid:UselessImportCheck"FRemove this unused import 'com.bsalazar.kekomo.data.entities.Product'.(… ó¦
+fsquid:UselessImportCheck"CRemove this unused import 'android.support.design.widget.Snackbar'.( À®p
+esquid:MaximumInheritanceDepth'"<This class has 7 parents which is greater than 5 authorized.(ÄÇ‚·
+Asquid:S1659+"*Declare "button_comer" on a separate line.(¸©Å™
+Fsquid:S1659+"/Declare "planificar_button" on a separate line.(¸©Å™
+Isquid:S1659+"2Declare "aÃ±adir_plato_button" on a separate line.(¸©Å™
+Bsquid:S1659+"+Declare "platos_button" on a separate line.(¸©Å™
+usquid:S1450+"^Remove the "calendar_button" field and declare it as a local variable in the relevant methods.(¸©Å™
+wsquid:S1450+"`Remove the "planificar_button" field and declare it as a local variable in the relevant methods.(¸©Å™
+zsquid:S1450+"cRemove the "aÃ±adir_plato_button" field and declare it as a local variable in the relevant methods.(¸©Å™
+ssquid:S1450+"\Remove the "platos_button" field and declare it as a local variable in the relevant methods.(¸©Å™
+msquid:S00116)"URename this field "text_comer" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‚Ò†ì
+tsquid:S00116*"\Rename this field "next_event_layout" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‰¨Üá
+rsquid:S00116+"ZRename this field "calendar_button" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¸©Å™
+osquid:S00116+"WRename this field "button_comer" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¸©Å™
+tsquid:S00116+"\Rename this field "planificar_button" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¸©Å™
+wsquid:S00116+"_Rename this field "aÃ±adir_plato_button" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¸©Å™
+psquid:S00116+"XRename this field "platos_button" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¸©Å™
+rsquid:S00116,"ZRename this field "next_dish_image" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ø®äÇ
+qsquid:S00116-"YRename this field "next_dish_name" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(äÉ¼ï
+?squid:S1185J"(Remove this method to simply inherit it.(Ù«µ§
+Esquid:S2140q")Use "java.util.Random.nextInt()" instead.(é¤±¡úÿÿÿÿ
+Asquid:S2140€")Use "java.util.Random.nextInt()" instead.(Î¡À‘
+V"squid:SwitchLastCaseIsDefaultCheck˜""Add a default case to this switch.(øå´¡ÿÿÿÿÿ
+V"squid:SwitchLastCaseIsDefaultCheck£""Add a default case to this switch.(×“¾ñùÿÿÿÿ
+Ysquid:CallToDeprecatedMethod©"0Remove this use of "getHours"; it is deprecated.(ÛÇºÅ
+Ysquid:CallToDeprecatedMethod×"0Remove this use of "getHours"; it is deprecated.(ÛÇºÅ
+Ysquid:CallToDeprecatedMethodŞ"0Remove this use of "getHours"; it is deprecated.(ÛÇºÅ
+Vsquid:UnusedPrivateMethodN"1Remove this unused private "deleteEvents" method.(Ÿ¦ë˜
+esquid:UnusedPrivateMethodb"@Remove this unused private "generateDishesAndSaveEvents" method.( ‘ªæ
+gsquid:CommentedOutCodeLineD"<This block of commented-out lines of code should be removed.(ÕÔë§øÿÿÿÿ
+gsquid:CommentedOutCodeLine}"<This block of commented-out lines of code should be removed.(Ù¹ãÆşÿÿÿÿ
+hsquid:CommentedOutCodeLine²"<This block of commented-out lines of code should be removed.(êöõ¤úÿÿÿÿ

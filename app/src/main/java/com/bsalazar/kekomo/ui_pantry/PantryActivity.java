@@ -43,7 +43,7 @@ public class PantryActivity extends AppCompatActivity {
 
         shadow = findViewById(R.id.shadow);
 
-        products = (ArrayList<Product>) LocalDataSource.getInstance(this).getAllProductsSavedByUser();
+        products = (ArrayList<Product>) LocalDataSource.getInstance(this).getProductsSavedByUser();
 
         rvProducts = findViewById(R.id.rvProducts);
         rvProducts.setLayoutManager(new GridLayoutManager(this, NUM_GRID_COLUMS));

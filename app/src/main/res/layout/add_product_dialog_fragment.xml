@@ -14,7 +14,8 @@
         android:layout_margin="16dp"
         android:orientation="vertical"
         android:background="@drawable/background_white_corners"
-        android:clickable="true">
+        android:clickable="true"
+        android:focusable="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -37,13 +38,14 @@
                 android:background="@drawable/gradient_alpha_white"/>
         </RelativeLayout>
 
-
-        <EditText
-            android:id="@+id/product_name"
+        <AutoCompleteTextView
+            android:id="@+id/product_name_auto"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:hint="Nombre"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:hint="@string/product_name"
+            android:imeOptions="actionNext"
+            android:inputType="text" />
 
         <Switch
             android:id="@+id/switch_product_frozen"
@@ -76,7 +78,7 @@
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 android:textSize="14sp"
-                android:gravity="right"
+                android:gravity="end"
                 android:background="?android:selectableItemBackground"
                 android:textColor="@color/colorAccentDark"/>
 

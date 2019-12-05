@@ -1,0 +1,4 @@
+
+ksquid:UselessImportCheck"GRemove this unused import 'com.google.gson.annotations.SerializedName'.(äöúõ
+squid:S1186,"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(í³‚üÿÿÿÿ
+hsquid:UselessImportCheck"?Remove this unused import 'com.google.gson.annotations.Expose'.(î³ÓÆùÿÿÿÿ

@@ -22,7 +22,7 @@ public interface ILocalDataSource {
 
     void updateEvent(Event event);
 
-    void updateProduct(Product product);
+    long updateProduct(Product product);
 
     void deleteDish(Dish dish);
 
@@ -42,7 +42,9 @@ public interface ILocalDataSource {
 
     List<Product> getAllProducts();
 
-    List<Product> getAllProductsSavedByUser();
+    List<Product> getProductsSavedByUser();
+
+    List<Product> getProductsNotSaved();
 
     void clearDishes();
 

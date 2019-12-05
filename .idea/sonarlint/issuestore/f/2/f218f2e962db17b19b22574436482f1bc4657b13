@@ -1,0 +1,16 @@
+
+Psquid:S3516o"9Refactor this method to not always return the same value.(ñ”Ò
+gsquid:S1301p"KReplace this "switch" statement by "if" statements to increase readability.(øå´¡ÿÿÿÿÿ
+ƒ"squid:ClassVariableVisibilityCheckm"PMake edit a static final constant or non-public and provide accessors if needed.(ýðèÄýÿÿÿÿ
+ssquid:UselessImportCheck	"JRemove this unused import 'android.support.v7.widget.LinearLayoutManager'.(í™½Úúÿÿÿÿ
+esquid:MaximumInheritanceDepth""<This class has 7 parents which is greater than 5 authorized.(í°üÅ
+Jsquid:S1659&".Declare "dish_description" on a separate line.(ªÖëøÿÿÿÿ
+Jsquid:S1659&".Declare "dish_preparation" on a separate line.(ªÖëøÿÿÿÿ
+tsquid:S1450$"XRemove the "actionBar" field and declare it as a local variable in the relevant methods.(ÒïÍ°ÿÿÿÿÿ
+jsquid:S1450+"SRemove the "dish" field and declare it as a local variable in the relevant methods.(çÌ™Ã
+rsquid:S00116%"URename this field "dish_image" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(èÎæ«ÿÿÿÿÿ
+qsquid:S00116&"TRename this field "dish_name" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ªÖëøÿÿÿÿ
+xsquid:S00116&"[Rename this field "dish_description" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ªÖëøÿÿÿÿ
+xsquid:S00116&"[Rename this field "dish_preparation" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ªÖëøÿÿÿÿ
+vsquid:S00116("YRename this field "rv_ingredients" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œþÉåüÿÿÿÿ
+U"squid:SwitchLastCaseIsDefaultCheckp""Add a default case to this switch.(øå´¡ÿÿÿÿÿ

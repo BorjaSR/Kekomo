@@ -1,0 +1,5 @@
+
+Jsquid:S3077".Remove the "volatile" keyword from this field.(ßÃ§øÿÿÿÿ
+Dsquid:S1068"(Remove this unused "LOCK" private field.(•Èîúÿÿÿÿ
+bsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(·ÜÀó
+gsquid:CommentedOutCodeLine$"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ

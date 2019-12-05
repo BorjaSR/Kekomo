@@ -1,0 +1,10 @@
+
+Psquid:S3516D"9Refactor this method to not always return the same value.(ñ”Ò
+ssquid:S1450"WRemove the "activity" field and declare it as a local variable in the relevant methods.(‰€Ôßûÿÿÿÿ
+=squid:S1170"!Make this final field static too.(×üˆŞùÿÿÿÿ
+psquid:S1450"YRemove the "rvProducts" field and declare it as a local variable in the relevant methods.(Ğèõó
+U"squid:SwitchLastCaseIsDefaultCheckE""Add a default case to this switch.(øå´¡ÿÿÿÿÿ
+Hsquid:S1068",Remove this unused "activity" private field.(‰€Ôßûÿÿÿÿ
+esquid:MaximumInheritanceDepth"<This class has 7 parents which is greater than 5 authorized.(†ñ¼™
+gsquid:S1301E"KReplace this "switch" statement by "if" statements to increase readability.(øå´¡ÿÿÿÿÿ
+wsquid:S00116"ZRename this field "NUM_GRID_COLUMS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×üˆŞùÿÿÿÿ

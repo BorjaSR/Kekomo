@@ -1,0 +1,6 @@
+
+[squid:UselessImportCheck"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8€ÃÔ®í-
+isquid:S00117A"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(’ìÃ×
+‚squid:S1450&"_Remove the "notSavedProducts" field and declare it as a local variable in the relevant methods.(İŞâËøÿÿÿÿ8°ìÒ®í-
+_squid:UselessImportCheck"4Remove this unused import 'java.lang.reflect.Array'.(‡¡É˜8ÍËÖ®í-
+_squid:UselessImportCheck"4Remove this unused import 'android.widget.EditText'.(†Å›Ú8Ñ—®í-

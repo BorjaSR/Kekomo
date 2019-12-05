@@ -137,29 +137,21 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
 
-        ingredients_autoTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Product productSelected = (Product) ingredients_autoTextView.getAdapter().getItem(position);
-                addIngredient(productSelected);
-            }
+        ingredients_autoTextView.setOnItemClickListener((parent, view, position, id) -> {
+            Product productSelected = (Product) ingredients_autoTextView.getAdapter().getItem(position);
+            addIngredient(productSelected);
         });
 
-        ingredients_autoTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        ingredients_autoTextView.setOnEditorActionListener((v, actionId, event) -> {
+            Product product = new Product();
+            product.setName(ingredients_autoTextView.getText().toString());
+            product.setStock(1);
+            product.setType(Product.NOT_DEFINED);
+            product.setFrozen(false);
+            product.setSaved(false);
 
-                Product product = new Product();
-                product.setName(ingredients_autoTextView.getText().toString());
-                product.setStock(1);
-                product.setType(Product.NOT_DEFINED);
-                product.setFrozen(false);
-                product.setSaved(false);
-
-                addIngredient(product);
-                return true;
-            }
+            addIngredient(product);
+            return true;
         });
 
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -240,12 +232,7 @@ public class NewDishActivity extends AppCompatActivity implements View.OnClickLi
         ViewGroup ingredientView = (ViewGroup) inflater.inflate(R.layout.ingredient_item, null);
 
         ((TextView) ingredientView.findViewById(R.id.ingredient_name)).setText(product.getName());
-        ingredientView.findViewById(R.id.delete_ingredient).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeIngredient(product);
-            }
-        });
+        ingredientView.findViewById(R.id.delete_ingredient).setOnClickListener(v -> removeIngredient(product));
 
         ingredientView.setTag(product);
 

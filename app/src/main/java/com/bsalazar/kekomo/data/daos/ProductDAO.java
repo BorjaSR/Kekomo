@@ -23,6 +23,9 @@ public interface ProductDAO {
     @Query("SELECT * FROM Products WHERE isSaved = 1")
     List<Product> getAllSaved();
 
+    @Query("SELECT * FROM Products WHERE isSaved = 0")
+    List<Product> getAllNotSaved();
+
     @Query("SELECT * FROM Products WHERE id = :productID")
     Product getByID(int productID);
 

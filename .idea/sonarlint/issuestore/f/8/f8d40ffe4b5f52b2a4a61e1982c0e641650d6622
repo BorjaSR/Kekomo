@@ -1,0 +1,55 @@
+
+tsquid:S00116;"WRename this field "delete_image" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‹ñä±ùÿÿÿÿ
+Jsquid:S1659:"3Declare "ingredients_container" on a separate line.(—¬ôÃ
+squid:S1450;"cRemove the "kekomo_galley_button" field and declare it as a local variable in the relevant methods.(‹ñä±ùÿÿÿÿ
+xsquid:S1450;"\Remove the "camera_button" field and declare it as a local variable in the relevant methods.(‹ñä±ùÿÿÿÿ
+qsquid:S00116:"YRename this field "data_container" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—¬ôÃ
+Hsquid:S1659;",Declare "gallery_button" on a separate line.(‹ñä±ùÿÿÿÿ
+Dsquid:S1481ó"'Remove this unused "cx" local variable.(™àÃúøÿÿÿÿ
+Jsquid:S1659>".Declare "dish_preparation" on a separate line.(„®éşÿÿÿÿ
+Jsquid:S1659>".Declare "dish_description" on a separate line.(„®éşÿÿÿÿ
+=squid:S1170B"!Make this final field static too.(ëËäÿÿÿÿÿ
+Dsquid:S1481ˆ"'Remove this unused "cx" local variable.(™àÃúøÿÿÿÿ
+@squid:S1148¼"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
+V"squid:SwitchLastCaseIsDefaultCheckº""Add a default case to this switch.(×“¾ñùÿÿÿÿ
+=squid:S1170@"!Make this final field static too.(£ßà°üÿÿÿÿ
+xsquid:S00116>"[Rename this field "dish_description" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„®éşÿÿÿÿ
+@squid:S1148«"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
+Lsquid:S1066Ë"/Merge this if statement with the enclosing one.(¶èˆ–şÿÿÿÿ
+rsquid:S00116="URename this field "dish_image" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‚ÌÆûÿÿÿÿ
+tsquid:S00116@"WRename this field "GALERY_INPUT" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£ßà°üÿÿÿÿ
+jsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(šµ¤
+usquid:S1450="YRemove the "edit_image" field and declare it as a local variable in the relevant methods.(‚ÌÆûÿÿÿÿ
+Dsquid:S1659="(Declare "edit_image" on a separate line.(‚ÌÆûÿÿÿÿ
+vsquid:S00116;"YRename this field "gallery_button" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‹ñä±ùÿÿÿÿ
+rsquid:S00116="URename this field "edit_image" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‚ÌÆûÿÿÿÿ
+@squid:S1148Â"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
+|squid:S00116;"_Rename this field "kekomo_galley_button" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‹ñä±ùÿÿÿÿ
+usquid:S00116;"XRename this field "camera_button" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‹ñä±ùÿÿÿÿ
+€squid:S00116<"cRename this field "ingredients_autoTextView" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(µş£äûÿÿÿÿ
+tsquid:S00116A"WRename this field "CAMERA_INPUT" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ñ‹Ğÿûÿÿÿÿ
+V"squid:SwitchLastCaseIsDefaultCheckª""Add a default case to this switch.(øå´¡ÿÿÿÿÿ
+Csquid:S1659:",Declare "data_container" on a separate line.(—¬ôÃ
+@squid:S1148‚"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
+bsquid:UselessImportCheck"7Remove this unused import 'android.widget.AdapterView'.(¶¾éæ8ú¶ú¬í-
+wsquid:S1450;"[Remove the "delete_image" field and declare it as a local variable in the relevant methods.(‹ñä±ùÿÿÿÿ
+Ssquid:S1854ˆ"6Remove this useless assignment to local variable "cx".(™àÃúøÿÿÿÿ
+hsquid:S1301ª"KReplace this "switch" statement by "if" statements to increase readability.(øå´¡ÿÿÿÿÿ
+ysquid:S1450;"]Remove the "gallery_button" field and declare it as a local variable in the relevant methods.(‹ñä±ùÿÿÿÿ
+xsquid:S00116>"[Rename this field "dish_preparation" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„®éşÿÿÿÿ
+Fsquid:S1659;"*Declare "delete_image" on a separate line.(‹ñä±ùÿÿÿÿ
+qsquid:S00116E"TRename this field "new_image" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Û œ˜ıÿÿÿÿ
+Nsquid:S1659;"2Declare "kekomo_galley_button" on a separate line.(‹ñä±ùÿÿÿÿ
+esquid:MaximumInheritanceDepth8"<This class has 7 parents which is greater than 5 authorized.(×ÅñÏ
+qsquid:S00116>"TRename this field "dish_name" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„®éşÿÿÿÿ
+osquid:S00117Ÿ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¸Èãáüÿÿÿÿ
+@squid:S1148ê"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
+Gsquid:S2093Ş"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+xsquid:S00116:"`Rename this field "ingredients_container" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—¬ôÃ
+usquid:S00116:"]Rename this field "edit_image_options" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—¬ôÃ
+osquid:S00117Ø"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(şÆü´üÿÿÿÿ
+@squid:S1148ã"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
+rsquid:S00116B"URename this field "OWN_GALERY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëËäÿÿÿÿÿ
+Ssquid:S1854ó"6Remove this useless assignment to local variable "cx".(™àÃúøÿÿÿÿ
+bsquid:UselessImportCheck"2Remove this unused import 'android.view.KeyEvent'.(ôÊÃ–úÿÿÿÿ8ËÑú¬í-
+=squid:S1170A"!Make this final field static too.(ñ‹Ğÿûÿÿÿÿ
